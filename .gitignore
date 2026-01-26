@@ -29,3 +29,6 @@ traceback.txt
 files.txt
 
 # End of https://www.toptal.com/developers/gitignore/api/renpy
+
+__pycache__/
+game/python-packages/
