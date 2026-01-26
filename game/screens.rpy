@@ -1753,16 +1753,10 @@ style slider_slider:
     variant "small"
     xsize 900
 
-
-
 screen profiles():
     add "profile.png" 
 
-    default status = "lorem ipsum"
-
-    $ status = statuses[profileselect]
-
-
+    $ profile = profiles[profileselect]
 
     hbox: #icons
         xpos 50
@@ -1770,197 +1764,15 @@ screen profiles():
 
         spacing 2
 
-        imagebutton:
-
-            idle "images/icons/ainsley " + statuses[0] + ".png"
-
-            if allowedP:
-                at buttup
-                
-                action SetVariable("profileselect",0)
-        
-        imagebutton:
-
-            idle "images/icons/belinda " + statuses[1] + ".png"
-
-            if allowedP:
-                at buttup
-
-                action SetVariable("profileselect",1)
-
-        imagebutton:
-
-            idle "images/icons/carwyn " + statuses[2] + ".png"
-
-            if allowedP:
-
-                at buttup
-
-                action SetVariable("profileselect",2)
-
-        imagebutton:
-
-            idle "images/icons/darya " + statuses[3] + ".png"
-
-            if allowedP:
-
-                at buttup
-
-                action SetVariable("profileselect",3)
-
-        imagebutton:
-
-            idle "images/icons/dexter " + statuses[4] + ".png"
-
-            if allowedP:
-
-                at buttup
-
-                action SetVariable("profileselect",4)
-
-        imagebutton:
-
-            idle "images/icons/emilio " + statuses[5] + ".png"
-
-            if allowedP:
-
-                at buttup
-
-                action SetVariable("profileselect",5)
-
-        imagebutton:
-
-            idle "images/icons/fabrice " + statuses[6] + ".png"
-
-            if allowedP:
-
-                at buttup
-
-                action SetVariable("profileselect",6)
-
-        imagebutton:
-
-            idle "images/icons/florus " + statuses[7] + ".png"
-
-            if allowedP:
-
-                at buttup
-
-                action SetVariable("profileselect",7)
-
-        imagebutton:
-
-            idle "images/icons/kevin " + statuses[8] + ".png"
-
-            if allowedP:
-
-                at buttup
-
-                action SetVariable("profileselect",8)
-
-        imagebutton:
-
-            idle "images/icons/nikolas " + statuses[9] + ".png"
-
-            if allowedP:
-
-                at buttup
-
-                action SetVariable("profileselect",9)
-
-
-        imagebutton:
-
-            idle "images/icons/nin " + statuses[10] + ".png"
-
-            if allowedP:
-
-                at buttup
-
-                action SetVariable("profileselect",10)
-
-        imagebutton:
-
-            idle "images/icons/osanne " + statuses[11] + ".png"
-
-            if allowedP:
-
-                at buttup
-
-                action SetVariable("profileselect",11)
-
-        imagebutton:
-
-            idle "images/icons/pandora " + statuses[12] + ".png"
-
-            if allowedP:
-
-                at buttup
-
-                action SetVariable("profileselect",12)
-
-        imagebutton:
-
-            idle "images/icons/ratna " + statuses[13] + ".png"
-
-            if allowedP:
-
-                at buttup
-
-                action SetVariable("profileselect",13)
-
-        imagebutton:
-            
-            idle "images/icons/valkyrie " + statuses[14] + ".png"
-            
-            if allowedP:
-
-                at buttup
-
-                action SetVariable("profileselect",14)
-
-
-        imagebutton:
-
-            idle "images/icons/dakota " + statuses[15] + ".png"
-
-            if allowedP:
-
-                at buttup
-
-                action SetVariable("profileselect",15)
-
-        imagebutton:
-
-            idle "images/icons/maizey " + statuses[16] + ".png"
-
-            if allowedP:
-
-                at buttup
-
-                action SetVariable("profileselect",16)
-
-    default name = "lorem ipsum"
-    default gender = "lorem ipsum"
-    default manifest = "lorem ipsum"
-    default occupation = "lorem ipsum"
-    default dob = "lorem ipsum"
-    default age = "lorem ipsum"
-    default height = "lorem ipsum"
-    default weight = "lorem ipsum"
-    default blood = "lorem ipsum"
-
-
-    $ name = names[profileselect]
-    $ gender = genders[profileselect]
-    $ manifest = manifests[profileselect]
-    $ occupation = occupations[profileselect]
-    $ dob = DoBs[profileselect]
-    $ age = ages[profileselect]
-    $ height = heights[profileselect]
-    $ weight = weights[profileselect]
-    $ blood = bloods[profileselect]
-
+        for character_key in profiles.keys():
+            imagebutton:
+
+                idle "images/icons/" + character_key + " " + profiles[character_key].status + ".png"
+
+                if allowedP:
+                    at buttup
+                    
+                    action SetVariable("profileselect", character_key)
 
     vbox:
         xpos 75
@@ -1968,29 +1780,29 @@ screen profiles():
 
         spacing 60
 
-        text _("{size=+20}[name]")
-        text _("{size=+20}[manifest]")
-        text _("{size=+20}[occupation]")
-        text _("{size=+20}[dob]")
+        text _("{size=+20}[profile.name]")
+        text _("{size=+20}[profile.manifest]")
+        text _("{size=+20}[profile.occupation]")
+        text _("{size=+20}[profile.birthday]")
         if profileselect != 15:
-            text _("{size=+20}[height]cm")
+            text _("{size=+20}[profile.height]cm")
         else:
-            text _("{size=+20}[height] hands")
+            text _("{size=+20}[profile.height] hands")
 
         vbox:
             ypos 75
-            if status == "Alive":
-                text _("{size=+20}{color=#009900}[status]")
-            elif status == "Dead":
-                text _("{size=+20}{color=#cc0000}[status]")
+            if profile.status == CharacterStatus.ALIVE:
+                text _("{size=+20}{color=#009900}[profile.status]")
+            elif profile.status == CharacterStatus.DEAD:
+                text _("{size=+20}{color=#cc0000}[profile.status]")
             else:
-                text _("{size=+20}{color=#cc5200}[status]")
+                text _("{size=+20}{color=#cc5200}[profile.status]")
 
 
-    text _("{size=+20}[gender]") xpos 1032 ypos 238
-    text _("{size=+20}[age]") xpos 510 ypos 625
-    text _("{size=+20}[weight]kg") xpos 370 ypos 750
-    text _("{size=+20}[blood]") xpos 650 ypos 750
+    text _("{size=+20}[profile.gender]") xpos 1032 ypos 238
+    text _("{size=+20}[profile.age]") xpos 510 ypos 625
+    text _("{size=+20}[profile.weight]kg") xpos 370 ypos 750
+    text _("{size=+20}[profile.blood_type]") xpos 650 ypos 750
 
     add "images/profiles/profile_[profileselect].png":
         xpos 1145
@@ -2114,9 +1926,6 @@ screen evidence():
 
                                     text _("{color=#bcf6f0}[write]{/color}")
 
-
-
-    
     #2 lists (evidence name, contents of evidence (may need image and text, which can expand - list that contains pointers to other lists))
     #evidence name is clickable and reveals the evidence info on the right, info can be added to/edited throughout the game (or it '(de)activates' certain parts of the list to prevent janky ordering))
     #need a dictionary somewhere i think

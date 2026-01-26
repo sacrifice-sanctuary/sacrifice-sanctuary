@@ -1,4 +1,8 @@
-﻿# The script of the game goes in this file.
+﻿init python:
+    from Profile import Profile, BloodType, Gender, CharacterStatus
+    from datetime import date
+
+# The script of the game goes in this file.
 
 define fastDissolve = Dissolve(0.3)
 define dissolve2 = Dissolve(0.6)
@@ -119,7 +123,7 @@ default daryaroom = False #is darya in the room right now?
 
 default flagA = 0 #simple progression 1
 
-default pp = False #prologue progression (for dumb button stuff)
+default pp = True #prologue progression (for dumb button stuff)
 
 default day = 1 #in case we need this for optionally-out-of-order event shenanigans
 
@@ -155,20 +159,30 @@ default roomtotal = 0 #generally interacting with things total
 
 #~Profiles Data~#
 default allowedP = True 
-default pactive = False
-default profileselect = 0
+default pactive = True
 
-default names = ["Ainsley Velos", "Belinda Lizforth", "Carwyn Moss", "Darya Kidwell", "Dexter Salvage", "Emilio Hawson Barnes", "Fabrice Fulton", "Florus Claude", "Kevin Atwood", "Nikolas Lambert", "Ninhursag Talus", "Osanne Foxglove", "Phantom Magpie", "Ratna Harlow", "Valkyrie Laskea", "Dakota", "Maizey"]
-default genders = ["F", "F", "M", "F", "M", "M", "M", "M", "M", "M", "F", "F", "F", "N", "F", "M", "F"]
-default manifests = ["'Mustelid'", "'Crocodillian'", "'Ibex (Goat?)'", "'Bat-like'", "'Gliding Lizard'", "'Small Feline'", "'Swan'", "'Butterfly'", "'Horseshoe Crab'", "'Spider or Tarantula'", "'Kingfisher'", "Violet Ground Beetle", "Common Eurasian Magpie", "'Jerboa, not mouse'", "'Monitor Lizard'", "N/A", "N/A"]
-default occupations = ["N/A", "Herpetology Zoologist", "Published Author", "Ferry Captain", "Commercial Airline Pilot (Former)", "Livestock Farmer", "Professional Origamist", "Contract Gardener", "Student Nurse", "Apprentice Cartographer", "Speleologist", "Biochemist (Botany Specialisation)", "Unknown", "Apprentice Paleontologist", "Cyber Security Technician", "Working Horse", "Bunker Host"]
-default DoBs = ["07/01/30", "03/04/23", "06/12/25", "26/06/27", "29/02/24", "14/10/25", "11/11/29", "12/04/22", "30/09/27", "25/07/30", "11/09/24", "31/10/24", "00/00/00", "10/05/29", "31/01/28", "20/10/43", "00/00/00"]
-default ages = [20, 27, 24, 23, 26, 24, 20, 28, 22, 20, 25, 25, "0000", 21, 22, 6, "0000"]
-default heights = [157, 178, 173, 170, 168, 183, 177, 172, 165, 160, 167, 162, "0000", 171, 161, 16.1, 200]
-default weights = [52, 80, 66, 67, 71, 73, 54, 59, 56, 54, 69, 51, "0000", 61, 59, 532, 85]
-default bloods = ["O-", "B+", "O+", "AB-", "O-", "O-", "A+", "B-", "O+", "AB+", "A+", "O+", "00±", "A+", "O+", "Qa+", "Electricty"]
-default statuses = ["Alive", "Alive", "Alive", "Alive", "Alive", "Alive", "Alive", "Alive", "Alive", "Alive", "Alive", "Alive", "Alive", "Alive", "Alive", "Alive", "Alive"]
+# See Profile.py for more information on this class.
+default profiles = {
+    "ainsley" : Profile("Ainsley Velos", Gender.FEMALE, "'Mustelid'", "N/A", date.fromisoformat("2030-01-07"), 157, 52, BloodType.O_NEG),
+    "belinda" : Profile("Belinda Lizforth", Gender.FEMALE, "'Crocodillian'", "Herpetology Zoologist", date.fromisoformat("2023-04-03"), 178, 80, BloodType.B_POS),
+    "carwyn" : Profile("Carwyn Moss", Gender.MALE, "'Ibex(Goat?)'", "Published Author", date.fromisoformat("2025-12-06"), 173, 66, BloodType.O_POS),
+    "darya" : Profile("Darya Kidwell", Gender.FEMALE, "'Bat-like'", "Ferry Captain", date.fromisoformat("2027-06-26"), 170, 67, BloodType.AB_NEG),
+    "dexter" : Profile("Dexter Salvage", Gender.MALE, "'Gliding Lizard'", "Commercial Airline Pilot (Former)", date.fromisoformat("2024-02-29"), 168, 71, BloodType.O_NEG),
+    "emilio" : Profile("Emilio Hawson Barnes", Gender.MALE, "'Small Feline'", "Livestock Farmer", date.fromisoformat("2025-10-14"), 183, 73, BloodType.O_NEG),
+    "fabrice" : Profile("Fabrice Fulton", Gender.MALE, "'Swan'", "Professional Origamist", date.fromisoformat("2029-11-11"), 177, 54, BloodType.O_NEG),
+    "florus" : Profile("Florus Claude", Gender.MALE, "'Butterfly'", "Contract Gardener", date.fromisoformat("2022-04-12"), 172, 59, BloodType.A_POS),
+    "kevin" : Profile("Kevin Atwood", Gender.MALE, "'Horseshoe Crab'", "Student Nurse", date.fromisoformat("2027-09-30"), 165, 56, BloodType.B_NEG),
+    "nikolas" : Profile("Nikolas Lambert", Gender.MALE, "'Spider or Tarantula'", "Apprentice Cartographer", date.fromisoformat("2030-07-25"), 160, 54, BloodType.AB_POS),
+    "nin" : Profile("Ninhursag Talus", Gender.FEMALE, "'Kingfisher'", "Speleologist", date.fromisoformat("2024-09-11"), 167, 69, BloodType.A_POS),
+    "osanne" : Profile("Osanne Foxglove", Gender.FEMALE, "'Violet Ground Beetle'", "Biochemist (Botany Specialisation)", date.fromisoformat("2024-10-31"), 162, 51, BloodType.O_POS),
+    "pandora" : Profile("Phantom Magpie", Gender.FEMALE, "'Common Eurasian Magpie'", "Unknown", date.fromisoformat("0001-01-01"), 0, 0, BloodType.UNKNOWN),
+    "ratna" : Profile("Ratna Harlow", Gender.NEUTRAL, "'Jerboa, not mouse'", "Apprentice Paleontologist", date.fromisoformat("2029-05-10"), 161, 61, BloodType.A_POS),
+    "valkyrie" : Profile("Valkyrie Laskea", Gender.FEMALE, "'Monitor Lizard'", "Cyber Security Technician", date.fromisoformat("2028-01-31"), 161, 59, BloodType.O_POS),
+    "dakota" : Profile("Dakota", Gender.MALE, "N/A", "Working Horse", date.fromisoformat("2043-10-20"), 16.1, 532, BloodType.QA_POS),
+    "maizey" : Profile("Maizey", Gender.FEMALE, "N/A", "Bunker Host", date.fromisoformat("0001-01-01"), 200, 85, BloodType.ELEC)
+}
 
+default profileselect = list(profiles.keys())[0] # Default to the first entry, rather than hardcoding it as "ainsley"
 
 #~Map Stuff~#
 default mactive = False
@@ -241,6 +255,7 @@ screen keyscr: #code source: https://lemmasoft.renai.us/forums/viewtopic.php?f=8
 label start:
     stop music
 
+    $ profiles["ainsley"].status = CharacterStatus.UNKNOWN
 
     $ quick_menu = False
     
@@ -350,7 +365,7 @@ screen pandora_room:
 
         auto "pandora_door %s"
 
-        alt "Metal door"
+        alt "A metal door, with a small peephole in the middle"
 
         action Jump("pandora_door")
 
@@ -362,7 +377,7 @@ screen pandora_room:
 
         auto "pandora_wardrobe %s"
 
-        alt "Wardrobe"
+        alt "A wooden wardrobe"
 
         action Jump("pandora_wardrobe")
         
@@ -374,7 +389,7 @@ screen pandora_room:
 
         auto "pandora_bed %s"
 
-        alt "Bed"
+        alt "A wooden bed. The covers and pillow are grey."
 
         action Jump("pandora_bed")
 
@@ -386,7 +401,7 @@ screen pandora_room:
 
         auto "pandora_table %s"
 
-        alt "Table"
+        alt "A wooden table. There is a small drawing on top"
 
         action Jump("pandora_table")
 
@@ -398,7 +413,7 @@ screen pandora_room:
 
         auto "pandora_chair %s"
 
-        alt "Chair"
+        alt "A wooden chair. It is tucked under a wooden table"
 
         action Jump("pandora_chair")
 
@@ -410,7 +425,7 @@ screen pandora_room:
 
         auto "pandora_note %s"
 
-        alt "Small piece of paper"
+        alt "Small piece of paper, on top of the wooden table"
 
         action Jump("pandora_note")
     
@@ -434,7 +449,7 @@ screen pandora_room:
 
         auto "pandora_bin %s"
 
-        alt "Blue bin"
+        alt "A blue bin"
 
         action Jump("pandora_bin")
 
@@ -446,7 +461,7 @@ screen pandora_room:
 
         auto "pandora_cactus %s"
 
-        alt "Potted cactus"
+        alt "A green cactus in a brown pot"
 
         action Jump("pandora_cactus")
 
@@ -458,7 +473,7 @@ screen pandora_room:
 
         auto "pandora_clock %s"
 
-        alt "clock"
+        alt "A clock, it's stopped at 5 minutes to 6."
 
         action Jump("pandora_clock") 
 
@@ -470,7 +485,7 @@ screen pandora_room:
 
         auto "pandora_speaker %s"
 
-        alt "Speaker on wall"
+        alt "A metal speaker embedded in the wall above a table."
 
         action Jump("pandora_speaker")
 
@@ -483,7 +498,7 @@ screen pandora_room:
 
             auto "daryadefault %s"
 
-            alt "Darya"
+            alt "A woman dressed as a pirate. Her name is Darya"
 
             action Jump("pandora_darya")
 
@@ -968,15 +983,17 @@ screen corrA1:
 
         auto "rightarrow %s"
 
+        alt "An arrow pointing right."
+
         if corrA1read[6] == 0:
             action Jump("nogood1")
+            alt "You cannot walk this way"
         else:
             action Jump("draw_corrA3")
+            alt "Press to turn to Dormitory B's door"
         
         if wiggle:
             at buttup2
-
-        alt "arrow pointing right"
 
     imagebutton:
         xanchor 0.0
@@ -988,6 +1005,8 @@ screen corrA1:
 
         auto "turnarrow %s"
 
+        alt ""
+
         if corrA1read[6] == 0:
             action Jump("nogood1")
         else:
@@ -995,8 +1014,6 @@ screen corrA1:
 
         if wiggle:
             at buttup2
-
-        alt "turning arrow"
 
     imagebutton:
         xpos 1300
@@ -1008,7 +1025,7 @@ screen corrA1:
 
         action Jump("pandoor")
 
-        alt "door with a bird shape on it"
+        alt "A door with a bird shape on it"
 
     imagebutton:
         xpos 304
@@ -1034,7 +1051,7 @@ screen corrA1:
                 Jump("flodoor")
             ]
         
-        alt "door with a butterfly shape on it"
+        alt "A door with a butterfly shape on it"
 
     imagebutton:
         xpos 1088
@@ -1046,7 +1063,7 @@ screen corrA1:
 
         action Jump("dardoor")
 
-        alt "door with a bat-like shape on it"
+        alt "A door with a bat-like shape on it"
 
     imagebutton:
         xpos 624
@@ -1061,7 +1078,7 @@ screen corrA1:
         else:
             action Jump("nikdoor")
 
-        alt "door with a spider shape on it"
+        alt "A door with a spider shape on it"
 
     imagebutton:
         xpos 764
@@ -1073,7 +1090,7 @@ screen corrA1:
 
         action Jump("toidoor")
 
-        alt "toilet door"
+        alt "The toilet door"
 
     imagebutton:
         xpos 816
@@ -1085,7 +1102,7 @@ screen corrA1:
 
         action Jump("toisign")
 
-        alt "toilet sign"
+        alt "A sign for the toilets"
 
     imagebutton:
         xpos 1000
