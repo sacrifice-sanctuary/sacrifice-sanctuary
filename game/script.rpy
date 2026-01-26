@@ -212,7 +212,7 @@ default roomtotal = 0 #generally interacting with things total
 #~Profiles Data~#
 
 default allowedP = True 
-default pactive = True
+default pactive = False
 
 # See Profile.py for more information on this class.
 default profiles = {
