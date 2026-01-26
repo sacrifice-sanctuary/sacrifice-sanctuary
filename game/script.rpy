@@ -4,57 +4,94 @@
 
 # The script of the game goes in this file.
 
-define fastDissolve = Dissolve(0.3)
-define dissolve2 = Dissolve(0.6)
-define FD2 = { "master" : Dissolve(0.2) }
+##################
+#~~~~~~~~~~~~~~~~#
+# SETUP AND PREP #
+#~~~~~~~~~~~~~~~~#
+##################
 
-define flashbulb = Fade(0.2, 0.0, 0.4, color='#dddddd')
+
+
+################
+# DECLARATIONS #
+################
 
 default bleep = True
 
+define PHFile = "beep1.ogg"
 
-init python:
 
-    renpy.music.register_channel("Bleep", mixer="voice")
+#~Callbacks~#
 
-    def beepHT(event, **kwargs):
+init python: 
+
+    renpy.music.register_channel("Bleep", mixer="voice", tight=True, buffer_queue=True) #setting up the voice bleeps to play on a new channel that uses the pre-built 'voice' volume slider
+
+    def beepVoice(event, interact=True, SFile="beep1.ogg", Char="", **kwargs): #for characters who have a set of 3 randomised beep sounds for their voice
+        if not interact:
+            return
+
         if event == "show":
-            renpy.music.play("beep1.ogg", channel="Bleep", loop=True)
+            beep = 0
+            while beep < 100:
+                SFile = Char + "_" + str(renpy.random.randint(1,3)) + ".ogg"
+                renpy.music.queue(SFile, channel="Bleep", loop=False)
+                beep += 1
         elif event == "slow_done" or event == "end":
-            renpy.music.stop(channel="Bleep")
+            renpy.music.stop(channel="Bleep", fadeout=0.4)
 
 
-# Declare characters used by this game. The color argument colorizes the
-# name of the character.
+    def singleCall(event, interact=True, SFile="beep1.ogg", **kwargs): #for characters who make a single noise as their entire line (eg horse neigh)
+        if not interact:
+            return
 
-define ht = Character("Helpful Tips", color="3366FF", who_outlines=[(2, "02648C", 0, 0)], what_outlines=[(1, "5B707B", 0, 0)]) #, callback=beepHT red=ED1C24, green=22B14C, purple=A349A4, orange=FF7F27, blue=00A2E8
-define uk = Character("???", color="666666", who_outlines=[(2, "333333", 0, 0)], what_outlines=[(1, "777777", 0, 0)])
+        if event == "show":
+            renpy.music.queue(SFile, channel="Bleep", loop=False)
+
+
+    def narratorCall(event, interact=True, **kwargs): #for characters who use a single beep sound for their voice
+        if not interact:
+            return
+
+        if event == "show":
+            renpy.music.queue("beep1.ogg", channel="Bleep", loop=True)
+        elif event == "slow_done" or event == "end":
+            renpy.music.stop(channel="Bleep", fadeout=0.4)
+
+
+
+#~Characters~#
+
+define ht = Character("System", color="3366FF", who_outlines=[(2, "02648C", 0, 0)], what_outlines=[(1, "5B707B", 0, 0)], callback=narratorCall) # red=ED1C24, green=22B14C, purple=A349A4, orange=FF7F27, blue=00A2E8
+define uk = DynamicCharacter('UKName', color="666666", who_outlines=[(2, "333333", 0, 0)], what_outlines=[(1, "777777", 0, 0)], callback=beepVoice, cb_Sfile=PHFile, cb_Char="pandora")
 define np = Character("Pandora", color="2092C8", who_outlines=[(2, "0284BC", 0, 0)], what_color="0784B9", what_outlines=[(1, "02648C", 0, 0)], alt="Pandora thoughts")
 
-define pk = Character("Pandora", color="00A2E8", who_outlines=[(2, "0284BC", 0, 0)], what_outlines=[(1, "5B707B", 0, 0)])
-define dk = Character("Darya", color="00A2E8", who_outlines=[(2, "0284BC", 0, 0)], what_outlines=[(1, "5B707B", 0, 0)])
-define eb = Character("Emilio", color="00A2E8", who_outlines=[(2, "0284BC", 0, 0)], what_outlines=[(1, "5B707B", 0, 0)])
-define fc = Character("Florus", color="00A2E8", who_outlines=[(2, "0284BC", 0, 0)], what_outlines=[(1, "5B707B", 0, 0)])
+define pk = Character("Pandora", color="00A2E8", who_outlines=[(2, "0284BC", 0, 0)], what_outlines=[(1, "5B707B", 0, 0)], callback=beepVoice, cb_Char="pandora")
+define dk = Character("Darya", color="00A2E8", who_outlines=[(2, "0284BC", 0, 0)], what_outlines=[(1, "5B707B", 0, 0)], callback=beepVoice, cb_Char="darya")
+define eb = Character("Emilio", color="00A2E8", who_outlines=[(2, "0284BC", 0, 0)], what_outlines=[(1, "5B707B", 0, 0)], callback=beepVoice, cb_Char="emilio")
+define fc = Character("Florus", color="00A2E8", who_outlines=[(2, "0284BC", 0, 0)], what_outlines=[(1, "5B707B", 0, 0)], callback=beepVoice, cb_Char="florus")
 
-define bl = Character("Belinda", color="22B14C", who_outlines=[(2, "188638", 0, 0)], what_outlines=[(1, "506C58", 0, 0)])
-define ds = Character("Dexter", color="22B14C", who_outlines=[(2, "188638", 0, 0)], what_outlines=[(1, "506C58", 0, 0)])
-define av = Character("Ainsley", color="22B14C", who_outlines=[(2, "188638", 0, 0)], what_outlines=[(1, "506C58", 0, 0)])
+define bl = Character("Belinda", color="22B14C", who_outlines=[(2, "188638", 0, 0)], what_outlines=[(1, "506C58", 0, 0)], callback=beepVoice, cb_Char="belinda")
+define ds = Character("Dexter", color="22B14C", who_outlines=[(2, "188638", 0, 0)], what_outlines=[(1, "506C58", 0, 0)], callback=beepVoice, cb_Char="dexter")
+define av = Character("Ainsley", color="22B14C", who_outlines=[(2, "188638", 0, 0)], what_outlines=[(1, "506C58", 0, 0)], callback=beepVoice, cb_Char="ainsley")
 
-define rh = Character("Ratna", color="ED1C24", who_outlines=[(2, "B1171D", 0, 0)], what_outlines=[(1, "6C4D4E", 0, 0)])
-define nl = Character("Nikolas", color="ED1C24", who_outlines=[(2, "B1171D", 0, 0)], what_outlines=[(1, "6C4D4E", 0, 0)])
-define ff = Character("Fabrice", color ="ED1C24", who_outlines=[(2, "B1171D", 0, 0)], what_outlines=[(1, "6C4D4E", 0, 0)])
+define rh = Character("Ratna", color="ED1C24", who_outlines=[(2, "B1171D", 0, 0)], what_outlines=[(1, "6C4D4E", 0, 0)], callback=beepVoice, cb_Char="ratna")
+define nl = Character("Nikolas", color="ED1C24", who_outlines=[(2, "B1171D", 0, 0)], what_outlines=[(1, "6C4D4E", 0, 0)], callback=beepVoice, cb_Char="nikolas")
+define ff = Character("Fabrice", color ="ED1C24", who_outlines=[(2, "B1171D", 0, 0)], what_outlines=[(1, "6C4D4E", 0, 0)], callback=beepVoice, cb_Char="fabrice")
 
-define of = Character("Osanne", color="A349A4", who_outlines=[(2, "783678", 0, 0)], what_outlines=[(1, "725872", 0, 0)])
-define ka = Character("Kevin", color="A349A4", who_outlines=[(2, "783678", 0, 0)], what_outlines=[(1, "725872", 0, 0)])
-define vl = Character("Valkyrie", color="A349A4", who_outlines=[(2, "783678", 0, 0)], what_outlines=[(1, "725872", 0, 0)])
+define of = Character("Osanne", color="A349A4", who_outlines=[(2, "783678", 0, 0)], what_outlines=[(1, "725872", 0, 0)], callback=beepVoice, cb_Char="osanne")
+define ka = Character("Kevin", color="A349A4", who_outlines=[(2, "783678", 0, 0)], what_outlines=[(1, "725872", 0, 0)], callback=beepVoice, cb_Char="kevin")
+define vl = Character("Valkyrie", color="A349A4", who_outlines=[(2, "783678", 0, 0)], what_outlines=[(1, "725872", 0, 0)], callback=beepVoice, cb_Char="valkyrie")
 
-define cm = Character("Carwyn", color="FF7F27", who_outlines=[(2, "C4621F", 0, 0)], what_outlines=[(1, "7A6659", 0, 0)])
-define nt = Character("Nin", color="FF7F27", who_outlines=[(2, "C4621F", 0, 0)], what_outlines=[(1, "7A6659", 0, 0)])
-define dh = Character("Dakota", color="FF7F27", who_outlines=[(2, "C4621F", 0, 0)], what_outlines=[(1, "7A6659", 0, 0)])
+define cm = Character("Carwyn", color="FF7F27", who_outlines=[(2, "C4621F", 0, 0)], what_outlines=[(1, "7A6659", 0, 0)], callback=beepVoice, cb_Char="carwyn")
+define nt = Character("Nin", color="FF7F27", who_outlines=[(2, "C4621F", 0, 0)], what_outlines=[(1, "7A6659", 0, 0)], callback=beepVoice, cb_Char="nin")
+define dh = Character("Dakota", color="FF7F27", who_outlines=[(2, "C4621F", 0, 0)], what_outlines=[(1, "7A6659", 0, 0)], callback=singleCall, cb_SFile="neigh.mp3")
 
-define mm = Character("Maizey", color="7A4C0E", who_outlines=[(2, "523309", 0, 0)], what_outlines=[(1, "52493E", 0, 0)])
+define mm = Character("Maizey", color="7A4C0E", who_outlines=[(2, "523309", 0, 0)], what_outlines=[(1, "52493E", 0, 0)], callback=beepVoice, cb_Char="maizey")
 
-#~TRANSFORMS~#
+
+#~Transforms~#
+
 transform centre:
     xalign 0.5
     yalign 1.0
@@ -74,11 +111,23 @@ transform threeleft:
 transform threeright:
     xpos 1000
     yalign 1.0
-#the threes are unlikely to be used bc they make the screen very cramped due to the large sprite size
+
+
+define fastDissolve = Dissolve(0.3) #very fast fade effect
+define dissolve2 = Dissolve(0.6) #medium fast fade effect
+define FD2 = { "master" : Dissolve(0.2) } #used to change character sprites mid line
+
+define flashbulb = Fade(0.2, 0.0, 0.4, color='#dddddd')
+
+
+#(the threes are unlikely to be used bc they make the screen very cramped due to the large sprite size)
+
+
 
 #############
 # VARIABLES #
 #############
+
 default teamcol = "n" #for setting team colour for when that matters for the UI
 default uivis = True #dont entirely remember when this is used
 default wiggle = True #arrow wiggle variable for moving arrows in the halls
@@ -119,6 +168,7 @@ default ch1murder_text = [
 
 
 #~flags~#
+
 default daryaroom = False #is darya in the room right now?
 
 default flagA = 0 #simple progression 1
@@ -129,6 +179,7 @@ default day = 1 #in case we need this for optionally-out-of-order event shenanig
 
 
 #~locations~#
+
 default currentlocation = "" #where you currently are
 
 default pandoraroomread = [0,0,0,0,0,0,0,0,0,0,0] #0=door, 1=wardrobe, 2=bed, 3=table, 4=chair, 5=note, 6=drawers, 7=bin, 8=cactus, 9=clock, 10=speaker
@@ -153,11 +204,13 @@ default corrH1read = [0] #0=exit door
 
 
 #~interactable totals~#
+
 default asktotal = 0 #generally talking to people total
 default roomtotal = 0 #generally interacting with things total
 
 
 #~Profiles Data~#
+
 default allowedP = True 
 default pactive = True
 
@@ -185,11 +238,12 @@ default profiles = {
 default profileselect = list(profiles.keys())[0] # Default to the first entry, rather than hardcoding it as "ainsley"
 
 #~Map Stuff~#
-default mactive = False
 
-default strintloc = "0"
-default bigx = 0
-default bigy = 0
+default mactive = False #map starts disabled
+
+default strintloc = "0" #current location as a string (i think)
+default bigx = 0 #x pos of the map icon
+default bigy = 0 #y pos of the map icon
 
 default dmap1 = { #compares current location to this dict lookup, then the number string is converted into co-ords for the character position dot
     "corrA1" : "08100350",
@@ -209,8 +263,12 @@ default dmap1 = { #compares current location to this dict lookup, then the numbe
 }
 
 
+
+
 #########################
-# The game starts here. #
+#~~~~~~~~~~~~~~~~~~~~~~~#
+# THE GAME STARTS HERE! #
+#~~~~~~~~~~~~~~~~~~~~~~~#
 #########################
 
 image splash1 = "splash1.png"
@@ -237,7 +295,7 @@ label splashscreen:
 
     return
 
-screen keyscr: #code source: https://lemmasoft.renai.us/forums/viewtopic.php?f=8&t=22458&p=283744&hilit=movie+skip#p283744
+screen keyscr: #code source: https://lemmasoft.renai.us/forums/viewtopic.php?f=8&t=22458&p=283744&hilit=movie+skip#p283744, disables skipping video cutscenes with every button but esc
     key "K_RETURN" action Hide("nonexistent_screen")
     key "K_KP_ENTER" action Hide("nonexistent_screen")
     key "K_SPACE" action Hide("nonexistent_screen")
@@ -253,9 +311,9 @@ screen keyscr: #code source: https://lemmasoft.renai.us/forums/viewtopic.php?f=8
     key "K_ESCAPE" action Return("smth")
 
 label start:
-    stop music
+    stop music #to prevent title screen music from bleeding in
 
-    $ quick_menu = False
+    $ quick_menu = False #hide quick menu for the cinematic experience
     
     #intro stuff goes here
 
@@ -266,7 +324,7 @@ label start:
 
     hide screen keyscr
 
-    #play ch1 screen - dont actually it's out of place here, it should go after the intro section
+    #play ch1 screen - dont actually it's out of place here, it should go after the prologue
     #$ renpy.movie_cutscene("chapter1.ogv")
 
     scene black
@@ -284,7 +342,7 @@ label start:
 
     image PR = "bg pandora_full.png"
 
-    window hide dissolve
+    window hide dissolve #hiding text box 
 
     scene black with dissolve
 
@@ -293,7 +351,7 @@ label start:
     show PR with dissolve:
         blur 30
 
-    #np "My vision is still blurry from waking up."
+    #np "My vision is still blurry from waking up." removed as it now happens with animation
 
     pause 0.2
 
@@ -308,9 +366,9 @@ label start:
 
     scene bg pandora_full with fade
 
-    window auto
+    window auto #returning text box to normal functions
 
-    np "I blink to clear my head and get a better look at where I find myself. {alt}Description: The room appears to be some sort of dorm, to the left is a bed and a wardrobe, at the back of the room is a small bin, a speaker on the wall, a table with a note on it and a chair. To the right is a metal door, a chest of draws with a cactus on it, and a clock mounted on the wall. The walls appear to be made out of metal plates.{/alt}"
+    np "I blink to clear my head and get a better look at where I find myself. {alt}Description: The room appears to be some sort of dorm, to the left is a bed and a wardrobe, at the back of the room is a small bin, a speaker on the wall, a table with a note on it and a chair. To the right is a metal door, a chest of draws with a cactus on it, and a clock mounted on the wall. The walls appear to be made out of metal plates. A fluorescent light shines from above.{/alt}"
     pk "Since I don't know anything right now, I should check out everything in this room and see if there's anything that tells me where I am."
 
     #bl "test"
@@ -829,6 +887,12 @@ label pandora_bin:
     if flagA == 0:
 
         if pandoraroomread[7] == 1:
+            
+            #$ UKName = 'pleasework'
+            #uk "dsfvadfbvdafbvdafbva" (cb_SFile="click.wav")
+            #uk "dsfvadfbvdafbvdafbva" (cb_SFile="bang.wav")
+            #uk "dsfvadfbvdafbvdafbva" (cb_SFile="beep1.ogg")
+
             pk "A disappointingly empty bin."
 
             jump draw_pandora_room
@@ -1213,11 +1277,13 @@ label flodoor:
                 np "..."
                 np "The door slowly opened, and a man emerged."
 
+                $ UKName = "Man with Flowers"
+
                 show florus neutral with dissolve2
-                "{uk}Man With Flowers{/uk}" "... hello?"
+                uk "... hello?" (cb_Char="florus")
                 hide florus with fastDissolve
 
-                show florus neutral at twoleft
+                show florus flinch at twoleft
 
                 show darya yeah2 at tworight
 
@@ -1225,11 +1291,13 @@ label flodoor:
 
                 dk "{piracow}AHOY!{/piracow}"
 
-                show florus flinch with fastDissolve
-                "{uk}Man With Flowers{/uk}" "!?"
-                show florus neutral with fastDissolve
+                #show florus flinch with fastDissolve
+                uk "!?" (cb_Char="florus")
 
-                show darya neutral with fastDissolve
+                show florus neutral
+                show darya neutral 
+                
+                with fastDissolve
                 dk "{piracow}What be your name?{/piracow}"
 
                 show florus confused with fastDissolve
@@ -1744,15 +1812,17 @@ label dakdoor:
             play sound "audio/knock.wav"
             np "..."
 
+            $ UKName = "Cowboy...?"
+
             show emilio happy with dissolve2
-            "{uk}Cowboy{/uk}" "{piracow}Howdy partner!{/piracow}"
+            uk "{piracow}Howdy partner!{/piracow}" (cb_Char="emilio")
 
             pk "Hello."
             np "My eyes are drawn the NURF revolver and cowboy getup as annoyance forms in my gut."
             np "Please tell me he isn't like a second Darya..."
 
             show emilio welcome with fastDissolve
-            "{uk}Cowboy{/uk}" "{piracow}C'mon in, can't leave ya out in the corridor like that.{/piracow}"
+            uk "{piracow}C'mon in, can't leave ya out in the corridor like that.{/piracow}" (cb_Char="emilio")
 
             np "On the one hand, since I have little idea of what's going on this could easily be a trap. Not to mention that I {i}really{/i} don't want to deal with another freaky LARPer right now..."
             np "But on the other hand, I don't want to upset him in case he's dangerous - so going along with this but keeping a cautious ear up is probably best."
@@ -1778,11 +1848,11 @@ label dakdoor:
             hide dakota with dissolve2
 
             show emilio neutral with dissolve2
-            "{uk}Cowboy{/uk}" "{piracow}Make yerself at home. {/piracow}"
+            uk "{piracow}Make yerself at home. {/piracow}" (cb_Char="emilio")
 
             pk "There- there is a horse."
 
-            "{uk}Cowboy{/uk}" "{piracow}That'll be Dakota, my loyal steed and truest friend.{/piracow}"
+            uk "{piracow}That'll be Dakota, my loyal steed and truest friend.{/piracow}" (cb_Char="emilio")
             hide emilio with dissolve2
             show dakota neutral with dissolve2
             dh "Neigh."
@@ -1793,14 +1863,14 @@ label dakdoor:
             pk "Also, quick question: where are you from?"
 
             show emilio confuzz with fastDissolve
-            "{uk}Cowboy{/uk}" "Uh, Yorkshire?"
+            uk "Uh, Yorkshire?" (cb_Char="emilio")
 
             np "So the Texas accent is fake."
             pk "Would it be possible... for you to use your normal voice?"
             np "I try not to sound too exasperated."
 
             show emilio neutral with fastDissolve
-            "{uk}Cowboy{/uk}" "{piracow}Of course-{/piracow} of course."
+            uk "{piracow}Of course-{/piracow} of course." (cb_Char="emilio")
 
             np "Thankfully he complies without pushback, and replaces his cowboy accent with a much more natural-sounding Yorkshire one."
 
@@ -3232,8 +3302,10 @@ label nincorrconvo1: #nintro
         np "Nin probably isn't going to be receptive to further conversation."
 
     elif corrF1read[0] == 0:
+        $ UKName = "Woman in Helmet"
+        
         show nin greet with dissolve2
-        "{uk}Woman in Helmet{/uk}" "Hello there!"
+        uk "Hello there!"
 
         np "The woman at the other end of the hall called out to us cheerfully as she approached."
 
@@ -3553,8 +3625,10 @@ label recpc:
 label belintro:
 
     if recroomeread[2] == 0:
+        $ UKName = "Woman with Reptiles"
+
         show belinda neutral with dissolve2
-        "{uk}Woman With Reptiles{/uk}" "Hiya there you two."
+        uk "Hiya there you two."
         hide belinda with fastDissolve
 
         show belinda neutral at tworight
@@ -3566,23 +3640,23 @@ label belintro:
         dk "Yeah, hiya."
 
         show belinda ohno with fastDissolve
-        "{uk}Woman With Reptiles{/uk}" "Oh dear, are you feeling alright? You look a little shaken."
+        uk "Oh dear, are you feeling alright? You look a little shaken."
 
         show darya bois with fastDissolve
         dk "{piracow}Aye matey, I be in ship-shape!{/piracow}"
 
         show belinda sadsmile with fastDissolve
-        "{uk}Woman With Reptiles{/uk}" "Well, as long as you're okay."
+        uk "Well, as long as you're okay."
 
         pk "Sorry to ask this {i}again{/i}, Darya, but do you know this person?"
 
         show belinda huh with fastDissolve
-        "{uk}Woman With Reptiles{/uk}" "Huh?"
+        uk "Huh?"
 
         show darya ask2 with fastDissolve
         dk "What? No."
 
-        "{uk}Woman With Reptiles{/uk}" "Do I have to already know someone to ask if they're okay if something seems off?"
+        uk "Do I have to already know someone to ask if they're okay if something seems off?"
 
         pk "I dunno, you two just seemed friendly is all."
 
@@ -3594,7 +3668,7 @@ label belintro:
         dk "{piracow}If we're truly to be friends, then introductions be in order!{/piracow}"
         dk "I'm Darya, and this is Magpie." 
 
-        "{uk}Woman With Reptiles{/uk}" "It's nice to meet you."
+        uk "It's nice to meet you."
         show belinda excite with fastDissolve
         bl "On my end, the snake is Luna, the chameleon is Sol, and I'm Belinda!"
         show belinda neutral with fastDissolve
@@ -3686,8 +3760,10 @@ label belintro:
 label osaintro:
 
     if recroomeread[3] == 0:
+        $ UKName = "Wizard Lady"
+
         show osanne yeah with dissolve2
-        "{uk}Wizard Lady{/uk}" "Greetings!"
+        uk "Greetings!"
         hide osanne with fastDissolve
 
         show darya neutral at twoleft
@@ -3700,7 +3776,7 @@ label osaintro:
         show osanne blung
         with fastDissolve
 
-        "{uk}Wizard Lady{/uk}" "No, not you! Your friend!"
+        uk "No, not you! Your friend!"
 
         np "Darya dejectedly made her way to a table and sat down."
 
@@ -3717,17 +3793,17 @@ label osaintro:
 
         show osanne yeah with fastDissolve
 
-        "{uk}Wizard Lady{/uk}" "Yep!"
+        uk "Yep!"
 
         np "She took off her hat, revealing a set of antenna underneath."
 
         show osanne neutral2 with fastDissolve
-        "{uk}Wizard Lady{/uk}" "I'm a violet ground beetle!"
+        uk "I'm a violet ground beetle!"
         show osanne neutral with fastDissolve
-        "{uk}Wizard Lady{/uk}" "And you..."
+        uk "And you..."
         show osanne thinky with fastDissolve
-        "{uk}Wizard Lady{/uk}" "You're clearly some kind of bird right?"
-        "{uk}Wizard Lady{/uk}" "Probably a magpie, I'd say? Based on your getup."
+        uk "You're clearly some kind of bird right?"
+        uk "Probably a magpie, I'd say? Based on your getup."
 
         show osanne yeah with fastDissolve
         pk "That's right, specifically a common Eurasian magpie."
@@ -3735,9 +3811,9 @@ label osaintro:
         pk "To be honest, I wasn't expecting to find anyone else who's Manifested in such a small group of people."
 
         show osanne whoo with fastDissolve
-        "{uk}Wizard Lady{/uk}" "You {i}are{/i} a bird! Does that mean you can fly?"
+        uk "You {i}are{/i} a bird! Does that mean you can fly?"
         show osanne dissapointed with fastDissolve
-        "{uk}Wizard Lady{/uk}" "The closest I can do is stick to walls. Can't believe my Manifest is a {i}flightless{/i} beetle, glueing me to the ground forever..."
+        uk "The closest I can do is stick to walls. Can't believe my Manifest is a {i}flightless{/i} beetle, glueing me to the ground forever..."
 
         pk "Oh, no, not really. I can glide a bit and catch myself when I fall but it's not really 'flight'."
         show osanne neutral with fastDissolve
@@ -3745,50 +3821,50 @@ label osaintro:
         np "I chuckle awkardly."
 
         show osanne blung with fastDissolve
-        "{uk}Wizard Lady{/uk}" "Dang, if only we could swap y'know. But I do quite like my antennae."
+        uk "Dang, if only we could swap y'know. But I do quite like my antennae."
         show osanne thinky with fastDissolve
-        "{uk}Wizard Lady{/uk}" "Oh! I never actually asked, how has your Manifest expressed itself on you?"
+        uk "Oh! I never actually asked, how has your Manifest expressed itself on you?"
         show osanne neutral with fastDissolve
 
         pk "Mostly as feathers and bird scales on my hands and forearms."
         pk "Do you... want to see?"
 
         show osanne yeah with fastDissolve
-        "{uk}Wizard Lady{/uk}" "Absolutely!"
+        uk "Absolutely!"
         show osanne neutral with fastDissolve
 
         np "I hesitantly removed a glove and pulled up my sleeve, revealing the feathers on my forearm and the scales on the back of my hand."
         pk "It doesn't look great, I know. I always wear gloves to cover it up..."
 
-        "{uk}Wizard Lady{/uk}" "No I think it looks cool! {size=-10}But I might just be biased cus I find Manifests fascinating.{/size}"
+        uk "No I think it looks cool! {size=-10}But I might just be biased cus I find Manifests fascinating.{/size}"
 
         pk "... {w=0.5} {i}Ahem{/i}, well, anyway, I assume your hat is to cover up your antennae, but I was wondering about the wizard staff. What's that about?"
 
         show osanne yeah with fastDissolve
-        "{uk}Wizard Lady{/uk}" "Aha! You see, I am a potion master! A scholar of alchemy!"
+        uk "Aha! You see, I am a potion master! A scholar of alchemy!"
 
         pk "What?"
 
         show osanne blung with fastDissolve
-        "{uk}Wizard Lady{/uk}" "I'm a chemist, and {i}also{/i} a botanist! {size=-10}Everyone always forgets my other qualification...{/size}"
+        uk "I'm a chemist, and {i}also{/i} a botanist! {size=-10}Everyone always forgets my other qualification...{/size}"
 
         pk "In what way?"
 
-        "{uk}Wizard Lady{/uk}" "I got an award for some chemistry research - the title and descriptor of which will probably go over your head - but I've never had any formal recognition for my botanical achievements!"
+        uk "I got an award for some chemistry research - the title and descriptor of which will probably go over your head - but I've never had any formal recognition for my botanical achievements!"
         show osanne dissapointed with fastDissolve
-        "{uk}Wizard Lady{/uk}" "And I'm {i}so{/i} much more proud of those!"
+        uk "And I'm {i}so{/i} much more proud of those!"
 
         pk "Ooh, what have you done in botany?"
         show osanne yeah with fastDissolve
         np "She began to explain, but Darya was slowly inching her way back into our conversation, catching our attention."
 
         show osanne grump with fastDissolve
-        "{uk}Wizard Lady{/uk}" "and it's still never-"
+        uk "and it's still never-"
         show osanne blung 
         show darya hh:
             xpos -300
         with fastDissolve
-        "{uk}Wizard Lady{/uk}" "Oh hello again."
+        uk "Oh hello again."
         hide osanne 
         hide darya
         with fastDissolve
@@ -3806,7 +3882,7 @@ label osaintro:
         dk "{piracow}A-ahoy there, me hearties! I hope Magpie has been treating ye well.{/piracow}"
 
         show osanne thinky with fastDissolve
-        "{uk}Wizard Lady{/uk}" "That's your name? We never introduced each other, did we?"
+        uk "That's your name? We never introduced each other, did we?"
         show osanne neutral with fastDissolve
         of "I'm Osanne, nice to meet you, Magpie."
 
@@ -4068,15 +4144,17 @@ label carintro:
 
         hide darya with fastDissolve
 
+        $ UKName = "Man with Book"
+
         show darya neutral at twoleft
         show carwyn angy at tworight
         with fastDissolve
 
-        "{uk}Man With Book{/uk}" "How dare you, were you never educated in the proper manners with which to navigate the social domain around an artist at work!?"
+        uk "How dare you, were you never educated in the proper manners with which to navigate the social domain around an artist at work!?"
         show carwyn tipped 
         show darya grumpy
         with fastDissolve
-        "{uk}Man With Book{/uk}" "Were you raised in a barn? Or perhaps by wolves?"
+        uk "Were you raised in a barn? Or perhaps by wolves?"
 
         show darya threat with fastDissolve
         dk "{piracow}Ye would never catch me alive in such a filthy place! I were raised by the sea herself, upon the deck of a glorious vessel.{/piracow}"
@@ -4086,15 +4164,15 @@ label carintro:
         #ht "{swap=te@t3@0.2}te{/swap}{swap=st@57@0.15}st{/swap}{swap=ing@1n6@0.17}ing{/swap}"
 
         show carwyn ha with fastDissolve
-        "{uk}Man With Book{/uk}" "Your terrid implication that the filth of the ocean doesn't outweigh the stench of the land further evidences your lowly status."
+        uk "Your terrid implication that the filth of the ocean doesn't outweigh the stench of the land further evidences your lowly status."
 
         show darya hm with fastDissolve
 
-        "{uk}Man With Book{/uk}" "To think such a simpleton as you could conceivably conclude to manifest in the same sphere as I."
+        uk "To think such a simpleton as you could conceivably conclude to manifest in the same sphere as I."
         show carwyn angy with fastDissolve
-        "{uk}Man With Book{/uk}" "Such utter lack of consternation at the disruption of another's deliberation and personal space indicates aforesaid senselessness."
+        uk "Such utter lack of consternation at the disruption of another's deliberation and personal space indicates aforesaid senselessness."
         show carwyn ango with fastDissolve
-        "{uk}Man With Book{/uk}" "Perhaps your ilk merely finds it appropriate to construct a tomb upon someone else's misery."
+        uk "Perhaps your ilk merely finds it appropriate to construct a tomb upon someone else's misery."
 
         np "How can you upset someone this much with so few words Darya..."
         np "I should step in before someone's pride takes an irrepairable hit."
@@ -4206,7 +4284,9 @@ label nikratintro:
         show nikolas yeah at tworight
         with dissolve2
 
-        "{uk}Both{/uk}" "Hello~!"
+        $ UKName = "Both"
+
+        uk "Hello~!"
         
         hide ratna
         hide nikolas
@@ -4223,38 +4303,52 @@ label nikratintro:
         show nikolas aha at tworight
         with dissolve2
 
-        "{uk}Green Headband{/uk}" "Do you want to hear a tale of dangers untold and foul beasts unknown!"
+        $ UKName = "Green Headband"
+
+        uk "Do you want to hear a tale of dangers untold and foul beasts unknown!"
 
         show darya yeah2 with fastDissolve
         dk "{piracow}Aye! Set the scene me-hearties.{/piracow}"
         hide darya with fastDissolve
 
+        $ UKName = "Black Headband"
+
         show nikolas neutral
         show ratna storytime at twoleft 
         with fastDissolve
-        "{uk}Black Headband{/uk}" "Deep in the jungles of Peru..."
+        uk "Deep in the jungles of Peru..."
+
+        $ UKName = "Green Headband"
 
         show nikolas yaey with fastDissolve
-        "{uk}Green Headband{/uk}" "Remnants of a monster hidden for {i}millions{/i} of years were uncovered by our intrepid explorer, but the path was not without strife."
+        uk "Remnants of a monster hidden for {i}millions{/i} of years were uncovered by our intrepid explorer, but the path was not without strife."
+
+        $ UKName = "Black Headband"
 
         show ratna yousee with fastDissolve
-        "{uk}Black Headband{/uk}" "The TITANOSAURUS, a brute weighing over 100 tonnes, made its presence known."
+        uk "The TITANOSAURUS, a brute weighing over 100 tonnes, made its presence known."
+
+        $ UKName = "Green Headband"
 
         show nikolas aha with fastDissolve
-        "{uk}Green Headband{/uk}" "The fellowship had been searching for weeks, their supplies dwindling. They'd almost lost hope..."
+        uk "The fellowship had been searching for weeks, their supplies dwindling. They'd almost lost hope..."
+
+        $ UKName = "Black Headband"
 
         show ratna hmn with fastDissolve
-        "{uk}Black Headband{/uk}" "Weathered surfaces were revealed to us, and our seemingly dire prospects came to fruition!"
+        uk "Weathered surfaces were revealed to us, and our seemingly dire prospects came to fruition!"
 
-        "{uk}Black Headband{/uk}" "And then-"
+        uk "And then-"
 
         show ratna neutral
         show nikolas neutral
         with fastDissolve        
         pk "Hold on, slow down. Can we get your names first, please?"
 
+        $ UKName = "Green Headband"
+
         show nikolas yeah with fastDissolve
-        "{uk}Green Headband{/uk}" "They're Ratna!"
+        uk "They're Ratna!"
 
         show ratna hai with fastDissolve
         rh "And he's Nikolas! Anyway-"
@@ -4403,8 +4497,10 @@ label valkevintro:
     if medbayread[0] == 0:
         np "There's two people sat on one of the beds, having a chat. They turn to us as we enter."
 
+        $ UKName = "Man in Medical Scrubs"
+
         show kevin neutral with dissolve2
-        "{uk}Man in Medical Scrubs{/uk}" "Hello there you two!"
+        uk "Hello there you two!"
         hide kevin with fastDissolve
 
         show kevin neutral at tworight
@@ -4815,7 +4911,11 @@ label daryaburstpandoraroom:
 
     scene bg daryaatdoor with hpunch
 
-    "{uk}Pirate!?{/uk}" "{piracow}{size=+20}AHOY!!!{/size}{/piracow}"
+    $ UKName = "Pirate!?"
+    uk "{piracow}{size=+20}AHOY!!!{/size}{/piracow}" (cb_Char="darya")
+    #uk "testing testing"
+    #$ UKName = "test"
+    #uk "test 2" ^<- all works, leaving in case cuture me needs to read it for any reason
 
     pk "AAH!"
     pk "Who the hell are you!?"
@@ -4916,19 +5016,21 @@ label allintroviewed:
 
     np "However, there was a surprise waiting for us when we returned."
 
+    $ UKName = "Man in Sunglasses"
+
     show dexter ack with dissolve2
-    "{uk}Man in Sunglasses{/uk}" "Ack!"
+    uk "Ack!"
     show dexter eek with fastDissolve
-    "{uk}Man in Sunglasses{/uk}" "Um, hello- hi- uh-"
+    uk "Um, hello- hi- uh-"
     show dexter notgood2 with fastDissolve
-    "{uk}Man in Sunglasses{/uk}" "Wait, no- bye!"
+    uk "Wait, no- bye!"
     hide dexter with dissolve2
 
     np "Before we had any time to process him, the jittery man scuttled into the room with the lizard on the door."
     np "Me and Darya shared a puzzled look, but after only a few seconds he re-emerged with a new visage."
     
     show dexter yeahh with dissolve2
-    "{uk}Man in Sunglasses{/uk}" "Hi. How's it going?"
+    uk "Hi. How's it going?"
     hide dexter with fastDissolve
 
     show dexter ohyeah at tworight
@@ -4943,10 +5045,10 @@ label allintroviewed:
     show dexter strained
     with fastDissolve
 
-    "{uk}Man in Sunglasses{/uk}" "Oh, absolutely. I'm swell, just- just wasn't expecting to run into anyone."
-    "{uk}Man in Sunglasses{/uk}" "Anyway, hi, what'cha been up to? Everything all good?"
+    uk "Oh, absolutely. I'm swell, just- just wasn't expecting to run into anyone."
+    uk "Anyway, hi, what'cha been up to? Everything all good?"
     show dexter notgood with fastDissolve
-    "{uk}Man in Sunglasses{/uk}" "Wait, hold on, I mean, what are you two called?"
+    uk "Wait, hold on, I mean, what are you two called?"
     show dexter fguns with fastDissolve
     ds "I'm Dexter, but for you, it's Dex."
     show dexter neutral with fastDissolve
@@ -5000,9 +5102,11 @@ label allintroviewed:
     hide dexter 
     with dissolve2
 
-    "{uk}Voice Over Speakers{/uk}" "Apologies for the inconvenience, the problems causing an issue with my delay in appearance have just been rectified."
-    "{uk}Voice Over Speakers{/uk}" "The door labelled 'exit' has just been unlocked, I would like all of you to come join me here."
-    "{uk}Voice Over Speakers{/uk}" "And I do mean {b}every one of you.{/b}"
+    $ UKName = "Voice From Speaker"
+
+    uk "Apologies for the inconvenience, the problems causing an issue with my delay in appearance have just been rectified."
+    uk "The door labelled 'exit' has just been unlocked, I would like all of you to come join me here."
+    uk "And I do mean {b}every one of you.{/b}"
 
     np "The speakers crackled as they powered down, leaving us to ruminate in silence what we'd just heard."
 
@@ -5128,8 +5232,10 @@ label allintroviewed:
     hide assbot2
     with fastDissolve
 
+    $ UKName = "Large Mouse Robot"
+
     show maizey neutral with dissolve2
-    "{uk}Large Robot{/uk}" "Five more, that makes thirteen. Not quite everyone."
+    uk "Five more, that makes thirteen. Not quite everyone."
     hide maizey with dissolve2
 
     show nin oof with dissolve2
@@ -5198,12 +5304,12 @@ label allintroviewed:
     with dissolve2
 
     show maizey angry with fastDissolve
-    "{uk}Large Robot{/uk}" "We have waited long enough, where are the others? The remaining two humans, I mean, that horse needn't come."
+    uk "We have waited long enough, where are the others? The remaining two humans, I mean, that horse needn't come."
 
     pk "Huh?"
 
-    "{uk}Large Robot{/uk}" "As per my last request, {b}everyone{/b} must be present."
-    "{uk}Large Robot{/uk}" "Can Ainsley and Fabrice please make their way to the room marked 'exit'."
+    uk "As per my last request, {b}everyone{/b} must be present."
+    uk "Can Ainsley and Fabrice please make their way to the room marked 'exit'."
 
     np "At that moment I realised that everything it had said was still coming from over the speakers at the back of the room and not the robot itself."
 
@@ -5216,24 +5322,28 @@ label allintroviewed:
     show fabrice neutral at tworight
     with dissolve2
 
-    "{uk}Both{/uk}" "..."
+    $ UKName = "Both"
+
+    uk "..."
 
     hide ainsley
     hide fabrice 
     with dissolve2
 
     show maizey neutral with fastDissolve
-    "{uk}Large Robot{/uk}" "It would be impertinent of you to refuse an introduction, please state your names to the group."
+    uk "It would be impertinent of you to refuse an introduction, please state your names to the group."
     hide maizey with dissolve2
 
     show ainsley neutral at twoleft
     show fabrice neutral at tworight
     with fastDissolve
 
-    "{uk}Both{/uk}" "..."
+    uk "..."
+
+    $ UKName = "Archer"
 
     show ainsley sigh with fastDissolve
-    "{uk}Archer{/uk}" "I'll go first."
+    uk "I'll go first."
     show ainsley hwa with fastDissolve
     av "I'm sure you just heard, but it's Ainsley."
 
@@ -5260,7 +5370,9 @@ label allintroviewed:
     show fabrice neutral at tworight
     with fastDissolve
 
-    "{uk}Man in Flower Dress{/uk}" "..."
+    $ UKName = "Man in Flower Dress"
+
+    uk "..."
 
     show fabrice ack with fastDissolve
     ff "Hi... I'm Fabrice..."
@@ -5274,9 +5386,9 @@ label allintroviewed:
     with dissolve2
 
     show maizey exp with fastDissolve
-    "{uk}Large Robot{/uk}" "The arrows were confiscated as they are sharp and could cause serious undue harm to your bunkmates."
+    uk "The arrows were confiscated as they are sharp and could cause serious undue harm to your bunkmates."
     show maizey neutral with fastDissolve
-    "{uk}Large Robot{/uk}" "You were left the bow as it is known to be important to you."
+    uk "You were left the bow as it is known to be important to you."
     hide maizey with dissolve2
 
     show ainsley really with fastDissolve
@@ -5294,7 +5406,7 @@ label allintroviewed:
     hide fabrice with dissolve2
 
     show maizey neutral with fastDissolve
-    "{uk}Large Robot{/uk}" "Now that each of you have given your names, it is my turn."
+    uk "Now that each of you have given your names, it is my turn."
     mm "You may address me as 'Maizey'."
 
     np "Ah, so she {i}is{/i} meant to look like the same cereal mascot I saw doodled in my room."
@@ -5576,6 +5688,8 @@ label allintroviewed:
     show emilio despair with dissolve2
     eb "Hang on, what about our families? Are any of them-"
     hide emilio with fastDissolve
+
+    play sound "audio/bang.wav"
 
     show maizey peeved with hpunch 
     stop music
