@@ -37,7 +37,7 @@ class Profile:
     # This is used for calculating birthdays, however if we do keep track of the date in game this reponsibility should be moved elsewhere
     CURRENT_DATE = date.fromisoformat("2050-12-01")
     
-    def __init__(self, name: str, gender: Gender,  manifest: str, occupation: str, birthday: date, height: int, weight: int, blood_type: BloodType, status: CharacterStatus = CharacterStatus.ALIVE, name_override=None):
+    def __init__(self, name: str, gender: Gender,  manifest: str, occupation: str, birthday: date, height: int, weight: int, blood_type: BloodType, status: CharacterStatus = CharacterStatus.ALIVE):
         self.name = name
         self.gender = gender
         self.manifest = manifest
@@ -47,7 +47,6 @@ class Profile:
         self.weight = weight
         self.blood_type = blood_type
         self.status = status
-        self.name_override = name_override
 
     @property
     def birthday(self) -> str:
