@@ -255,8 +255,6 @@ screen keyscr: #code source: https://lemmasoft.renai.us/forums/viewtopic.php?f=8
 label start:
     stop music
 
-    $ profiles["ainsley"].status = CharacterStatus.UNKNOWN
-
     $ quick_menu = False
     
     #intro stuff goes here
