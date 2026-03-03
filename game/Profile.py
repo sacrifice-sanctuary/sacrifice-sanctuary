@@ -47,9 +47,8 @@ class Profile:
     CURRENT_DATE = date.fromisoformat("2050-12-01")
     
     # Class acts as a read-only container for data. 10 arguments is needed here
-    # pylint: disable=too-many-instance-attributes
-    # pylint: disable=too-many-positional-arguments
-    # pylint: disable=too-many-arguments
+    # pylint: disable=too-many-instance-attributes,too-many-positional-arguments,too-many-arguments
+
     def __init__(self, name: str,
                 gender: Gender,
                 manifest: str,
