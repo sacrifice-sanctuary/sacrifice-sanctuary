@@ -1,7 +1,4 @@
-
-# =======================
-# == CUSTOM TRANSFORMS ==
-# =======================
+# == TRANSFORMS ==
 
 transform centre:
     xalign 0.5
@@ -23,9 +20,12 @@ transform threeright:
     xpos 1000
     yalign 1.0
 
+# == TRANSITIONS ==
 
-define fastDissolve = Dissolve(0.3) #very fast fade effect
-define dissolve2 = Dissolve(0.6) #medium fast fade effect
-define FD2 = { "master" : Dissolve(0.2) } #used to change character sprites mid line
+# Dissolves
+define dissolve_fast = Dissolve(0.3) 
+define dissolve_medium = Dissolve(0.6)
+# This can be used to change a characters sprite while they are speaking 
+define dissolve_midline = { "master" : Dissolve(0.2) }
 
 define flashbulb = Fade(0.2, 0.0, 0.4, color='#dddddd')
