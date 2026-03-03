@@ -1,5 +1,5 @@
 ﻿init python:
-    from Profile import Profile, BloodType, Gender, CharacterStatus
+    from profile import Profile, BloodType, Gender, CharacterStatus
     from datetime import date
 
 # The script of the game goes in this file.
