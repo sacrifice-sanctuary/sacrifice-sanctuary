@@ -14,6 +14,8 @@ define PHFile = "beep1.ogg"
 
 init python: 
 
+    VOICE_FOLDER = "voice/"
+
     renpy.music.register_channel("Bleep", mixer="voice", tight=True, buffer_queue=True) #setting up the voice bleeps to play on a new channel that uses the pre-built 'voice' volume slider
 
     def beepVoice(event, interact=True, SFile="beep1.ogg", Char="", **kwargs): #for characters who have a set of 3 randomised beep sounds for their voice
@@ -23,7 +25,7 @@ init python:
         if event == "show":
             beep = 0
             while beep < 100:
-                SFile = Char + "_" + str(renpy.random.randint(1,3)) + ".ogg"
+                SFile = VOICE_FOLDER + Char + "_" + str(renpy.random.randint(1,3)) + ".ogg"
                 renpy.music.queue(SFile, channel="Bleep", loop=False)
                 beep += 1
         elif event == "slow_done" or event == "end":
@@ -35,7 +37,7 @@ init python:
             return
 
         if event == "show":
-            renpy.music.queue(SFile, channel="Bleep", loop=False)
+            renpy.music.queue(VOICE_FOLDER + SFile, channel="Bleep", loop=False)
 
 
     def narratorCall(event, interact=True, **kwargs): #for characters who use a single beep sound for their voice
@@ -43,39 +45,39 @@ init python:
             return
 
         if event == "show":
-            renpy.music.queue("beep1.ogg", channel="Bleep", loop=True)
+            renpy.music.queue(VOICE_FOLDER + "beep1.ogg", channel="Bleep", loop=True)
         elif event == "slow_done" or event == "end":
             renpy.music.stop(channel="Bleep", fadeout=0.4)
 
 # == COLOUR CONSTANTS ==
 
 # RBG Colours for each team
-RED = "22B14C"
-ORANGE = "FF7F27"
-GREEN = "22B14C"
-BLUE = "00A2E8"
-PURPLE  = "A349A4"
+define RED = "22B14C"
+define ORANGE = "FF7F27"
+define GREEN = "22B14C"
+define BLUE = "00A2E8"
+define PURPLE  = "A349A4"
 
 # Outline width in pixels
-WHO_OUTLINE_WIDTH = 2
-WHAT_OUTLINE_WIDTH = 1
+define WHO_OUTLINE_WIDTH = 2
+define WHAT_OUTLINE_WIDTH = 1
 
 # Outline is a tuple of size, colour, x offset, y offset
-RED_NAME_OUTLINE = [(WHO_OUTLINE_WIDTH, "B1171D", 0, 0)]
-ORANGE_NAME_OUTLINE = [(WHO_OUTLINE_WIDTH, "C4621F", 0, 0)]
-GREEN_NAME_OUTLINE = [(WHO_OUTLINE_WIDTH, "188638", 0, 0)]
-BLUE_NAME_OUTLINE = [(WHO_OUTLINE_WIDTH, "0284BC", 0, 0)]
-PURPLE_NAME_OUTLINE = [(WHO_OUTLINE_WIDTH, "783678", 0, 0)]
+define RED_NAME_OUTLINE = [(WHO_OUTLINE_WIDTH, "B1171D", 0, 0)]
+define ORANGE_NAME_OUTLINE = [(WHO_OUTLINE_WIDTH, "C4621F", 0, 0)]
+define GREEN_NAME_OUTLINE = [(WHO_OUTLINE_WIDTH, "188638", 0, 0)]
+define BLUE_NAME_OUTLINE = [(WHO_OUTLINE_WIDTH, "0284BC", 0, 0)]
+define PURPLE_NAME_OUTLINE = [(WHO_OUTLINE_WIDTH, "783678", 0, 0)]
 
-RED_TEXT_OUTLINE = [(WHAT_OUTLINE_WIDTH, "6C4D4E", 0, 0)]
-ORANGE_TEXT_OUTLINE = [(WHAT_OUTLINE_WIDTH, "7A6659", 0, 0)]
-GREEN_TEXT_OUTLINE = [(WHAT_OUTLINE_WIDTH, "506C58", 0, 0)]
-BLUE_TEXT_OUTLINE = [(WHAT_OUTLINE_WIDTH, "5B707B", 0, 0)]
-PURPLE_TEXT_OUTLINE  = [(WHAT_OUTLINE_WIDTH, "725872", 0, 0)]
+define RED_TEXT_OUTLINE = [(WHAT_OUTLINE_WIDTH, "6C4D4E", 0, 0)]
+define ORANGE_TEXT_OUTLINE = [(WHAT_OUTLINE_WIDTH, "7A6659", 0, 0)]
+define GREEN_TEXT_OUTLINE = [(WHAT_OUTLINE_WIDTH, "506C58", 0, 0)]
+define BLUE_TEXT_OUTLINE = [(WHAT_OUTLINE_WIDTH, "5B707B", 0, 0)]
+define PURPLE_TEXT_OUTLINE  = [(WHAT_OUTLINE_WIDTH, "725872", 0, 0)]
 
 # == CHARACTER DEFINITIONS ==
 
-define ht = Character("System", color="3366FF", who_outlines=[(2, "02648C", 0, 0)], what_outlines=[(1, "5B707B", 0, 0)], callback=narratorCall) # red=ED1C24, green=22B14C, purple=A349A4, orange=FF7F27, blue=00A2E8
+define ht = Character("System", color="3366FF", who_outlines=[(2, "02648C", 0, 0)], what_outlines=[(1, "5B707B", 0, 0)], callback=narratorCall)
 define uk = DynamicCharacter('UKName', color="666666", who_outlines=[(2, "333333", 0, 0)], what_outlines=[(1, "777777", 0, 0)], callback=beepVoice, cb_Sfile=PHFile, cb_Char="pandora")
 define np = Character("Pandora", color="2092C8", who_outlines=[(2, "0284BC", 0, 0)], what_color="0784B9", what_outlines=[(1, "02648C", 0, 0)], alt="Pandora thoughts")
 

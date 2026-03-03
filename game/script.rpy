@@ -197,45 +197,100 @@ screen keyscr: #code source: https://lemmasoft.renai.us/forums/viewtopic.php?f=8
     key "K_ESCAPE" action Return("smth")
 
 label start:
-    call act_0
+    stop music #to prevent title screen music from bleeding in
 
-# ===============
-# == UTILITIES ==
-
-# Interact with an object in a scene
-# obj : Interactable - object to call
-label interact_with_object(obj):
-    call expression obj.label pass (seen=obj.seen)
-    $ _ = obj.setSeen()
-    return
-
-# Draw a scene with objects for the player to interact with
-# backgroud : str - background image file path from images/
-# interactions : Interactable[] - list of objects in the room that the player can interact with.
-screen room(background, interactions):
-
-    add background
-
-    for obj in interactions:
-        
-        imagebutton:
-            xpos obj.x
-            ypos obj.y
-
-            focus_mask True
-
-            auto obj.image_name + " %s"
-            alt obj.alt
-
-            action Call("interact_with_object", obj)
+    $ quick_menu = False #hide quick menu for the cinematic experience
     
-    add "darkborder":
-        blend "multiply"
-        alpha 0.8
+    #intro stuff goes here
 
-#==============#
-# PANDORA ROOM #
-#==============#
+    show screen keyscr
+
+    #play opening movie
+    $ renpy.movie_cutscene("images/opening.ogv")
+
+    hide screen keyscr
+
+    #play ch1 screen - dont actually it's out of place here, it should go after the prologue
+    #$ renpy.movie_cutscene("chapter1.ogv")
+
+    scene black
+
+    pause 1.5
+
+    np "..."
+    np "Given what just happened, I'm fairly certain I've been arrested."
+    np "But this doesn't seem like any prison cell I've been in before."
+    np "I don't even think that was a police helicopter, I've never just been paralysed and thrown into a van."
+    np "Usually they at least have the courtesy to handcuff me and give me something to sit on."
+
+    $ currentlocation = "pandora"
+
+
+    image PR = "bg pandora_full.png"
+
+    window hide dissolve #hiding text box 
+
+    scene black with dissolve
+
+    #pause 0.2
+
+    show PR with dissolve:
+        blur 30
+
+    #np "My vision is still blurry from waking up." removed as it now happens with animation
+
+    pause 0.2
+
+    scene black with dissolve
+
+    pause 0.2
+
+    show PR with dissolve:
+        blur 10
+
+    pause 0.2
+
+    scene bg pandora_full with fade
+
+    window auto #returning text box to normal functions
+
+    np "I blink to clear my head and get a better look at where I find myself. {alt}Description: The room appears to be some sort of dorm, to the left is a bed and a wardrobe, at the back of the room is a small bin, a speaker on the wall, a table with a note on it and a chair. To the right is a metal door, a chest of draws with a cactus on it, and a clock mounted on the wall. The walls appear to be made out of metal plates. A fluorescent light shines from above.{/alt}"
+    pk "Since I don't know anything right now, I should check out everything in this room and see if there's anything that tells me where I am."
+
+    #bl "test"
+
+    #rh "test"
+
+    #of "test"
+
+    #cm "test"
+
+    #uk "test"
+
+    #mm "test"
+
+    pk "My left forearm stings a bit and feels itchy, but I think I just landed on it. For now I need to prioritise knowing my surroundings."
+    pk "I'll make note of anything that seems especially important."
+
+    ht "Anything that can be clicked on will highlight when you hover over it."
+    ht "Most interactables will have a second dialogue on re-prompting, but never a third. Though, as the story progresses new dialogue may be present."
+    ht "Pandora will note down things she deems important in the 'clues' section of the quick menu on the left."
+    ht "Press the help button to view the controls, and other helpful information, at any time. {alt}Use the up and down arrow keys to cycle through interactables that are on-screen (menus, clickable objects, etc.).{/alt}"
+
+
+    #dk "eagvnaerjsi"
+    #eb "erovbeuosiprep"
+    #fc "ivasbjfolvbnv"
+
+    
+    "Notes on 'Woke up in Strange Room' jotted down."
+    
+    $ quick_menu = True
+
+    play music "audio/bg/lonely room.mp3" fadein 1.0
+
+    jump draw_pandora_room
+
 
 screen pandora_room:
     add "bg pandoraroom"
@@ -714,11 +769,6 @@ label pandora_bin:
     if flagA == 0:
 
         if pandoraroomread[7] == 1:
-            
-            #$ UKName = 'pleasework'
-            #uk "dsfvadfbvdafbvdafbva" (cb_SFile="click.wav")
-            #uk "dsfvadfbvdafbvdafbva" (cb_SFile="bang.wav")
-            #uk "dsfvadfbvdafbvdafbva" (cb_SFile="beep1.ogg")
 
             pk "A disappointingly empty bin."
 
@@ -1080,7 +1130,7 @@ label nikdoor:
 
             elif corrA1read[3] == 0:
                 np "There's a door with a spider drawn on it, I knock to see if anyone's inside."
-                play sound "audio/knock.wav"
+                play sound "audio/sound-effects/knock.wav"
                 np "..."
                 np "No response."
 
@@ -1100,7 +1150,7 @@ label flodoor:
 
             elif corrA1read[1] == 0:
                 np "There's a door with a butterfly drawn on it, I knock to see if anyone's inside."
-                play sound "audio/knock.wav"
+                play sound "audio/sound-effects/knock.wav"
                 np "..."
                 np "The door slowly opened, and a man emerged."
 
@@ -1574,7 +1624,7 @@ label fabdoor:
         np "There's a door with a swan drawn on it."
 
         if corrB1read[4] == 0:
-            play sound "audio/knock.wav"
+            play sound "audio/sound-effects/knock.wav"
             np "..."
             np "Interestingly, there's no response."
 
@@ -1591,7 +1641,7 @@ label cardoor:
         np "There's a door with some kind of goat drawn on it."
 
         if corrB1read[2] == 0:
-            play sound "audio/knock.wav"
+            play sound "audio/sound-effects/knock.wav"
             np "..."
             np "No response."
 
@@ -1608,7 +1658,7 @@ label emidoor:
         np "There's a door with a cat drawn on it."
 
         if corrB1read[1] == 0:
-            play sound "audio/knock.wav"
+            play sound "audio/sound-effects/knock.wav"
             np "..."
             np "No response."
 
@@ -1636,7 +1686,7 @@ label dakdoor:
             hide darya with dissolve_med
 
             np "After giving a quick  thumbs-up, Darya heads back through the door to the other side of the dorms."        
-            play sound "audio/knock.wav"
+            play sound "audio/sound-effects/knock.wav"
             np "..."
 
             $ UKName = "Cowboy...?"
@@ -1666,7 +1716,7 @@ label dakdoor:
 
             scene bg horseroom with dissolve
 
-            play music "audio/something.mp3" fadein 1.0
+            play music "audio/bg/something.mp3" fadein 1.0
 
             #pause 1.5
 
@@ -2112,7 +2162,7 @@ label nindoor:
         np "There's a door with a bird, that looks kind of like a kingfisher, drawn on it."
 
         if corrC1read[1] == 0:
-            play sound "audio/knock.wav"
+            play sound "audio/sound-effects/knock.wav"
             np "..."
             np "No response."
 
@@ -2129,7 +2179,7 @@ label dexdoor:
         np "There's a door with a lizard of some sort drawn on it."
 
         if corrC1read[2] == 0:
-            play sound "audio/knock.wav"
+            play sound "audio/sound-effects/knock.wav"
             np "..."
             np "Interestingly, there's no response."
 
@@ -2146,7 +2196,7 @@ label beldoor:
         np "There's a door with a crocodile drawn on it."
 
         if corrC1read[3] == 0:
-            play sound "audio/knock.wav"
+            play sound "audio/sound-effects/knock.wav"
             np "..."
             np "No response."
 
@@ -2172,7 +2222,7 @@ label ratdoor:
         np "There's a door with some sort of rodent drawn on it."
         
         if corrC1read[5] == 0:
-            play sound "audio/knock.wav"
+            play sound "audio/sound-effects/knock.wav"
             np "..."
             np "No response."
 
@@ -2579,7 +2629,7 @@ label kevdoor:
         np "There's a door with what I think is a horseshoe crab drawn on it."
 
         if corrD1read[0] == 0:
-            play sound "audio/knock.wav"
+            play sound "audio/sound-effects/knock.wav"
             np "..."
             np "No response."
 
@@ -2596,7 +2646,7 @@ label valdoor:
         np "There's a door with lizard, probably some kind of monitor, drawn on it."
 
         if corrD1read[1] == 0:
-            play sound "audio/knock.wav"
+            play sound "audio/sound-effects/knock.wav"
             np "..."
             np "No response."
 
@@ -2613,7 +2663,7 @@ label aindoor:
         np "There's a door with a ferret-looking mammal drawn on it."
 
         if corrD1read[2] == 0:
-            play sound "audio/knock.wav"
+            play sound "audio/sound-effects/knock.wav"
             np "..."
             np "Interestingly, there's no response."
 
@@ -2630,7 +2680,7 @@ label osadoor:
         np "There's a door with a beetle of some sort drawn on it."
 
         if corrD1read[3] == 0:
-            play sound "audio/knock.wav"
+            play sound "audio/sound-effects/knock.wav"
             np "..."
             np "No response."
 
@@ -3217,7 +3267,7 @@ label nincorrconvo1: #nintro
 
         hide nin with dissolve_fast
 
-        play music "audio/threat.mp3" fadein 1.0
+        play music "audio/bg/threat.mp3" fadein 1.0
         scene bg armscarcg with fade
 
         np "The worrying feeling quickly turned to panic."
@@ -4732,7 +4782,7 @@ label daryaburstpandoraroom:
 
     pk "Hello, who's-"
 
-    play sound "audio/bang.wav"
+    play sound "audio/sound-effects/bang.wav"
 
 
     scene bg daryaatdoor with hpunch
@@ -4940,7 +4990,7 @@ label allintroviewed:
     show dexter eek at tworight
     with dissolve_med
 
-    play music "audio/threat.mp3" fadein 1.0
+    play music "audio/bg/threat.mp3" fadein 1.0
 
     dk "What- what. Is something terrible happening after all?"
 
@@ -5043,7 +5093,7 @@ label allintroviewed:
 
     scene bg liftroom_full with fade
 
-    play music "audio/lonely room.mp3" fadein 1.0
+    play music "audio/bg/lonely room.mp3" fadein 1.0
 
     np "Several people had made it there beforehand."
 
@@ -5515,7 +5565,7 @@ label allintroviewed:
     eb "Hang on, what about our families? Are any of them-"
     hide emilio with dissolve_fast
 
-    play sound "audio/bang.wav"
+    play sound "audio/sound-effects/bang.wav"
 
     show maizey peeved with hpunch 
     stop music
@@ -5524,7 +5574,7 @@ label allintroviewed:
     mm "Management has everything handled. Stop asking questions at this time."
     mm "I had not yet finished speaking."
     show maizey exp with dissolve_fast
-    play music "audio/threat.mp3" fadein 6.0
+    play music "audio/bg/threat.mp3" fadein 6.0
     mm "As well as the sponsorships, I have been instructed to inform you about the fact that you will be, ah, 'participating in a death game' for the duration of your stay."
     show maizey neutral with dissolve_fast
 
@@ -5614,7 +5664,7 @@ label allintroviewed:
     show belinda sadsmile with dissolve_med #she needs another one here (like nin still needs a few more aswell)
     bl "Listen, everyone, I understand that what we've just heard is frankly, terrifying, and you're understandably shaken."
 
-    play music "audio/Haunting Haze.mp3" fadein 1.0
+    play music "audio/bg/Haunting Haze.mp3" fadein 1.0
 
     bl "Most of you barely know anyone here, and trust will be hard to come by. However, the last thing we need right now is to see one another as enemies."
     show belinda neutral with dissolve_fast
