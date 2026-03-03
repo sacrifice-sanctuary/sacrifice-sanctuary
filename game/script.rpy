@@ -1073,7 +1073,7 @@ label draw_corrA1:
 
 
     if flagA == 0:
-        play music "audio/wandering neutral.wav" fadein 1.0
+        play music "audio/bg/wandering neutral.wav" fadein 1.0
 
 
         ht "To navigate the area click on doors to enter them, or the arrows to move around the corridors."
@@ -1832,7 +1832,7 @@ label dakdoor:
 
             hide darya with dissolve_medium
 
-            play music "audio/wandering neutral.wav" fadein 1.0
+            play music "audio/bg/wandering neutral.wav" fadein 1.0
 
             $ corrB1read[3] = 1
             $ roomtotal += 1
@@ -3301,7 +3301,7 @@ label nincorrconvo1: #nintro
 
         dk "Y-yeah thanks, we'll have a look."
 
-        play music "audio/wandering neutral.wav" fadein 1.0
+        play music "audio/bg/wandering neutral.wav" fadein 1.0
 
         show nin greet with dissolve_fast
         nt "If that's sorted, I'm going to go find some other people to greet."
@@ -5028,7 +5028,7 @@ label allintroviewed:
 
     show florus neutral with dissolve_fast
 
-    play music "audio/wandering neutral.wav" fadein 1.0
+    play music "audio/bg/wandering neutral.wav" fadein 1.0
 
     fc "Oh. Heya. I suppose we heed the call?"
     hide florus with dissolve_medium

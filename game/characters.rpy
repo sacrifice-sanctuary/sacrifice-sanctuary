@@ -82,29 +82,29 @@ define uk = DynamicCharacter('UKName', color="666666", who_outlines=[(2, "333333
 define np = Character("Pandora", color="2092C8", who_outlines=[(2, "0284BC", 0, 0)], what_color="0784B9", what_outlines=[(1, "02648C", 0, 0)], alt="Pandora thoughts")
 
 # BLUE TEAM
-define pk = Character("Pandora", color="00A2E8", who_outlines=BLUE_NAME_OUTLINE, what_outlines=BLUE_TEXT_OUTLINE, callback=beepVoice, cb_Char="pandora") # blue
-define dk = Character("Darya", color="00A2E8", who_outlines=BLUE_NAME_OUTLINE, what_outlines=BLUE_TEXT_OUTLINE, callback=beepVoice, cb_Char="darya")
-define eb = Character("Emilio", color="00A2E8", who_outlines=BLUE_NAME_OUTLINE, what_outlines=BLUE_TEXT_OUTLINE, callback=beepVoice, cb_Char="emilio")
-define fc = Character("Florus", color="00A2E8", who_outlines=BLUE_NAME_OUTLINE, what_outlines=BLUE_TEXT_OUTLINE, callback=beepVoice, cb_Char="florus")
+define pk = Character("Pandora", color=BLUE, who_outlines=BLUE_NAME_OUTLINE, what_outlines=BLUE_TEXT_OUTLINE, callback=beepVoice, cb_Char="pandora") # blue
+define dk = Character("Darya", color=BLUE, who_outlines=BLUE_NAME_OUTLINE, what_outlines=BLUE_TEXT_OUTLINE, callback=beepVoice, cb_Char="darya")
+define eb = Character("Emilio", color=BLUE, who_outlines=BLUE_NAME_OUTLINE, what_outlines=BLUE_TEXT_OUTLINE, callback=beepVoice, cb_Char="emilio")
+define fc = Character("Florus", color=BLUE, who_outlines=BLUE_NAME_OUTLINE, what_outlines=BLUE_TEXT_OUTLINE, callback=beepVoice, cb_Char="florus")
 
 # GREEN TEAM
-define bl = Character("Belinda", color="22B14C", who_outlines=GREEN_NAME_OUTLINE, what_outlines=GREEN_TEXT_OUTLINE, callback=beepVoice, cb_Char="belinda") # green
-define ds = Character("Dexter", color="22B14C", who_outlines=GREEN_NAME_OUTLINE, what_outlines=GREEN_TEXT_OUTLINE, callback=beepVoice, cb_Char="dexter")
-define av = Character("Ainsley", color="22B14C", who_outlines=GREEN_NAME_OUTLINE, what_outlines=GREEN_TEXT_OUTLINE, callback=beepVoice, cb_Char="ainsley")
+define bl = Character("Belinda", color=GREEN, who_outlines=GREEN_NAME_OUTLINE, what_outlines=GREEN_TEXT_OUTLINE, callback=beepVoice, cb_Char="belinda") # green
+define ds = Character("Dexter", color=GREEN, who_outlines=GREEN_NAME_OUTLINE, what_outlines=GREEN_TEXT_OUTLINE, callback=beepVoice, cb_Char="dexter")
+define av = Character("Ainsley", color=GREEN, who_outlines=GREEN_NAME_OUTLINE, what_outlines=GREEN_TEXT_OUTLINE, callback=beepVoice, cb_Char="ainsley")
 
 # RED TEAM
-define rh = Character("Ratna", color="ED1C24", who_outlines=RED_NAME_OUTLINE, what_outlines=RED_TEXT_OUTLINE, callback=beepVoice, cb_Char="ratna") # red
-define nl = Character("Nikolas", color="ED1C24", who_outlines=RED_NAME_OUTLINE, what_outlines=RED_TEXT_OUTLINE, callback=beepVoice, cb_Char="nikolas")
-define ff = Character("Fabrice", color ="ED1C24", who_outlines=RED_NAME_OUTLINE, what_outlines=RED_TEXT_OUTLINE, callback=beepVoice, cb_Char="fabrice")
+define rh = Character("Ratna", color=RED, who_outlines=RED_NAME_OUTLINE, what_outlines=RED_TEXT_OUTLINE, callback=beepVoice, cb_Char="ratna") # red
+define nl = Character("Nikolas", color=RED, who_outlines=RED_NAME_OUTLINE, what_outlines=RED_TEXT_OUTLINE, callback=beepVoice, cb_Char="nikolas")
+define ff = Character("Fabrice", color =RED, who_outlines=RED_NAME_OUTLINE, what_outlines=RED_TEXT_OUTLINE, callback=beepVoice, cb_Char="fabrice")
 
 # PURPLE TEAM
-define of = Character("Osanne", color="A349A4", who_outlines=PURPLE_NAME_OUTLINE, what_outlines=PURPLE_TEXT_OUTLINE, callback=beepVoice, cb_Char="osanne") # purple
-define ka = Character("Kevin", color="A349A4", who_outlines=PURPLE_NAME_OUTLINE, what_outlines=PURPLE_TEXT_OUTLINE, callback=beepVoice, cb_Char="kevin")
-define vl = Character("Valkyrie", color="A349A4", who_outlines=PURPLE_NAME_OUTLINE, what_outlines=PURPLE_TEXT_OUTLINE, callback=beepVoice, cb_Char="valkyrie")
+define of = Character("Osanne", color=PURPLE, who_outlines=PURPLE_NAME_OUTLINE, what_outlines=PURPLE_TEXT_OUTLINE, callback=beepVoice, cb_Char="osanne") # purple
+define ka = Character("Kevin", color=PURPLE, who_outlines=PURPLE_NAME_OUTLINE, what_outlines=PURPLE_TEXT_OUTLINE, callback=beepVoice, cb_Char="kevin")
+define vl = Character("Valkyrie", color=PURPLE, who_outlines=PURPLE_NAME_OUTLINE, what_outlines=PURPLE_TEXT_OUTLINE, callback=beepVoice, cb_Char="valkyrie")
 
 # ORANGE TEAM
-define cm = Character("Carwyn", color="FF7F27", who_outlines=ORANGE_NAME_OUTLINE, what_outlines=ORANGE_TEXT_OUTLINE, callback=beepVoice, cb_Char="carwyn") #orange
-define nt = Character("Nin", color="FF7F27", who_outlines=ORANGE_NAME_OUTLINE, what_outlines=ORANGE_TEXT_OUTLINE, callback=beepVoice, cb_Char="nin")
-define dh = Character("Dakota", color="FF7F27", who_outlines=ORANGE_NAME_OUTLINE, what_outlines=ORANGE_TEXT_OUTLINE, callback=singleCall, cb_SFile="neigh.mp3")
+define cm = Character("Carwyn", color=ORANGE, who_outlines=ORANGE_NAME_OUTLINE, what_outlines=ORANGE_TEXT_OUTLINE, callback=beepVoice, cb_Char="carwyn") #orange
+define nt = Character("Nin", color=ORANGE, who_outlines=ORANGE_NAME_OUTLINE, what_outlines=ORANGE_TEXT_OUTLINE, callback=beepVoice, cb_Char="nin")
+define dh = Character("Dakota", color=ORANGE, who_outlines=ORANGE_NAME_OUTLINE, what_outlines=ORANGE_TEXT_OUTLINE, callback=singleCall, cb_SFile="neigh.mp3")
 
 define mm = Character("Maizey", color="7A4C0E", who_outlines=[(WHO_OUTLINE_WIDTH, "523309", 0, 0)], what_outlines=[(WHAT_OUTLINE_WIDTH, "52493E", 0, 0)], callback=beepVoice, cb_Char="maizey")
