@@ -37,18 +37,18 @@ class Gender(StrEnum):
     NEUTRAL = "N"
 
 # This is all the data represented in the character profile
-# The type hinting is not well enforced, but keep to the values in the Enums. 
+# The type hinting is not well enforced, but keep to the values in the Enums.
 # If more are needed, define above.
+# pylint: disable=too-many-instance-attributes
 class Profile:
     """Holds the data that is displayed on the Profile screen"""
 
     # This is used for calculating birthdays.
     # However if we do keep track of the date in game, this reponsibility should be moved elsewhere
     CURRENT_DATE = date.fromisoformat("2050-12-01")
-    
-    # Class acts as a read-only container for data. 10 arguments is needed here
-    # pylint: disable=too-many-instance-attributes,too-many-positional-arguments,too-many-arguments
 
+    # Class acts as a read-only container for data. 10 arguments is needed here
+    # pylint: disable=too-many-positional-arguments,too-many-arguments
     def __init__(self, name: str,
                 gender: Gender,
                 manifest: str,
