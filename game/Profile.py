@@ -2,10 +2,13 @@ from enum import StrEnum
 from datetime import date
 from dateutil.relativedelta import relativedelta
 
-# Enums provide constant values for comparison, and a single location for changing the string representaion
+"""Provide the Profile class, and required Enums for the character profiles on the profile screen."""
+
+# Enums provide constant values for comparison, and a single location for the string representaion
 
 # String representations for Blood Types in the profile screen
 class BloodType(StrEnum):
+    """Bloodtypes for the character profiles"""
     A_POS = "A+"
     A_NEG = "A-"
     B_POS = "B+"
@@ -20,24 +23,42 @@ class BloodType(StrEnum):
 
 # Character status representations for the profile screen
 class CharacterStatus(StrEnum):
+    """Character status for the character profiles. 
+    String representation must match the statuses used in the profile icon sprite names"""
     ALIVE = "Alive"
     DEAD = "Dead"
     UNKNOWN = "Unknown"
 
 # Gender representations for the profile screen
 class Gender(StrEnum):
+    """gender markers for the character profiles. """
     FEMALE = "F"
     MALE = "M"
     NEUTRAL = "N"
 
 # This is all the data represented in the character profile
-# The type hinting is not well enforced, but keep to the values in the Enums. If more are needed, define above.
+# The type hinting is not well enforced, but keep to the values in the Enums. 
+# If more are needed, define above.
 class Profile:
+    """Holds the data that is displayed on the Profile screen"""
 
-    # This is used for calculating birthdays, however if we do keep track of the date in game this reponsibility should be moved elsewhere
+    # This is used for calculating birthdays, however if we do keep track of the date in game 
+    # this reponsibility should be moved elsewhere
     CURRENT_DATE = date.fromisoformat("2050-12-01")
     
-    def __init__(self, name: str, gender: Gender,  manifest: str, occupation: str, birthday: date, height: int, weight: int, blood_type: BloodType, status: CharacterStatus = CharacterStatus.ALIVE):
+    # Class acts as a read-only container for data. 10 arguments is needed here
+    # pylint: disable=too-many-instance-attributes
+    # pylint: disable=too-many-positional-arguments
+    # pylint: disable=too-many-arguments
+    def __init__(self, name: str, 
+                gender: Gender,  
+                manifest: str, 
+                occupation: str, 
+                birthday: date, 
+                height: int, 
+                weight: int, 
+                blood_type: BloodType, 
+                status: CharacterStatus = CharacterStatus.ALIVE):
         self.name = name
         self.gender = gender
         self.manifest = manifest
