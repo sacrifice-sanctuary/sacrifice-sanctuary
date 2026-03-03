@@ -1,8 +1,8 @@
+"""Provide the Profile class, and required Enums for the character profiles"""
+
 from enum import StrEnum
 from datetime import date
 from dateutil.relativedelta import relativedelta
-
-"""Provide the Profile class, and required Enums for the character profiles on the profile screen."""
 
 # Enums provide constant values for comparison, and a single location for the string representaion
 
@@ -50,14 +50,14 @@ class Profile:
     # pylint: disable=too-many-instance-attributes
     # pylint: disable=too-many-positional-arguments
     # pylint: disable=too-many-arguments
-    def __init__(self, name: str, 
-                gender: Gender,  
-                manifest: str, 
-                occupation: str, 
-                birthday: date, 
-                height: int, 
-                weight: int, 
-                blood_type: BloodType, 
+    def __init__(self, name: str,
+                gender: Gender,
+                manifest: str,
+                occupation: str,
+                birthday: date,
+                height: int,
+                weight: int,
+                blood_type: BloodType,
                 status: CharacterStatus = CharacterStatus.ALIVE):
         self.name = name
         self.gender = gender
@@ -80,5 +80,5 @@ class Profile:
 
     @property
     def age(self) -> int:
-        """Calculate the number of years between the in game date, and the birthday of a character"""
+        """Calculate a characters age using their birthday and the current ingame date"""
         return relativedelta(self.CURRENT_DATE, self._birthday).years
