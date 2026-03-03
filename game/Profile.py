@@ -23,7 +23,7 @@ class BloodType(StrEnum):
 
 # Character status representations for the profile screen
 class CharacterStatus(StrEnum):
-    """Character status for the character profiles. 
+    """Character status for the character profiles.
     String representation must match the statuses used in the profile icon sprite names"""
     ALIVE = "Alive"
     DEAD = "Dead"
@@ -42,8 +42,8 @@ class Gender(StrEnum):
 class Profile:
     """Holds the data that is displayed on the Profile screen"""
 
-    # This is used for calculating birthdays, however if we do keep track of the date in game 
-    # this reponsibility should be moved elsewhere
+    # This is used for calculating birthdays.
+    # However if we do keep track of the date in game, this reponsibility should be moved elsewhere
     CURRENT_DATE = date.fromisoformat("2050-12-01")
     
     # Class acts as a read-only container for data. 10 arguments is needed here
