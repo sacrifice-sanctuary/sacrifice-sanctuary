@@ -1,9 +1,12 @@
-# CHARACTERS
-# Callbacks for character voicing
-# Constants used for character colours
-# Character definitions
+# ================
+# == CHARACTERS ==
+# ================
 
-# Voice Callback Functions
+# 1. Callbacks for character voicing
+# 2. Constants used for character colours
+# 3. Character definitions
+
+# == VOICE ==
 
 default bleep = True
 
@@ -44,6 +47,8 @@ init python:
         elif event == "slow_done" or event == "end":
             renpy.music.stop(channel="Bleep", fadeout=0.4)
 
+# == COLOUR CONSTANTS ==
+
 # RBG Colours for each team
 RED = "22B14C"
 ORANGE = "FF7F27"
@@ -67,6 +72,8 @@ ORANGE_TEXT_OUTLINE = [(WHAT_OUTLINE_WIDTH, "7A6659", 0, 0)]
 GREEN_TEXT_OUTLINE = [(WHAT_OUTLINE_WIDTH, "506C58", 0, 0)]
 BLUE_TEXT_OUTLINE = [(WHAT_OUTLINE_WIDTH, "5B707B", 0, 0)]
 PURPLE_TEXT_OUTLINE  = [(WHAT_OUTLINE_WIDTH, "725872", 0, 0)]
+
+# == CHARACTER DEFINITIONS ==
 
 define ht = Character("System", color="3366FF", who_outlines=[(2, "02648C", 0, 0)], what_outlines=[(1, "5B707B", 0, 0)], callback=narratorCall) # red=ED1C24, green=22B14C, purple=A349A4, orange=FF7F27, blue=00A2E8
 define uk = DynamicCharacter('UKName', color="666666", who_outlines=[(2, "333333", 0, 0)], what_outlines=[(1, "777777", 0, 0)], callback=beepVoice, cb_Sfile=PHFile, cb_Char="pandora")
