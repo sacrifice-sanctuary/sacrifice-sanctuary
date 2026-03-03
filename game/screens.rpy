@@ -263,14 +263,14 @@ screen quick_menu():
             #textbutton _("Save") action ShowMenu('save')
 
 
-            imagebutton auto "gui/button/log %s.png" xpos 24 ypos 435 focus_mask True action ShowMenu('history') hovered [Play("sound", "audio/click.wav")] alt "History"
-            imagebutton auto "gui/button/save %s.png" xpos 75 ypos 495 focus_mask True action ShowMenu('saveload') hovered [Play("sound", "audio/click.wav")] alt "Save slash Load"
-            imagebutton auto "gui/button/load %s.png" xpos 24 ypos 755 focus_mask True action ShowMenu('evidence') hovered [Play("sound", "audio/click.wav")] alt "Clues"
-            imagebutton auto "gui/button/options %s.png" xpos 75 ypos 595 focus_mask True action ShowMenu('preferences') hovered [Play("sound", "audio/click.wav")] alt "Options"
-            imagebutton auto "gui/button/help %s.png" xpos 24 ypos 655 focus_mask True action ShowMenu('help') hovered [Play("sound", "audio/click.wav")] alt "Help"
-            imagebutton auto "gui/button/friend %s.png" xpos 75 ypos 815 focus_mask True action ShowMenu('profiles') hovered [Play("sound", "audio/click.wav")] sensitive pactive alt "Profiles"
-            imagebutton auto "gui/button/map %s.png" xpos 75 ypos 915 focus_mask True action ShowMenu('mappy') hovered [Play("sound", "audio/click.wav")] sensitive mactive alt "Map"
-            imagebutton auto "gui/button/blank %s.png" xpos 24 ypos 975 focus_mask True action MainMenu() hovered [Play("sound", "audio/click.wav")] alt "Main Menu"
+            imagebutton auto "gui/button/log %s.png" xpos 24 ypos 435 focus_mask True action ShowMenu('history') hovered [Play("sound", "audio/sound-effects/click.wav")] alt "History"
+            imagebutton auto "gui/button/save %s.png" xpos 75 ypos 495 focus_mask True action ShowMenu('saveload') hovered [Play("sound", "audio/sound-effects/click.wav")] alt "Save slash Load"
+            imagebutton auto "gui/button/load %s.png" xpos 24 ypos 755 focus_mask True action ShowMenu('evidence') hovered [Play("sound", "audio/sound-effects/click.wav")] alt "Clues"
+            imagebutton auto "gui/button/options %s.png" xpos 75 ypos 595 focus_mask True action ShowMenu('preferences') hovered [Play("sound", "audio/sound-effects/click.wav")] alt "Options"
+            imagebutton auto "gui/button/help %s.png" xpos 24 ypos 655 focus_mask True action ShowMenu('help') hovered [Play("sound", "audio/sound-effects/click.wav")] alt "Help"
+            imagebutton auto "gui/button/friend %s.png" xpos 75 ypos 815 focus_mask True action ShowMenu('profiles') hovered [Play("sound", "audio/sound-effects/click.wav")] sensitive pactive alt "Profiles"
+            imagebutton auto "gui/button/map %s.png" xpos 75 ypos 915 focus_mask True action ShowMenu('mappy') hovered [Play("sound", "audio/sound-effects/click.wav")] sensitive mactive alt "Map"
+            imagebutton auto "gui/button/blank %s.png" xpos 24 ypos 975 focus_mask True action MainMenu() hovered [Play("sound", "audio/sound-effects/click.wav")] alt "Main Menu"
 
             
 
@@ -321,36 +321,36 @@ screen navigation():
             imagebutton:
                 auto "start %s" 
                 action Start() 
-                hovered [Play("sound", "audio/click.wav")]
+                hovered [Play("sound", "audio/sound-effects/click.wav")]
                 alt "Start"
 
             imagebutton: 
                 auto "load %s" 
                 action ShowMenu("load") 
-                hovered [Play("sound", "audio/click.wav")]
+                hovered [Play("sound", "audio/sound-effects/click.wav")]
                 alt "Load"
 
             imagebutton:
                 auto "options %s" 
                 action ShowMenu("preferences") 
-                hovered [Play("sound", "audio/click.wav")]
+                hovered [Play("sound", "audio/sound-effects/click.wav")]
                 alt "Settings"
 
             imagebutton: 
                 auto "quit %s" 
                 action Quit(confirm=not main_menu) 
-                hovered [Play("sound", "audio/click.wav")]
+                hovered [Play("sound", "audio/sound-effects/click.wav")]
                 alt "Quit"
 
 
 
         #else:
 
-            #textbutton _("History") action ShowMenu("history") hovered [Play("sound", "audio/click.wav")]
+            #textbutton _("History") action ShowMenu("history") hovered [Play("sound", "audio/sound-effects/click.wav")]
 
-            #textbutton _("Save/ Load") action ShowMenu("saveload") hovered [Play("sound", "audio/click.wav")]
+            #textbutton _("Save/ Load") action ShowMenu("saveload") hovered [Play("sound", "audio/sound-effects/click.wav")]
             
-            #textbutton _("Options") action ShowMenu("preferences") hovered [Play("sound", "audio/click.wav")]
+            #textbutton _("Options") action ShowMenu("preferences") hovered [Play("sound", "audio/sound-effects/click.wav")]
 
 
 
@@ -358,7 +358,7 @@ screen navigation():
 
             ## The quit button is banned on iOS and unnecessary on Android and
             ## Web.
-            #textbutton _("Quit") action Quit(confirm=not main_menu) hovered [Play("sound", "audio/click.wav")]
+            #textbutton _("Quit") action Quit(confirm=not main_menu) hovered [Play("sound", "audio/sound-effects/click.wav")]
 
         
 
@@ -373,16 +373,16 @@ screen navigation():
             #textbutton _("End Replay") action EndReplay(confirm=True)
 
         #elif not main_menu:
-            #textbutton _("Help") action ShowMenu("help") hovered [Play("sound", "audio/click.wav")]
+            #textbutton _("Help") action ShowMenu("help") hovered [Play("sound", "audio/sound-effects/click.wav")]
 
-            #textbutton _("Main Menu") action MainMenu() hovered [Play("sound", "audio/click.wav")]
+            #textbutton _("Main Menu") action MainMenu() hovered [Play("sound", "audio/sound-effects/click.wav")]
             
 
         #if renpy.variant("pc") and not main_menu:
 
             ## The quit button is banned on iOS and unnecessary on Android and
             ## Web.
-            #textbutton _("Quit") action Quit(confirm=not main_menu) hovered [Play("sound", "audio/click.wav")]
+            #textbutton _("Quit") action Quit(confirm=not main_menu) hovered [Play("sound", "audio/sound-effects/click.wav")]
 
 
 #screen navigation2():
@@ -536,7 +536,7 @@ screen game_menu(title, scroll=None, yinitial=0.0):
     textbutton _("Return"):
         style "return_button"
 
-        hovered [Play("sound", "audio/click.wav")]
+        hovered [Play("sound", "audio/sound-effects/click.wav")]
 
         action Return()
         
@@ -712,7 +712,7 @@ screen file_slots(title):
                 xalign 0.5
                 action page_name_value.Toggle()
 
-                hovered [Play("sound", "audio/click.wav")]
+                hovered [Play("sound", "audio/sound-effects/click.wav")]
 
                 input:
                     style "page_label_text"
@@ -734,7 +734,7 @@ screen file_slots(title):
                     button:
                         action FileAction(slot)
 
-                        hovered [Play("sound", "audio/click.wav")]
+                        hovered [Play("sound", "audio/sound-effects/click.wav")]
 
                         has vbox
 
@@ -757,19 +757,19 @@ screen file_slots(title):
 
                 spacing gui.page_spacing
 
-                textbutton _("<") action FilePagePrevious() hovered [Play("sound", "audio/click.wav")]
+                textbutton _("<") action FilePagePrevious() hovered [Play("sound", "audio/sound-effects/click.wav")]
 
                 if config.has_autosave:
-                    textbutton _("{#auto_page}Auto") action FilePage("auto") hovered [Play("sound", "audio/click.wav")]
+                    textbutton _("{#auto_page}Auto") action FilePage("auto") hovered [Play("sound", "audio/sound-effects/click.wav")]
 
                 #if config.has_quicksave:
-                #    textbutton _("{#quick_page}Q") action FilePage("quick") hovered [Play("sound", "audio/click.wav")]
+                #    textbutton _("{#quick_page}Q") action FilePage("quick") hovered [Play("sound", "audio/sound-effects/click.wav")]
 
                 ## range(1, 10) gives the numbers from 1 to 9.
                 for page in range(1, 10):
-                    textbutton "[page]" action FilePage(page) hovered [Play("sound", "audio/click.wav")]
+                    textbutton "[page]" action FilePage(page) hovered [Play("sound", "audio/sound-effects/click.wav")]
 
-                textbutton _(">") action FilePageNext() hovered [Play("sound", "audio/click.wav")]
+                textbutton _(">") action FilePageNext() hovered [Play("sound", "audio/sound-effects/click.wav")]
 
 screen file_slots2(title):
     #default page_name_value = FilePageNameInputValue(pattern=_("Page {}"), auto=_("Automatic saves"))
@@ -788,7 +788,7 @@ screen file_slots2(title):
         #    xalign 0.5
         #    action page_name_value.Toggle()
 
-        #    hovered [Play("sound", "audio/click.wav")]
+        #    hovered [Play("sound", "audio/sound-effects/click.wav")]
 
         #    input:
         #        style "page_label_text"
@@ -814,7 +814,7 @@ screen file_slots2(title):
                     elif title == "Load":
                         action FileLoad(slot)
 
-                    hovered [Play("sound", "audio/click.wav")]
+                    hovered [Play("sound", "audio/sound-effects/click.wav")]
 
                     has vbox
 
@@ -837,19 +837,19 @@ screen file_slots2(title):
 
             spacing gui.page_spacing
 
-            textbutton _("<") action FilePagePrevious() hovered [Play("sound", "audio/click.wav")]
+            textbutton _("<") action FilePagePrevious() hovered [Play("sound", "audio/sound-effects/click.wav")]
 
             if config.has_autosave:
-                textbutton _("{#auto_page}Auto") action FilePage("auto") hovered [Play("sound", "audio/click.wav")]
+                textbutton _("{#auto_page}Auto") action FilePage("auto") hovered [Play("sound", "audio/sound-effects/click.wav")]
 
             #if config.has_quicksave:
-            #    textbutton _("{#quick_page}Q") action FilePage("quick") hovered [Play("sound", "audio/click.wav")]
+            #    textbutton _("{#quick_page}Q") action FilePage("quick") hovered [Play("sound", "audio/sound-effects/click.wav")]
 
             ## range(1, 10) gives the numbers from 1 to 9.
             for page in range(1, 10):
-                textbutton "[page]" action FilePage(page) hovered [Play("sound", "audio/click.wav")]
+                textbutton "[page]" action FilePage(page) hovered [Play("sound", "audio/sound-effects/click.wav")]
 
-            textbutton _(">") action FilePageNext() hovered [Play("sound", "audio/click.wav")]
+            textbutton _(">") action FilePageNext() hovered [Play("sound", "audio/sound-effects/click.wav")]
 
 style page_label is gui_label
 style page_label_text is gui_label_text
@@ -1401,8 +1401,8 @@ screen confirm(message, yes_action, no_action):
                 xalign 0.5
                 spacing 150
                 
-                textbutton _("Yes") action yes_action hovered [Play("sound", "audio/click.wav")]
-                textbutton _("No") action no_action hovered [Play("sound", "audio/click.wav")]
+                textbutton _("Yes") action yes_action hovered [Play("sound", "audio/sound-effects/click.wav")]
+                textbutton _("No") action no_action hovered [Play("sound", "audio/sound-effects/click.wav")]
 
     ## Right-click and escape answer "no".
     key "game_menu" action no_action

@@ -10,120 +10,6 @@
 #~~~~~~~~~~~~~~~~#
 ##################
 
-
-
-################
-# DECLARATIONS #
-################
-
-default bleep = True
-
-define PHFile = "beep1.ogg"
-
-
-#~Callbacks~#
-
-init python: 
-
-    renpy.music.register_channel("Bleep", mixer="voice", tight=True, buffer_queue=True) #setting up the voice bleeps to play on a new channel that uses the pre-built 'voice' volume slider
-
-    def beepVoice(event, interact=True, SFile="beep1.ogg", Char="", **kwargs): #for characters who have a set of 3 randomised beep sounds for their voice
-        if not interact:
-            return
-
-        if event == "show":
-            beep = 0
-            while beep < 100:
-                SFile = Char + "_" + str(renpy.random.randint(1,3)) + ".ogg"
-                renpy.music.queue(SFile, channel="Bleep", loop=False)
-                beep += 1
-        elif event == "slow_done" or event == "end":
-            renpy.music.stop(channel="Bleep", fadeout=0.4)
-
-
-    def singleCall(event, interact=True, SFile="beep1.ogg", **kwargs): #for characters who make a single noise as their entire line (eg horse neigh)
-        if not interact:
-            return
-
-        if event == "show":
-            renpy.music.queue(SFile, channel="Bleep", loop=False)
-
-
-    def narratorCall(event, interact=True, **kwargs): #for characters who use a single beep sound for their voice
-        if not interact:
-            return
-
-        if event == "show":
-            renpy.music.queue("beep1.ogg", channel="Bleep", loop=True)
-        elif event == "slow_done" or event == "end":
-            renpy.music.stop(channel="Bleep", fadeout=0.4)
-
-
-
-#~Characters~#
-
-define ht = Character("System", color="3366FF", who_outlines=[(2, "02648C", 0, 0)], what_outlines=[(1, "5B707B", 0, 0)], callback=narratorCall) # red=ED1C24, green=22B14C, purple=A349A4, orange=FF7F27, blue=00A2E8
-define uk = DynamicCharacter('UKName', color="666666", who_outlines=[(2, "333333", 0, 0)], what_outlines=[(1, "777777", 0, 0)], callback=beepVoice, cb_Sfile=PHFile, cb_Char="pandora")
-define np = Character("Pandora", color="2092C8", who_outlines=[(2, "0284BC", 0, 0)], what_color="0784B9", what_outlines=[(1, "02648C", 0, 0)], alt="Pandora thoughts")
-
-define pk = Character("Pandora", color="00A2E8", who_outlines=[(2, "0284BC", 0, 0)], what_outlines=[(1, "5B707B", 0, 0)], callback=beepVoice, cb_Char="pandora")
-define dk = Character("Darya", color="00A2E8", who_outlines=[(2, "0284BC", 0, 0)], what_outlines=[(1, "5B707B", 0, 0)], callback=beepVoice, cb_Char="darya")
-define eb = Character("Emilio", color="00A2E8", who_outlines=[(2, "0284BC", 0, 0)], what_outlines=[(1, "5B707B", 0, 0)], callback=beepVoice, cb_Char="emilio")
-define fc = Character("Florus", color="00A2E8", who_outlines=[(2, "0284BC", 0, 0)], what_outlines=[(1, "5B707B", 0, 0)], callback=beepVoice, cb_Char="florus")
-
-define bl = Character("Belinda", color="22B14C", who_outlines=[(2, "188638", 0, 0)], what_outlines=[(1, "506C58", 0, 0)], callback=beepVoice, cb_Char="belinda")
-define ds = Character("Dexter", color="22B14C", who_outlines=[(2, "188638", 0, 0)], what_outlines=[(1, "506C58", 0, 0)], callback=beepVoice, cb_Char="dexter")
-define av = Character("Ainsley", color="22B14C", who_outlines=[(2, "188638", 0, 0)], what_outlines=[(1, "506C58", 0, 0)], callback=beepVoice, cb_Char="ainsley")
-
-define rh = Character("Ratna", color="ED1C24", who_outlines=[(2, "B1171D", 0, 0)], what_outlines=[(1, "6C4D4E", 0, 0)], callback=beepVoice, cb_Char="ratna")
-define nl = Character("Nikolas", color="ED1C24", who_outlines=[(2, "B1171D", 0, 0)], what_outlines=[(1, "6C4D4E", 0, 0)], callback=beepVoice, cb_Char="nikolas")
-define ff = Character("Fabrice", color ="ED1C24", who_outlines=[(2, "B1171D", 0, 0)], what_outlines=[(1, "6C4D4E", 0, 0)], callback=beepVoice, cb_Char="fabrice")
-
-define of = Character("Osanne", color="A349A4", who_outlines=[(2, "783678", 0, 0)], what_outlines=[(1, "725872", 0, 0)], callback=beepVoice, cb_Char="osanne")
-define ka = Character("Kevin", color="A349A4", who_outlines=[(2, "783678", 0, 0)], what_outlines=[(1, "725872", 0, 0)], callback=beepVoice, cb_Char="kevin")
-define vl = Character("Valkyrie", color="A349A4", who_outlines=[(2, "783678", 0, 0)], what_outlines=[(1, "725872", 0, 0)], callback=beepVoice, cb_Char="valkyrie")
-
-define cm = Character("Carwyn", color="FF7F27", who_outlines=[(2, "C4621F", 0, 0)], what_outlines=[(1, "7A6659", 0, 0)], callback=beepVoice, cb_Char="carwyn")
-define nt = Character("Nin", color="FF7F27", who_outlines=[(2, "C4621F", 0, 0)], what_outlines=[(1, "7A6659", 0, 0)], callback=beepVoice, cb_Char="nin")
-define dh = Character("Dakota", color="FF7F27", who_outlines=[(2, "C4621F", 0, 0)], what_outlines=[(1, "7A6659", 0, 0)], callback=singleCall, cb_SFile="neigh.mp3")
-
-define mm = Character("Maizey", color="7A4C0E", who_outlines=[(2, "523309", 0, 0)], what_outlines=[(1, "52493E", 0, 0)], callback=beepVoice, cb_Char="maizey")
-
-
-#~Transforms~#
-
-transform centre:
-    xalign 0.5
-    yalign 1.0
-
-transform twoleft:
-    xpos 50
-    yalign 1.0
-
-transform tworight:
-    xpos 800
-    yalign 1.0
-
-transform threeleft:
-    xpos -100
-    yalign 1.0
-
-transform threeright:
-    xpos 1000
-    yalign 1.0
-
-
-define fastDissolve = Dissolve(0.3) #very fast fade effect
-define dissolve2 = Dissolve(0.6) #medium fast fade effect
-define FD2 = { "master" : Dissolve(0.2) } #used to change character sprites mid line
-
-define flashbulb = Fade(0.2, 0.0, 0.4, color='#dddddd')
-
-
-#(the threes are unlikely to be used bc they make the screen very cramped due to the large sprite size)
-
-
-
 #############
 # VARIABLES #
 #############
@@ -401,14 +287,10 @@ label start:
     
     $ quick_menu = True
 
-    play music "audio/lonely room.mp3" fadein 1.0
+    play music "audio/bg/lonely room.mp3" fadein 1.0
 
     jump draw_pandora_room
 
-
-#==============#
-# PANDORA ROOM #
-#==============#
 
 screen pandora_room:
     add "bg pandoraroom"
@@ -593,7 +475,7 @@ label pandora_door:
                 "Yes, let's have a look around outside":
                     pk "So, before we run into the unknown, could you tell me what you saw before you barged in here?"
 
-                    show darya yeah1 with dissolve2
+                    show darya yeah1 with dissolve_medium
                     #uk "darya needs to mention about the rough layout of what she saw. then they decide to check all the doors before leaving the dorms."
                     dk "{piracow}It seemed to be a dormitory of sorts.{/piracow}"
                     dk "{piracow}There were many doors similar to yer own.{/piracow}"
@@ -601,11 +483,11 @@ label pandora_door:
                     pk "Since it won't be dorms all the way down, I assume. Do you want to see what or who we can find in this area then move onto the rest of wherever we are?"
                     np "Again, assuming there {i}is{/i} a 'somewhere else', being methodical will prevent us from missing anything."
 
-                    show darya yeah2 with fastDissolve
+                    show darya yeah2 with dissolve_fast
                     dk "Sounds good!"
-                    show darya yeah1 with fastDissolve
+                    show darya yeah1 with dissolve_fast
                     dk "{piracow}However! Before we leave, I should draw ye a map of what I saw.{/piracow}"
-                    hide darya with dissolve2
+                    hide darya with dissolve_medium
 
                     np "Darya took a pen out of her pocket and flipped the picture of 'Maizey' to the back and began scribbling on it."
                     np "..."
@@ -621,12 +503,12 @@ label pandora_door:
 
                     hide daryamap with dissolve
 
-                    show darya grumpy with dissolve2
+                    show darya grumpy with dissolve_medium
                     dk "Hey!"
 
                     pk "Anyway, thanks, this might be helpful."
 
-                    show darya neutral with fastDissolve
+                    show darya neutral with dissolve_fast
                     dk "Let us be on our way, then."
 
                     stop music fadeout 1.0
@@ -671,17 +553,17 @@ label pandora_wardrobe:
             elif pandoraroomread[1] == 1:
                 pk "Hey... Darya?"
 
-                show darya ask1 with dissolve2
+                show darya ask1 with dissolve_medium
                 dk "{piracow}Aye?{/piracow}"
 
                 pk "Assuming you came from a room similar to mine..."
                 pk "Did you also have a bunch of copies of your clothes in here?"
                 pk "My outfit is handmade so there shouldn't be any more that exist."
 
-                show darya hm with fastDissolve
+                show darya hm with dissolve_fast
                 dk "{piracow}Ya, that be what I discovered too.{/piracow}"
                 dk "{size=-10}But I didn't want to think about how it probably meant we'd been stalked.{/size}"
-                hide darya with dissolve2
+                hide darya with dissolve_medium
 
                 np "That does seem to be the most likely explanation so far, let's be careful when we explore."
 
@@ -719,11 +601,11 @@ label pandora_bed:
             elif pandoraroomread[2] ==1:
                 pk "Hey, any opinions on the quality of the furniture? Like this bed?"
 
-                show darya neutral with dissolve2
+                show darya neutral with dissolve_medium
                 dk "{piracow}Ay, I tested mine out before I heard ye banging about.{/piracow}"
-                show darya yikes with fastDissolve
+                show darya yikes with dissolve_fast
                 dk "{piracow}T'was not of the greatest quality.{/piracow}"
-                hide darya with dissolve2
+                hide darya with dissolve_medium
 
                 np "That was a stupid question."
 
@@ -799,21 +681,21 @@ label pandora_note:
     if flagA == 0:
         if daryaroom == True:
             if pandoraroomread[5] == 2:
-                show jbdoodle with fastDissolve:
+                show jbdoodle with dissolve_fast:
                     xalign 0.5
                     yalign 0.5
                 
                 np "Whoever brought us here seems to really want us to know that this cereal mascot is involved."
 
-                hide jbdoodle with fastDissolve
+                hide jbdoodle with dissolve_fast
 
                 jump draw_pandora_room
 
 
             elif pandoraroomread[5] == 1:
-                show darya neutral with dissolve2
+                show darya neutral with dissolve_medium
 
-                show jbdoodle_iconbox with fastDissolve:
+                show jbdoodle_iconbox with dissolve_fast:
                     xalign 0.75
                     yalign 0.4
 
@@ -821,30 +703,30 @@ label pandora_note:
 
                 pk "Yeah, any idea what it means?"
 
-                show darya hm with fastDissolve
+                show darya hm with dissolve_fast
                 dk "{piracow}Sadly not a clue, matey.{/piracow}"
 
-                hide jbdoodle_iconbox with fastDissolve
+                hide jbdoodle_iconbox with dissolve_fast
                 
-                hide darya with dissolve2
+                hide darya with dissolve_medium
     
 
                 $ pandoraroomread[5] = 2
                 jump draw_pandora_room
 
         if pandoraroomread[5] == 1:
-            show jbdoodle with fastDissolve:
+            show jbdoodle with dissolve_fast:
                 xalign 0.5
                 yalign 0.5
 
             pk "A picture of a cereal mascot who may or may not have something to do with this."
 
-            hide jbdoodle with fastDissolve
+            hide jbdoodle with dissolve_fast
 
             jump draw_pandora_room
 
         elif pandoraroomread[5] == 0:
-            show jbdoodle with fastDissolve:
+            show jbdoodle with dissolve_fast:
                 xalign 0.5
                 yalign 0.5
 
@@ -857,7 +739,7 @@ label pandora_note:
 
             "Notes on 'Doodle of Cereal Mascot' have been jotted down."
 
-            hide jbdoodle with fastDissolve
+            hide jbdoodle with dissolve_fast
             
             $ roomtotal += 1
             $ pandoraroomread[5] = 1
@@ -887,11 +769,6 @@ label pandora_bin:
     if flagA == 0:
 
         if pandoraroomread[7] == 1:
-            
-            #$ UKName = 'pleasework'
-            #uk "dsfvadfbvdafbvdafbva" (cb_SFile="click.wav")
-            #uk "dsfvadfbvdafbvdafbva" (cb_SFile="bang.wav")
-            #uk "dsfvadfbvdafbvdafbva" (cb_SFile="beep1.ogg")
 
             pk "A disappointingly empty bin."
 
@@ -942,11 +819,11 @@ label pandora_clock:
             elif pandoraroomread[9] == 1:
                 pk "The clock is stopped."
 
-                show darya neutral with dissolve2
+                show darya neutral with dissolve_medium
                 dk "{piracow}Mine was stopped as well.{/piracow}"
-                show darya bois with fastDissolve
+                show darya bois with dissolve_fast
                 dk "{piracow}Curiously, it were on the exact same time.{/piracow}" #HEHE STARBUBBLES <3
-                hide darya with dissolve2
+                hide darya with dissolve_medium
 
                 $ pandoraroomread[9] = 2
                 jump draw_pandora_room
@@ -967,9 +844,9 @@ label pandora_clock:
 label pandora_darya:
 
     if flagA == 0:
-        show darya neutral with dissolve2
+        show darya neutral with dissolve_medium
         dk "{piracow}Arg, let's be going then. Nothing to be gained from staying idle.{/piracow}"
-        hide darya with dissolve2
+        hide darya with dissolve_medium
 
         np "Except maybe staying safe from anything that might be out there?"
         np "Then again, she managed to break in here easily enough - anyone who means me harm would be able to as well."
@@ -990,14 +867,14 @@ label pandora_speaker:
                 pk "Any idea what this is meant for?"
                 np "I point to the speaker on the wall."
 
-                show darya hm with dissolve2
+                show darya hm with dissolve_medium
                 dk "I don't, had one in my r-"
-                show darya threat with fastDissolve
+                show darya threat with dissolve_fast
                 dk "{size=-10}Wait, I mean: {/size}{piracow}It's purpose be a mystery!{/piracow}"
 
                 np "For the love of god please turn the voice off."
 
-                hide darya with dissolve2
+                hide darya with dissolve_medium
 
                 $ pandoraroomread[10] = 2
                 jump draw_pandora_room
@@ -1196,7 +1073,7 @@ label draw_corrA1:
 
 
     if flagA == 0:
-        play music "audio/wandering.mp3" fadein 1.0
+        play music "audio/bg/wandering neutral.wav" fadein 1.0
 
 
         ht "To navigate the area click on doors to enter them, or the arrows to move around the corridors."
@@ -1229,14 +1106,14 @@ label dardoor:
             np "There's a door with what looks like a sort of bat drawn on it."
 
             if corrA1read[2] == 0:
-                show darya neutral with dissolve2
+                show darya neutral with dissolve_medium
                 dk "{piracow}That one be my door!{/piracow}"
-                show darya bois with fastDissolve
+                show darya bois with dissolve_fast
                 dk "Well, the door to the room I woke up in."
 
                 np "Her being my direct neighbour explains why she was able to hear me, I guess."
 
-                hide darya with dissolve2
+                hide darya with dissolve_medium
 
                 $ corrA1read[2] = 1
                 $ roomtotal += 1
@@ -1253,7 +1130,7 @@ label nikdoor:
 
             elif corrA1read[3] == 0:
                 np "There's a door with a spider drawn on it, I knock to see if anyone's inside."
-                play sound "audio/knock.wav"
+                play sound "audio/sound-effects/knock.wav"
                 np "..."
                 np "No response."
 
@@ -1273,70 +1150,70 @@ label flodoor:
 
             elif corrA1read[1] == 0:
                 np "There's a door with a butterfly drawn on it, I knock to see if anyone's inside."
-                play sound "audio/knock.wav"
+                play sound "audio/sound-effects/knock.wav"
                 np "..."
                 np "The door slowly opened, and a man emerged."
 
                 $ UKName = "Man with Flowers"
 
-                show florus neutral with dissolve2
+                show florus neutral with dissolve_medium
                 uk "... hello?" (cb_Char="florus")
-                hide florus with fastDissolve
+                hide florus with dissolve_fast
 
                 show florus flinch at twoleft
 
                 show darya yeah2 at tworight
 
-                with fastDissolve
+                with dissolve_fast
 
                 dk "{piracow}AHOY!{/piracow}"
 
-                #show florus flinch with fastDissolve
+                #show florus flinch with dissolve_fast
                 uk "!?" (cb_Char="florus")
 
                 show florus neutral
                 show darya neutral 
                 
-                with fastDissolve
+                with dissolve_fast
                 dk "{piracow}What be your name?{/piracow}"
 
-                show florus confused with fastDissolve
+                show florus confused with dissolve_fast
                 fc "Um... My name be Florus...?"
 
-                show darya ask1 with fastDissolve
+                show darya ask1 with dissolve_fast
                 np "Darya paused and looked at Florus expectantly, as though waiting for him to ask her name in kind."
 
-                show florus blerg with fastDissolve
+                show florus blerg with dissolve_fast
                 fc "Anyway, do... either of you know what's going on?"
 
                 pk "Not really, but I think that-"
 
-                show darya bois with fastDissolve
+                show darya bois with dissolve_fast
                 dk "{piracow}It seems we be in a sort of bunker!{/piracow}{size=-10} Probably...{/size}"
 
-                show florus tired with fastDissolve
+                show florus tired with dissolve_fast
                 fc "Hmm... sounds like a lot of bother."
                 fc "I think I'll just stay in here where I woke up, and out of the way."
                 fc "Goodbye."
-                hide florus with dissolve2
+                hide florus with dissolve_medium
 
                 np "He went to close the door but Darya quickly put her arm out and yelled."
 
-                show darya threat with fastDissolve
+                show darya threat with dissolve_fast
                 dk "Wait!"
-                show darya hm with fastDissolve
+                show darya hm with dissolve_fast
                 dk "{piracow}Don't ye wish to ask who we be?{/piracow}"
 
-                show florus uhm at twoleft with dissolve2
+                show florus uhm at twoleft with dissolve_medium
                 fc "I suppose..."
 
-                show darya ohyeah with fastDissolve
+                show darya ohyeah with dissolve_fast
                 dk "I be Darya Skafos, captain of The Dragonflight!"
 
-                show florus neutral with fastDissolve
+                show florus neutral with dissolve_fast
                 np "Florus looked cautiously over to me."
 
-                show darya neutral with fastDissolve
+                show darya neutral with dissolve_fast
 
                 pk "I'm... Phantom Magpie."
                 np "I probably shouldn't directly mention that that's a made up name. In... both of our cases."
@@ -1344,24 +1221,24 @@ label flodoor:
                 np "I really shouldn't have blurted out directly what I actually do to Darya before, but I can't take it back."
                 pk "What do you do?"
 
-                show florus excited with fastDissolve
+                show florus excited with dissolve_fast
                 fc "Oh! Well, I'm a gardener! People hire me to care for and design gardens for them."
-                show florus glee with fastDissolve
+                show florus glee with dissolve_fast
                 fc "I especially like designing flowerbeds and choosing what kinds of flowers are best for..."
-                show florus uhm with dissolve2
+                show florus uhm with dissolve_medium
                 fc "..."
-                show florus tired with dissolve2
+                show florus tired with dissolve_medium
                 fc "Well, it's uh, it was nice meeting you both."
                 fc "I'm just gonna..."
 
                 np "He looks at us with a tired gaze, then slips back into his room and closes the door."
 
-                hide florus with dissolve2
+                hide florus with dissolve_medium
 
-                hide darya with fastDissolve
-                show darya yeah1 at centre with fastDissolve
+                hide darya with dissolve_fast
+                show darya yeah1 at centre with dissolve_fast
                 dk "{piracow}Knowing it's not just us here be somewhat reassuring.{/piracow}"
-                show darya hm with fastDissolve
+                show darya hm with dissolve_fast
                 dk "He was a little strange though..."
 
                 if corrB1read[3] == 0:
@@ -1369,7 +1246,7 @@ label flodoor:
                 elif corrB1read[3] == 1:
                     np "Okay pot, leave the kettle alone; I've known you for nearly half an hour, and for that entire time you have been waving around a sword made of cardboard and craft foam."
 
-                hide darya with dissolve2
+                hide darya with dissolve_medium
 
                 $ corrA1read[1] = 1
                 $ roomtotal += 1
@@ -1414,46 +1291,46 @@ label dormsign:
         elif corrA1read[6] == 0:
             pk "Hey, there's a sign taped to the wall here with some 'dorm rules' on."
 
-            show darya ask1 with dissolve2
+            show darya ask1 with dissolve_medium
             dk "{piracow}I saw it on me way over to yer abode, but didn't care to read.{/piracow}"
             dk "{piracow}Do ye wish to read it out, or should I be the one?{/piracow}"
 
             np "Please care a little more about your surroundings..."
             pk "I'll read it out, I guess:"
 
-            show darya neutral with fastDissolve
+            show darya neutral with dissolve_fast
 
             pk "'1: Keep the noise down between 23:00 and 07:00 (designated 'nighttime'), your bunkmates may be trying to sleep!'"
             np "'Bunkmates', huh. This being some sort of bunker does make some sense, I think. But what reason would there be to put us in one?"
             pk "'2: Your doors must be kept locked as Management does not take responsibility for stolen or damaged property.'"
 
-            show darya hm with fastDissolve
+            show darya hm with dissolve_fast
             dk "Keeping our doors locked- {piracow}be a difficult task without the keys.{/piracow}"
 
             np "So she didn't get a room key either."
             pk "Maybe this 'management' is going to give them to us?"
             np "But then why would we wake up in our rooms without them?"
 
-            show darya neutral with fastDissolve
+            show darya neutral with dissolve_fast
 
             pk "Anyway, '3: You are responsible for keeping the dorms tidy, however the Assistants will clean the rest of the bunker.'"
             np "Assuming this information is up to date, the presence of 'assistants' sounds somewhat promising in nothing properly dangerous going on."
 
             pk "And finally, '4: As there is a limited number of toilets/showers per dorm group, be respectful about not staying in for too long.'"
 
-            show darya yeah1 with fastDissolve
+            show darya yeah1 with dissolve_fast
             dk "{piracow}Aha! The toilets in question must be at the end of the corridor there.{/piracow}"
 
             np "Why is that the thing you focus on?"
 
-            show darya hh with fastDissolve
+            show darya hh with dissolve_fast
             dk "{size=-15}It seems we're in some sort of bunker, but for what purpose is...{/size}"
 
             pk "What are you mumbling about?"
 
-            show darya threat with fastDissolve
+            show darya threat with dissolve_fast
             dk "{piracow}It be nothing to concern yerself with!{/piracow}"
-            hide darya with dissolve2
+            hide darya with dissolve_medium
 
             np "I hope for both of our sakes that you're smarter than you let on."
 
@@ -1747,7 +1624,7 @@ label fabdoor:
         np "There's a door with a swan drawn on it."
 
         if corrB1read[4] == 0:
-            play sound "audio/knock.wav"
+            play sound "audio/sound-effects/knock.wav"
             np "..."
             np "Interestingly, there's no response."
 
@@ -1764,7 +1641,7 @@ label cardoor:
         np "There's a door with some kind of goat drawn on it."
 
         if corrB1read[2] == 0:
-            play sound "audio/knock.wav"
+            play sound "audio/sound-effects/knock.wav"
             np "..."
             np "No response."
 
@@ -1781,7 +1658,7 @@ label emidoor:
         np "There's a door with a cat drawn on it."
 
         if corrB1read[1] == 0:
-            play sound "audio/knock.wav"
+            play sound "audio/sound-effects/knock.wav"
             np "..."
             np "No response."
 
@@ -1801,34 +1678,34 @@ label dakdoor:
         elif corrB1read[3] == 0:
             np "There's a door with a horse drawn on it, I lift up my hand to knock on the door but Darya quickly pipes up."
 
-            show darya hh with dissolve2
+            show darya hh with dissolve_medium
             dk "{piracow}Arg matey{/piracow}, {size=-10}just gonna visit the loos{/size}, {piracow}I'll be but a moment.{/piracow}"
 
             pk "Oh, uh, sure. If anyone's in here I'll just greet them by myself or something."
 
-            hide darya with dissolve2
+            hide darya with dissolve_medium
 
             np "After giving a quick  thumbs-up, Darya heads back through the door to the other side of the dorms."        
-            play sound "audio/knock.wav"
+            play sound "audio/sound-effects/knock.wav"
             np "..."
 
             $ UKName = "Cowboy...?"
 
-            show emilio happy with dissolve2
+            show emilio happy with dissolve_medium
             uk "{piracow}Howdy partner!{/piracow}" (cb_Char="emilio")
 
             pk "Hello."
             np "My eyes are drawn the NURF revolver and cowboy getup as annoyance forms in my gut."
             np "Please tell me he isn't like a second Darya..."
 
-            show emilio welcome with fastDissolve
+            show emilio welcome with dissolve_fast
             uk "{piracow}C'mon in, can't leave ya out in the corridor like that.{/piracow}" (cb_Char="emilio")
 
             np "On the one hand, since I have little idea of what's going on this could easily be a trap. Not to mention that I {i}really{/i} don't want to deal with another freaky LARPer right now..."
             np "But on the other hand, I don't want to upset him in case he's dangerous - so going along with this but keeping a cautious ear up is probably best."
             pk "Sure..."
 
-            hide emilio with dissolve2
+            hide emilio with dissolve_medium
 
             stop music fadeout 1.0
 
@@ -1839,75 +1716,74 @@ label dakdoor:
 
             scene bg horseroom with dissolve
 
-            play music "audio/something.mp3" fadein 1.0
+            play music "audio/bg/something.mp3" fadein 1.0
 
             #pause 1.5
 
-            show dakota neutral with dissolve2
+            show dakota neutral with dissolve_medium
             dh "Neigh."
-            hide dakota with dissolve2
+            hide dakota with dissolve_medium
 
-            show emilio neutral with dissolve2
+            show emilio neutral with dissolve_medium
             uk "{piracow}Make yerself at home. {/piracow}" (cb_Char="emilio")
 
             pk "There- there is a horse."
 
             uk "{piracow}That'll be Dakota, my loyal steed and truest friend.{/piracow}" (cb_Char="emilio")
-            hide emilio with dissolve2
-            show dakota neutral with dissolve2
+            hide emilio with dissolve_medium
+            show dakota neutral with dissolve_medium
             dh "Neigh."
-            hide dakota with dissolve2
-            show emilio neutral with dissolve2
+            hide dakota with dissolve_medium
+            show emilio neutral with dissolve_medium
 
             pk "Oh. Okay."
             pk "Also, quick question: where are you from?"
 
-            show emilio confuzz with fastDissolve
+            show emilio confuzz with dissolve_fast
             uk "Uh, Yorkshire?" (cb_Char="emilio")
 
             np "So the Texas accent is fake."
             pk "Would it be possible... for you to use your normal voice?"
             np "I try not to sound too exasperated."
 
-            show emilio neutral with fastDissolve
+            show emilio neutral with dissolve_fast
             uk "{piracow}Of course-{/piracow} of course." (cb_Char="emilio")
 
             np "Thankfully he complies without pushback, and replaces his cowboy accent with a much more natural-sounding Yorkshire one."
 
-            show emilio happy with fastDissolve
+            show emilio happy with dissolve_fast
             eb "Oh! All this and I forgot to give my name, I'm Emilio."
 
             pk "Nice to meet you, call me Pa-. Call me Phantom Magpie."
             np "He's got such a relaxing aura that I nearly let my guard down there."
             pk "Anyway, just to circle back quickly, {i}why{/i} is the horse here? You just kinda brushed over that."
 
-            show emilio spin with fastDissolve
+            show emilio spin with dissolve_fast
             eb "In normal circumstances I never go anywhere without him, since he's so well behaved and friendly."
-            show emilio sad with fastDissolve
+            show emilio sad with dissolve_fast
             eb "But in this case I don't even know why {i}I'm{/i} here, let alone poor Dakota..."
-
             pk "And you even have a horse because...?"
 
-            show emilio neutral with fastDissolve
+            show emilio neutral with dissolve_fast
             eb "My parents got him to replace our previous workhorse, since we own a livestock farm."
 
             pk "For like, pulling carts?"
             np "Before Emilio had a chance to respond, Darya came bursting back into the room."
 
-            hide emilio with fastDissolve
+            hide emilio with dissolve_fast
 
             show emilio neutral at tworight 
             
             show darya yeah2 at twoleft 
 
-            with fastDissolve
+            with dissolve_fast
 
             dk "{piracow}Ahoy Magpie! I have ret-{/piracow}"
             show darya grumpy
 
             show emilio grumpy
 
-            with fastDissolve
+            with dissolve_fast
 
             np "She casts a quick frown at Dakota, then glares angrily at Emilio after eyeing his outfit, who does the same in kind."
 
@@ -1921,19 +1797,19 @@ label dakdoor:
 
             np "Is that a thing...?"
 
-            show emilio bad with fastDissolve
+            show emilio bad with dissolve_fast
             eb "{piracow}There ain't room in this town for the two of us, {i}partner{/i}.{/piracow}"
 
-            show darya threat with fastDissolve
+            show darya threat with dissolve_fast
             dk "{piracow}Says the scallywag attempting to beguile me crew.{/piracow}"
-            show darya grumpy with fastDissolve
+            show darya grumpy with dissolve_fast
 
-            show emilio grumpy with fastDissolve
+            show emilio grumpy with dissolve_fast
 
             np "As the two argue and lose their focus on me I attempt to slip out of the room. Silently, as I've done so many times before."
             np "However, before I could reach the door, Darya seemed to notice me."
 
-            show darya anger with fastDissolve
+            show darya anger with dissolve_fast
             dk "{piracow}Yer right, Magpie. We should leave the bilge rat to his filth.{/piracow}"
 
             eb "{piracow}Scram, we don't want your kind 'round here.{/piracow}"
@@ -1941,7 +1817,7 @@ label dakdoor:
 
             hide darya 
 
-            with dissolve2
+            with dissolve_medium
 
             stop music fadeout 1.0
 
@@ -1949,14 +1825,14 @@ label dakdoor:
 
             np "I sigh as she all but drags me out. Despite the kidnapping, being in proximity of these two is somehow the worst thing to happen to me today."
 
-            show darya grumpy with dissolve2
+            show darya grumpy with dissolve_medium
             dk "Let's go find some more favourable folks."
 
             np "I agree, but I doubt we're thinking about it in the same way."
 
-            hide darya with dissolve2
+            hide darya with dissolve_medium
 
-            play music "audio/wandering.mp3" fadein 1.0
+            play music "audio/bg/wandering neutral.wav" fadein 1.0
 
             $ corrB1read[3] = 1
             $ roomtotal += 1
@@ -2286,7 +2162,7 @@ label nindoor:
         np "There's a door with a bird, that looks kind of like a kingfisher, drawn on it."
 
         if corrC1read[1] == 0:
-            play sound "audio/knock.wav"
+            play sound "audio/sound-effects/knock.wav"
             np "..."
             np "No response."
 
@@ -2303,7 +2179,7 @@ label dexdoor:
         np "There's a door with a lizard of some sort drawn on it."
 
         if corrC1read[2] == 0:
-            play sound "audio/knock.wav"
+            play sound "audio/sound-effects/knock.wav"
             np "..."
             np "Interestingly, there's no response."
 
@@ -2320,7 +2196,7 @@ label beldoor:
         np "There's a door with a crocodile drawn on it."
 
         if corrC1read[3] == 0:
-            play sound "audio/knock.wav"
+            play sound "audio/sound-effects/knock.wav"
             np "..."
             np "No response."
 
@@ -2346,7 +2222,7 @@ label ratdoor:
         np "There's a door with some sort of rodent drawn on it."
         
         if corrC1read[5] == 0:
-            play sound "audio/knock.wav"
+            play sound "audio/sound-effects/knock.wav"
             np "..."
             np "No response."
 
@@ -2753,7 +2629,7 @@ label kevdoor:
         np "There's a door with what I think is a horseshoe crab drawn on it."
 
         if corrD1read[0] == 0:
-            play sound "audio/knock.wav"
+            play sound "audio/sound-effects/knock.wav"
             np "..."
             np "No response."
 
@@ -2770,7 +2646,7 @@ label valdoor:
         np "There's a door with lizard, probably some kind of monitor, drawn on it."
 
         if corrD1read[1] == 0:
-            play sound "audio/knock.wav"
+            play sound "audio/sound-effects/knock.wav"
             np "..."
             np "No response."
 
@@ -2787,7 +2663,7 @@ label aindoor:
         np "There's a door with a ferret-looking mammal drawn on it."
 
         if corrD1read[2] == 0:
-            play sound "audio/knock.wav"
+            play sound "audio/sound-effects/knock.wav"
             np "..."
             np "Interestingly, there's no response."
 
@@ -2804,7 +2680,7 @@ label osadoor:
         np "There's a door with a beetle of some sort drawn on it."
 
         if corrD1read[3] == 0:
-            play sound "audio/knock.wav"
+            play sound "audio/sound-effects/knock.wav"
             np "..."
             np "No response."
 
@@ -3022,22 +2898,22 @@ label blockdoor:
             np "They're almost overdoing it."
             pk "We probably shouldn't try going through here, it's probably dangerous."
 
-            show darya grumpy with dissolve2
+            show darya grumpy with dissolve_medium
             dk "Hey, a sign like this is proof there's something they don't want us getting at - like treasure!"
             np "Or 'death', as the signage more readily implies."
-            show darya anger with fastDissolve
+            show darya anger with dissolve_fast
             dk "{piracow}Let me try t' open it.{/piracow}"
             dk "{piracow}It may need some force.{/piracow}"
-            hide darya with dissolve2
+            hide darya with dissolve_medium
 
             np "Darya tried rattling the handle and kicking on the door, but to no avail."
 
-            show darya yikes with dissolve2
+            show darya yikes with dissolve_medium
             dk "..."
 
             pk "..."
 
-            hide darya with dissolve2
+            hide darya with dissolve_medium
 
             pk "Let's just assume we're not getting in right now."
 
@@ -3172,14 +3048,14 @@ label draw_corrE1:
 
         pk "Well that's... interesting."
 
-        show darya yeah1 with dissolve2
+        show darya yeah1 with dissolve_medium
         dk "{piracow}The stairs down be barricaded.{/piracow}"
 
         pk "Yeah, seems we're gonna be stuck on this floor for a while."
 
-        show darya bois with fastDissolve
+        show darya bois with dissolve_fast
         dk "All that means is less to investigate."
-        hide darya with dissolve2
+        hide darya with dissolve_medium
 
         pk "I suppose..."
         np "She's awfully chill about this whole situation."
@@ -3304,71 +3180,71 @@ label nincorrconvo1: #nintro
     elif corrF1read[0] == 0:
         $ UKName = "Woman in Helmet"
         
-        show nin greet with dissolve2
+        show nin greet with dissolve_medium
         uk "Hello there!"
 
         np "The woman at the other end of the hall called out to us cheerfully as she approached."
 
-        hide nin with fastDissolve
-        show nin neutral at tworight with fastDissolve
+        hide nin with dissolve_fast
+        show nin neutral at tworight with dissolve_fast
 
-        show darya neutral at twoleft with dissolve2
+        show darya neutral at twoleft with dissolve_medium
         dk "Hello!"
 
         pk "Hi."
 
         nt "I'm Nin, who're you two?"
 
-        show darya yeah2 with fastDissolve
+        show darya yeah2 with dissolve_fast
         dk "I'm Captain Darya Valtis!"
 
-        show nin uncomf with fastDissolve
+        show nin uncomf with dissolve_fast
 
 
         pk "Call me Phantom Magpie."
         np "I'm getting a little sick of introducing myself like this."
         np "Also getting a little tired of Darya using some random-ass fake word as her last name each time..."
 
-        show darya neutral with fastDissolve
+        show darya neutral with dissolve_fast
 
         nt "... What are you the captain of?"
 
-        show darya ohyeah with fastDissolve
+        show darya ohyeah with dissolve_fast
         dk "{piracow}The greatest ship on the seven seas - The Dragonflight!{/piracow}"
 
         nt "Hmm. Do you have a... crew?"
 
-        show darya hh with fastDissolve
+        show darya hh with dissolve_fast
         dk "Not quite - {piracow}she- um... me ship...{/piracow}"
         dk "{size=-10}Well, for right now I {i}do{/i} have Magpie here...{/size}"
 
         show nin neutral
         show darya yeah1
-        with fastDissolve
+        with dissolve_fast
 
         dk "Unless you want to join us?"
 
-        show nin nope with fastDissolve
+        show nin nope with dissolve_fast
         nt "No thank you. I'm currently trying to look for other people to- to see if we can discuss anything about our situation."
         nt "But I've only managed to find a few other people so far."
-        show nin point with fastDissolve
+        show nin point with dissolve_fast
         nt "In fact, through this door is a game room - there's two people, called Belinda and Osanne, in there."
         nt "They seemed friendly enough if you wanna go say hi."
         nt "Though I wouldn't be opposed to you tagging along in my search."
 
         hide nin
         hide darya 
-        with fastDissolve
+        with dissolve_fast
 
         stop music fadeout 1.0
         scene black with dissolve
 
-        show nin point with fastDissolve
+        show nin point with dissolve_fast
 
         window hide dissolve
         pause 0.8
 
-        hide nin with fastDissolve
+        hide nin with dissolve_fast
         
         window auto
         
@@ -3377,21 +3253,21 @@ label nincorrconvo1: #nintro
 
         scene bg corrf1_full with dissolve
 
-        show nin neutral with fastDissolve
+        show nin neutral with dissolve_fast
 
         pk "Before you continue, I need to know if you woke up with that cut on your arm."
 
-        show nin uncomf with fastDissolve
+        show nin uncomf with dissolve_fast
         nt "Huh? Oh yeah, this is new, but it isn't really bothering me and there's more important things to be doing."
         nt "Besides, I tried poking at it earlier and it kinda stung and felt tingly."
-        show nin neutral with fastDissolve
+        show nin neutral with dissolve_fast
         nt "So I'm opting to ignore it for now, since the only other option is to freak out about it."
 
         np "I quickly pull down my sleeve to get a look at my arm, I'd been distracted til now but-"
 
-        hide nin with fastDissolve
+        hide nin with dissolve_fast
 
-        play music "audio/threat.mp3" fadein 1.0
+        play music "audio/bg/threat.mp3" fadein 1.0
         scene bg armscarcg with fade
 
         np "The worrying feeling quickly turned to panic."
@@ -3408,47 +3284,47 @@ label nincorrconvo1: #nintro
 
         show nin nope at tworight
         show darya worry at twoleft
-        with fastDissolve
+        with dissolve_fast
 
         nt "Are you two okay? Do you know what the arm marks mean?"
 
-        show darya sad with fastDissolve
+        show darya sad with dissolve_fast
         dk "No we don't! And that's the problem!"
 
         stop music fadeout 1.0
 
-        show nin point with fastDissolve
+        show nin point with dissolve_fast
         nt "Well, I did notice something that looked like a medical room down the hall there."
         nt "There's also a couple more people in it, I believe one of them said he was a nurse."
-        show nin neutral with fastDissolve
+        show nin neutral with dissolve_fast
         nt "If you want to head over and see if he might be able to help you."
 
         dk "Y-yeah thanks, we'll have a look."
 
-        play music "audio/wandering.mp3" fadein 1.0
+        play music "audio/bg/wandering neutral.wav" fadein 1.0
 
-        show nin greet with fastDissolve
+        show nin greet with dissolve_fast
         nt "If that's sorted, I'm going to go find some other people to greet."
         nt "Based on the amount of doors with pictures on, there's probably 16 people all told?"
-        show nin thonk with fastDissolve
+        show nin thonk with dissolve_fast
         nt "Although, I'm pretty certain it's actually 15 people and 1 horse. Based on my brief conversation with Emilio."
 
-        show darya ask2 with fastDissolve 
+        show darya ask2 with dissolve_fast 
         dk "Uh, who?"
 
         np "I sigh."
         pk "That guy you hate."
 
-        show darya grumpy with fastDissolve
+        show darya grumpy with dissolve_fast
         dk "Horseboy..."
 
-        show nin nope with fastDissolve
+        show nin nope with dissolve_fast
         nt "I'm... I don't think I can deal with you, so I'm going to head off. See ya."
-        hide nin with dissolve2
+        hide nin with dissolve_medium
 
         np "Rightfully concerned, Nin slipped away down the corridor."
 
-        hide darya with dissolve2
+        hide darya with dissolve_medium
 
         np "Guess we should go find some other people too."
 
@@ -3627,33 +3503,33 @@ label belintro:
     if recroomeread[2] == 0:
         $ UKName = "Woman with Reptiles"
 
-        show belinda neutral with dissolve2
+        show belinda neutral with dissolve_medium
         uk "Hiya there you two."
-        hide belinda with fastDissolve
+        hide belinda with dissolve_fast
 
         show belinda neutral at tworight
 
         show darya hm at twoleft
 
-        with fastDissolve
+        with dissolve_fast
 
         dk "Yeah, hiya."
 
-        show belinda ohno with fastDissolve
+        show belinda ohno with dissolve_fast
         uk "Oh dear, are you feeling alright? You look a little shaken."
 
-        show darya bois with fastDissolve
+        show darya bois with dissolve_fast
         dk "{piracow}Aye matey, I be in ship-shape!{/piracow}"
 
-        show belinda sadsmile with fastDissolve
+        show belinda sadsmile with dissolve_fast
         uk "Well, as long as you're okay."
 
         pk "Sorry to ask this {i}again{/i}, Darya, but do you know this person?"
 
-        show belinda huh with fastDissolve
+        show belinda huh with dissolve_fast
         uk "Huh?"
 
-        show darya ask2 with fastDissolve
+        show darya ask2 with dissolve_fast
         dk "What? No."
 
         uk "Do I have to already know someone to ask if they're okay if something seems off?"
@@ -3663,61 +3539,61 @@ label belintro:
 
         show darya yeah1
         show belinda neutral
-        with fastDissolve
+        with dissolve_fast
 
         dk "{piracow}If we're truly to be friends, then introductions be in order!{/piracow}"
         dk "I'm Darya, and this is Magpie." 
 
         uk "It's nice to meet you."
-        show belinda excite with fastDissolve
+        show belinda excite with dissolve_fast
         bl "On my end, the snake is Luna, the chameleon is Sol, and I'm Belinda!"
-        show belinda neutral with fastDissolve
+        show belinda neutral with dissolve_fast
 
         np "Awful lot of animals in this place..."
 
         pk "That's interesting, there's a guy with a horse {nw}" 
         
-        show darya grumpy with FD2
+        show darya grumpy with dissolve_midline
         
         extend "back in the dorms."
         pk "He didn't have any idea why his horse was brought with him, but do you have any clues?"
 
         show darya neutral
         show belinda ohno
-        with fastDissolve
+        with dissolve_fast
 
         bl "Last thing I remember before I passed out and woke up here they were with me."
-        show belinda huhno with fastDissolve
+        show belinda huhno with dissolve_fast
         bl "So maybe they just grabbed us as a whole package?"
-        show belinda sadsmile with fastDissolve
+        show belinda sadsmile with dissolve_fast
         bl "Actually, now that I think about it, these two are pretty special."
         bl "It could be important that they're here."
-        show belinda neutral with fastDissolve
+        show belinda neutral with dissolve_fast
 
         np "I mean, we don't even know the importance of {i}our{/i} being here yet."
 
-        show darya yikes with fastDissolve
+        show darya yikes with dissolve_fast
         dk "{piracow}Aye well, I'm sure everyone would say {i}their{/i} pets be the special-est, don't ye think?{/piracow}"
 
-        show belinda letsee with fastDissolve
+        show belinda letsee with dissolve_fast
         bl "..."
-        show belinda ohno with fastDissolve
+        show belinda ohno with dissolve_fast
         bl "You see, Luna and Sol are former 'patients' of a company called Eclipse."
 
-        show darya worry with fastDissolve
+        show darya worry with dissolve_fast
 
         bl "And, put simply, Eclipse were doing horrible things to animals in their custody, believing that it could make them develop a human level of intelligence."
         bl "I... uh, ended up there one day, realised what they were doing, and was able to grab these two before they could catch me."
-        show belinda ohnono with fastDissolve
+        show belinda ohnono with dissolve_fast
         bl "My only regret is that I wasn't able to save more of them..."
 
         pk "Since you called them special, does that mean that those 'horrible things' worked then?"
 
         bl "Unfortunately yeah, they seemed to be onto something. Luna and Sol exhibit behaviours and emotions that aren't normal for their species."
-        show belinda sadsmile with fastDissolve
+        show belinda sadsmile with dissolve_fast
         bl "I don't think I'm anthropomorphising them when I say that they're a lot more attached to me than normal reptiles are..."
 
-        show darya hh with fastDissolve
+        show darya hh with dissolve_fast
         dk "Whatever they were doing it's a shame that it worked, only gives them reason to continue..."
 
         pk "At least you managed to save these ones, I'm sure they appreciate it."
@@ -3726,20 +3602,20 @@ label belintro:
 
         show darya neutral
         show belinda neutral 
-        with fastDissolve
+        with dissolve_fast
 
         pk "And, well, it's been nice speaking to you, but me and Darya should probably go to try and keep finding information about our situation."
         pk "We're not having much luck but there's seemingly quite a few people here, and at least someone might know {i}something{/i}."
 
-        show belinda letsee with fastDissolve
+        show belinda letsee with dissolve_fast
         bl "Good point, I haven't really spoken to many people yet. I'm kinda just hanging out in here cus I'm a little on edge to be honest."
 
-        show darya ask1 with fastDissolve
+        show darya ask1 with dissolve_fast
         dk "{piracow}Oh, do ye wish to join us?{/piracow} We could always use the help."
 
-        show belinda sadsmile with fastDissolve
+        show belinda sadsmile with dissolve_fast
         bl "Oh, n-no thanks. I might check the place out later on my own, but for right now I think this is my limit given the circumstances."
-        show belinda neutral with fastDissolve
+        show belinda neutral with dissolve_fast
         bl "But I hope your investigation goes well."
 
         dk "Thanks, {piracow}and farewell matey.{/piracow}"
@@ -3747,7 +3623,7 @@ label belintro:
 
         hide belinda
 
-        with dissolve2
+        with dissolve_medium
 
         $ asktotal += 1
         $ recroomeread[2] = 1
@@ -3762,19 +3638,19 @@ label osaintro:
     if recroomeread[3] == 0:
         $ UKName = "Wizard Lady"
 
-        show osanne yeah with dissolve2
+        show osanne yeah with dissolve_medium
         uk "Greetings!"
-        hide osanne with fastDissolve
+        hide osanne with dissolve_fast
 
         show darya neutral at twoleft
         show osanne neutral at tworight
-        with fastDissolve
+        with dissolve_fast
 
         dk "Hello!"
 
         show darya worry 
         show osanne blung
-        with fastDissolve
+        with dissolve_fast
 
         uk "No, not you! Your friend!"
 
@@ -3782,56 +3658,56 @@ label osaintro:
 
         hide darya
         hide osanne
-        with fastDissolve
+        with dissolve_fast
 
-        show osanne neutral with fastDissolve
+        show osanne neutral with dissolve_fast
 
         pk "Why are you-"
         with flashbulb
         np "In a flash I realised why this person took a sudden interest in me."
         pk "You're... you've Manifested, like me, aren't you?"
 
-        show osanne yeah with fastDissolve
+        show osanne yeah with dissolve_fast
 
         uk "Yep!"
 
         np "She took off her hat, revealing a set of antenna underneath."
 
-        show osanne neutral2 with fastDissolve
+        show osanne neutral2 with dissolve_fast
         uk "I'm a violet ground beetle!"
-        show osanne neutral with fastDissolve
+        show osanne neutral with dissolve_fast
         uk "And you..."
-        show osanne thinky with fastDissolve
+        show osanne thinky with dissolve_fast
         uk "You're clearly some kind of bird right?"
         uk "Probably a magpie, I'd say? Based on your getup."
 
-        show osanne yeah with fastDissolve
+        show osanne yeah with dissolve_fast
         pk "That's right, specifically a common Eurasian magpie."
-        show osanne neutral with fastDissolve
+        show osanne neutral with dissolve_fast
         pk "To be honest, I wasn't expecting to find anyone else who's Manifested in such a small group of people."
 
-        show osanne whoo with fastDissolve
+        show osanne whoo with dissolve_fast
         uk "You {i}are{/i} a bird! Does that mean you can fly?"
-        show osanne dissapointed with fastDissolve
+        show osanne dissapointed with dissolve_fast
         uk "The closest I can do is stick to walls. Can't believe my Manifest is a {i}flightless{/i} beetle, glueing me to the ground forever..."
 
         pk "Oh, no, not really. I can glide a bit and catch myself when I fall but it's not really 'flight'."
-        show osanne neutral with fastDissolve
+        show osanne neutral with dissolve_fast
         pk "Honestly, for me wall climbing would be a lot more useful; it's always nerve-wracking when I lose my footing."
         np "I chuckle awkardly."
 
-        show osanne blung with fastDissolve
+        show osanne blung with dissolve_fast
         uk "Dang, if only we could swap y'know. But I do quite like my antennae."
-        show osanne thinky with fastDissolve
+        show osanne thinky with dissolve_fast
         uk "Oh! I never actually asked, how has your Manifest expressed itself on you?"
-        show osanne neutral with fastDissolve
+        show osanne neutral with dissolve_fast
 
         pk "Mostly as feathers and bird scales on my hands and forearms."
         pk "Do you... want to see?"
 
-        show osanne yeah with fastDissolve
+        show osanne yeah with dissolve_fast
         uk "Absolutely!"
-        show osanne neutral with fastDissolve
+        show osanne neutral with dissolve_fast
 
         np "I hesitantly removed a glove and pulled up my sleeve, revealing the feathers on my forearm and the scales on the back of my hand."
         pk "It doesn't look great, I know. I always wear gloves to cover it up..."
@@ -3840,83 +3716,83 @@ label osaintro:
 
         pk "... {w=0.5} {i}Ahem{/i}, well, anyway, I assume your hat is to cover up your antennae, but I was wondering about the wizard staff. What's that about?"
 
-        show osanne yeah with fastDissolve
+        show osanne yeah with dissolve_fast
         uk "Aha! You see, I am a potion master! A scholar of alchemy!"
 
         pk "What?"
 
-        show osanne blung with fastDissolve
+        show osanne blung with dissolve_fast
         uk "I'm a chemist, and {i}also{/i} a botanist! {size=-10}Everyone always forgets my other qualification...{/size}"
 
         pk "In what way?"
 
         uk "I got an award for some chemistry research - the title and descriptor of which will probably go over your head - but I've never had any formal recognition for my botanical achievements!"
-        show osanne dissapointed with fastDissolve
+        show osanne dissapointed with dissolve_fast
         uk "And I'm {i}so{/i} much more proud of those!"
 
         pk "Ooh, what have you done in botany?"
-        show osanne yeah with fastDissolve
+        show osanne yeah with dissolve_fast
         np "She began to explain, but Darya was slowly inching her way back into our conversation, catching our attention."
 
-        show osanne grump with fastDissolve
+        show osanne grump with dissolve_fast
         uk "and it's still never-"
         show osanne blung 
         show darya hh:
             xpos -300
-        with fastDissolve
+        with dissolve_fast
         uk "Oh hello again."
         hide osanne 
         hide darya
-        with fastDissolve
+        with dissolve_fast
 
         show darya hh at twoleft
         show osanne blung at tworight
-        with fastDissolve
+        with dissolve_fast
 
         dk "Hi."
 
         pk "Hi Darya."
         np "There was a slight pause before Darya straightened herself and unsheathed her sword."
 
-        show darya yeah1 with fastDissolve
+        show darya yeah1 with dissolve_fast
         dk "{piracow}A-ahoy there, me hearties! I hope Magpie has been treating ye well.{/piracow}"
 
-        show osanne thinky with fastDissolve
+        show osanne thinky with dissolve_fast
         uk "That's your name? We never introduced each other, did we?"
-        show osanne neutral with fastDissolve
+        show osanne neutral with dissolve_fast
         of "I'm Osanne, nice to meet you, Magpie."
 
         pk "Yeah, it's nice to meet you."
 
-        show darya neutral with fastDissolve
+        show darya neutral with dissolve_fast
         dk "{piracow}And I be Captain Darya.{/piracow}"
-        show darya hm with fastDissolve
+        show darya hm with dissolve_fast
         dk "{piracow}I overheard ye mention botany, and were wondering if ye had any thoughts on the cactuses in our quarters.{/piracow}"
 
         pk "Oh yeah, since we seem to be underground they'll probably die soon."
 
-        show osanne thinky2 with fastDissolve
+        show osanne thinky2 with dissolve_fast
         of "After reading that 'dorms' sign I was thinking that there might be UVB in the lights, since if we're to be down here for a while it won't be great on us, either."
         show osanne dissapointed 
         show darya worry
-        with fastDissolve
+        with dissolve_fast
         of "There'd be no reason to put a desert plant in a cold, sunless prison just to leave it to die."
-        show osanne neutral with fastDissolve
+        show osanne neutral with dissolve_fast
 
         pk "That makes sense actually, I never would have thought about it like that."
 
-        show darya hm with fastDissolve
+        show darya hm with dissolve_fast
         dk "{piracow}That be interesting! {/piracow}{size=-10}Magpie would you mind if we left?{/size}"
 
         pk "Right, we were going to try and explore this place and see what we can investigate."
         pk "It would be nice to talk to you again later, though."
 
-        show osanne yeah with fastDissolve
+        show osanne yeah with dissolve_fast
         of "Okay, see ya!"
 
         hide darya
         hide osanne
-        with fastDissolve
+        with dissolve_fast
 
 
         $ clues_text[4].append("Osanne brought up the idea that there might be 'UVB' in the lights to prevent the plants from dying, since it'll also stop us from suffering the consequences of too little sunlight as well.")
@@ -4136,71 +4012,71 @@ label carintro:
         np "There's a gaunt man hunched over at the table, scribbling in a notebook and muttering to himself."
         np "He doesn't seem to notice as we approach."
 
-        show darya neutral with dissolve2
+        show darya neutral with dissolve_medium
         dk "{size=+10}Ahoy! How goes it?{/size}"
 
         np "The man flinched thanks to Darya's outburst, his sudden movement leaving a streak of ink across his page."
         np "He slowly stood up, pushed his chair in, and glared at us."
 
-        hide darya with fastDissolve
+        hide darya with dissolve_fast
 
         $ UKName = "Man with Book"
 
         show darya neutral at twoleft
         show carwyn angy at tworight
-        with fastDissolve
+        with dissolve_fast
 
         uk "How dare you, were you never educated in the proper manners with which to navigate the social domain around an artist at work!?"
         show carwyn tipped 
         show darya grumpy
-        with fastDissolve
+        with dissolve_fast
         uk "Were you raised in a barn? Or perhaps by wolves?"
 
-        show darya threat with fastDissolve
+        show darya threat with dissolve_fast
         dk "{piracow}Ye would never catch me alive in such a filthy place! I were raised by the sea herself, upon the deck of a glorious vessel.{/piracow}"
 
         #ht "{bt=h5-p5-s2.0}testing{/bt}"
         #ht "{sc=3}testing{/sc}"
         #ht "{swap=te@t3@0.2}te{/swap}{swap=st@57@0.15}st{/swap}{swap=ing@1n6@0.17}ing{/swap}"
 
-        show carwyn ha with fastDissolve
+        show carwyn ha with dissolve_fast
         uk "Your terrid implication that the filth of the ocean doesn't outweigh the stench of the land further evidences your lowly status."
 
-        show darya hm with fastDissolve
+        show darya hm with dissolve_fast
 
         uk "To think such a simpleton as you could conceivably conclude to manifest in the same sphere as I."
-        show carwyn angy with fastDissolve
+        show carwyn angy with dissolve_fast
         uk "Such utter lack of consternation at the disruption of another's deliberation and personal space indicates aforesaid senselessness."
-        show carwyn ango with fastDissolve
+        show carwyn ango with dissolve_fast
         uk "Perhaps your ilk merely finds it appropriate to construct a tomb upon someone else's misery."
 
         np "How can you upset someone this much with so few words Darya..."
         np "I should step in before someone's pride takes an irrepairable hit."
 
-        show darya grumpy with fastDissolve
+        show darya grumpy with dissolve_fast
 
         pk "Terribly sorry about Darya there, but now that you've brought it up, what {i}is{/i} your craft? Also, what's your name if you don't mind. I'm Magpie."
 
-        show carwyn neutral with fastDissolve
+        show carwyn neutral with dissolve_fast
         cm "My name is Carwyn."
-        show carwyn itme with fastDissolve
+        show carwyn itme with dissolve_fast
         cm "I am an artificer of the written word, a smith of elegance, composing the majesty of poetry."
 
         np "Is that slang for 'I'm unemployed'?"
         pk "Sounds... interesting."
 
-        show carwyn tipped with fastDissolve
+        show carwyn tipped with dissolve_fast
         cm "How striking that someone of your calibre would take an interest in humanity's finest of crafts."
         cm "Perhaps I was mistaken to judge you by the lamentable companion in your wake."
-        show carwyn angy with fastDissolve
+        show carwyn angy with dissolve_fast
         cm "Alas, I must return to the construction of my masterpiece, and you must recommence your silence if you wish to persist in my presence."
 
         np "With one final scowl, he returns to the table and picks up his pen once more."
 
         hide carwyn
         hide darya
-        with fastDissolve
-        show darya hm with fastDissolve
+        with dissolve_fast
+        show darya hm with dissolve_fast
 
         np "Darya leans in to whisper something to me."
 
@@ -4209,7 +4085,7 @@ label carintro:
 
         pk "{size=-10}Yeah he's definitely a little off.{/size}"
 
-        hide darya with dissolve2
+        hide darya with dissolve_medium
 
         $ asktotal += 1
         $ dhallread[0] = 1
@@ -4282,7 +4158,7 @@ label nikratintro:
 
         show ratna hai at twoleft
         show nikolas yeah at tworight
-        with dissolve2
+        with dissolve_medium
 
         $ UKName = "Both"
 
@@ -4290,120 +4166,120 @@ label nikratintro:
         
         hide ratna
         hide nikolas
-        with fastDissolve
+        with dissolve_fast
 
-        show darya neutral with fastDissolve
+        show darya neutral with dissolve_fast
         dk "Hi!!"
 
         pk "Hey there..."
 
-        hide darya with fastDissolve
+        hide darya with dissolve_fast
 
         show darya neutral at twoleft
         show nikolas aha at tworight
-        with dissolve2
+        with dissolve_medium
 
         $ UKName = "Green Headband"
 
         uk "Do you want to hear a tale of dangers untold and foul beasts unknown!"
 
-        show darya yeah2 with fastDissolve
+        show darya yeah2 with dissolve_fast
         dk "{piracow}Aye! Set the scene me-hearties.{/piracow}"
-        hide darya with fastDissolve
+        hide darya with dissolve_fast
 
         $ UKName = "Black Headband"
 
         show nikolas neutral
         show ratna storytime at twoleft 
-        with fastDissolve
+        with dissolve_fast
         uk "Deep in the jungles of Peru..."
 
         $ UKName = "Green Headband"
 
-        show nikolas yaey with fastDissolve
+        show nikolas yaey with dissolve_fast
         uk "Remnants of a monster hidden for {i}millions{/i} of years were uncovered by our intrepid explorer, but the path was not without strife."
 
         $ UKName = "Black Headband"
 
-        show ratna yousee with fastDissolve
+        show ratna yousee with dissolve_fast
         uk "The TITANOSAURUS, a brute weighing over 100 tonnes, made its presence known."
 
         $ UKName = "Green Headband"
 
-        show nikolas aha with fastDissolve
+        show nikolas aha with dissolve_fast
         uk "The fellowship had been searching for weeks, their supplies dwindling. They'd almost lost hope..."
 
         $ UKName = "Black Headband"
 
-        show ratna hmn with fastDissolve
+        show ratna hmn with dissolve_fast
         uk "Weathered surfaces were revealed to us, and our seemingly dire prospects came to fruition!"
 
         uk "And then-"
 
         show ratna neutral
         show nikolas neutral
-        with fastDissolve        
+        with dissolve_fast        
         pk "Hold on, slow down. Can we get your names first, please?"
 
         $ UKName = "Green Headband"
 
-        show nikolas yeah with fastDissolve
+        show nikolas yeah with dissolve_fast
         uk "They're Ratna!"
 
-        show ratna hai with fastDissolve
+        show ratna hai with dissolve_fast
         rh "And he's Nikolas! Anyway-"
-        show ratna yousee with fastDissolve
+        show ratna yousee with dissolve_fast
 
         np "Despite my half-hearted efforts, they don't miss a beat in continuing their rambling. "
 
-        show nikolas aha with fastDissolve
+        show nikolas aha with dissolve_fast
 
         np "Darya's on the edge of her seat but I zoned out a while ago."
 
-        show ratna heh with fastDissolve
+        show ratna heh with dissolve_fast
         rh "And that, my friends, is how I discovered the fourth largest titanosaur skeleton."
 
-        hide nikolas with fastDissolve
+        hide nikolas with dissolve_fast
 
-        show darya yeah1 at tworight with fastDissolve
+        show darya yeah1 at tworight with dissolve_fast
         dk "{piracow}So ye be a palaeontologist?{/piracow}"
 
-        show ratna hai with fastDissolve
+        show ratna hai with dissolve_fast
         rh "Yes! A discoverer of ancient beasts! Of both the foul and fascinating."
 
-        hide ratna with fastDissolve
+        hide ratna with dissolve_fast
 
-        show nikolas whoo at twoleft with fastDissolve
+        show nikolas whoo at twoleft with dissolve_fast
         nl "An archivist of a time before paper! As I am an archivist of the lands! A cartographer by trade."
 
         dk "{piracow}Yarr, a man without a map be like the sky without the stars.{/piracow}"
 
-        show nikolas neutral with fastDissolve
+        show nikolas neutral with dissolve_fast
 
         pk "You two are awfully in sync, are you, like, friends?"
 
         hide nikolas
         hide darya
-        with fastDissolve
+        with dissolve_fast
 
         show nikolas neutral at tworight
         show ratna owo at twoleft
-        with fastDissolve
+        with dissolve_fast
 
         rh "Nik helps with mapping out dig sites for me, so I'd consider us friends."
 
         show ratna neutral 
         show nikolas ahey
-        with fastDissolve
+        with dissolve_fast
         nl "We don't speak too often, but we've technically known each other for years!"
 
         pk "Interesting coincidence you're both here together, then."
 
         show nikolas eh 
         show ratna neutral
-        with fastDissolve
+        with dissolve_fast
         nl "Not really, because I don't know anyone else here! And I know quite a lot of people, so statistically I think it checks out."
-        show nikolas neutral with fastDissolve
+        show nikolas neutral with dissolve_fast
         nl "More importantly, I'm currently working on a map of this place. I noticed a couple locked doors, plus the barricaded stairs, so it might be important to visualise the floorplan."
         nl "Once I'm done I can give you a copy if you want?"
 
@@ -4411,22 +4287,22 @@ label nikratintro:
 
         np "Ratna peers over to the map in Nikolas's hands."
 
-        show ratna yousee with fastDissolve
+        show ratna yousee with dissolve_fast
         rh "Oh yeah, we should probably get back on that actually, seems like there's still some places yet to add. Talk to you later!"
 
-        hide ratna with fastDissolve
+        hide ratna with dissolve_fast
 
-        show darya neutral at twoleft with fastDissolve
+        show darya neutral at twoleft with dissolve_fast
         dk "Bye!"
 
-        show nikolas yeah with fastDissolve
+        show nikolas yeah with dissolve_fast
         nl "See ya!"
 
         pk "Yeah, goodbye."
 
         hide darya
         hide nikolas
-        with dissolve2
+        with dissolve_medium
 
 
 
@@ -4499,82 +4375,82 @@ label valkevintro:
 
         $ UKName = "Man in Medical Scrubs"
 
-        show kevin neutral with dissolve2
+        show kevin neutral with dissolve_medium
         uk "Hello there you two!"
-        hide kevin with fastDissolve
+        hide kevin with dissolve_fast
 
         show kevin neutral at tworight
         show darya yeah1 at twoleft
-        with fastDissolve
+        with dissolve_fast
 
         dk "Hey there!"
         dk "{piracow}I be Darya, and this here be Magpie.{/piracow} What about you?"
 
         np "I give a small wave at the mention of my name."
 
-        show kevin yeep with fastDissolve
+        show kevin yeep with dissolve_fast
         ka "I'm Kevin, and this is my best friend Valkyrie!"
 
-        hide darya with fastDissolve
+        hide darya with dissolve_fast
 
-        show valkyrie neutral1 at twoleft with fastDissolve
+        show valkyrie neutral1 at twoleft with dissolve_fast
         vl "Heya."
 
-        show kevin neutral with fastDissolve
+        show kevin neutral with dissolve_fast
         pk "Out of curiosity, are you two investigating this place? It's an awfully odd hangout spot if not."
 
-        show valkyrie tipped with fastDissolve
+        show valkyrie tipped with dissolve_fast
         vl "Oh yeah, we've been having a look around ever since we woke up."
-        show valkyrie aaan with fastDissolve
+        show valkyrie aaan with dissolve_fast
         vl "Kevin was super excited to check out the medical facilities and see what they had in stock."
-        show valkyrie neutral1 with fastDissolve
+        show valkyrie neutral1 with dissolve_fast
 
 
         hide kevin 
         show darya hm at tworight 
-        with fastDissolve
+        with dissolve_fast
         dk "Did you {i}know{/i} there'd be medical facilities when you first woke up?"
 
         pk "After you read the 'dorm rules' sign it's a reasonable assumption to make, to be fair."
 
-        hide valkyrie with fastDissolve
+        hide valkyrie with dissolve_fast
 
-        show kevin aya at twoleft with fastDissolve
+        show kevin aya at twoleft with dissolve_fast
         ka "Nah, just stumbled across it as we were wandering about."
-        show kevin hrm with fastDissolve
+        show kevin hrm with dissolve_fast
         ka "It's not like there's many rooms to this place, after all..."
 
         pk "A medical bay isn't normally a place someone is super excited to visit, any particular reason why it caught your eye?"
 
-        show darya neutral with fastDissolve
+        show darya neutral with dissolve_fast
 
         dk "People can be excited about anything, Magpie."
 
-        show kevin neutral with fastDissolve
+        show kevin neutral with dissolve_fast
         ka "Ah, see, I'm currently studying to become a nurse, an anesthetist specifically."
 
-        hide darya with fastDissolve
+        hide darya with dissolve_fast
         
-        show valkyrie neutral1 at tworight with fastDissolve
+        show valkyrie neutral1 at tworight with dissolve_fast
         vl "An anesthetist is in charge of monitoring a patient's vital signs, as well as giving anesthetics, pain killers, and the like."
 
-        show kevin aya with fastDissolve
+        show kevin aya with dissolve_fast
         ka "I've spent a lot of time in a ward during my placement, so I really wanted to see what this place was like."
         ka "Despite it's small size its quite similar to what I'm familiar with."
 
-        hide valkyrie with fastDissolve
+        hide valkyrie with dissolve_fast
 
-        show darya hh at tworight with fastDissolve
+        show darya hh at tworight with dissolve_fast
         dk "Okay, you're the nurse that Nin suggested we talk to."
         dk "Is there anything you could tell us about this?"
 
         np "She pulled up her sleeve, revealing the scar beneath."
 
-        show kevin sad with fastDissolve
+        show kevin sad with dissolve_fast
         ka "Oh yeah, that..."
-        show kevin sad2 with fastDissolve
+        show kevin sad2 with dissolve_fast
         ka "Me and Kyrie saw those too, based on how it's been sewn back up, and how neat it is, its definitely a post-surgery scar of sorts."
-        show kevin sad with fastDissolve
+        show kevin sad with dissolve_fast
         ka "But I can't work out the purpose, my best guess is that it was to implant something in us or otherwise modify that part of the inside of our forearm."
         ka "And since it's mostly past the 'hurting' part of recovering and just starting to itch, it's clear to me they've been healing for at least a few days to a week or so."
         ka "Which would mean we've been unconscious for a while, which is worrying."
@@ -4582,113 +4458,113 @@ label valkevintro:
         $ clues_text[7].append("Kevin suggests that the (seemingly surgical) scars on our arms could be indicative that something was modified about or implanted into our forearms. They look like they've been healing for a while, so how long was it since we were knocked out?")
         "Notes on 'Scars on Arm' have been updated."
 
-        hide darya with fastDissolve
+        hide darya with dissolve_fast
 
-        show valkyrie thatbad at tworight with fastDissolve
+        show valkyrie thatbad at tworight with dissolve_fast
         vl "We settled on deciding to leave it be for now, since it currently isn't causing any harm and we can't do much about it."
         vl "Besides, Kevin isn't technically qualified yet. {size=-10}Nor is he even technically a surgeon...{/size}"
 
-        show kevin sad2 with fastDissolve
+        show kevin sad2 with dissolve_fast
         ka "'Sides, surgeries near major arteries can go really wrong really quickly, and I don't think the facilities here are suitable to handle sudden and extreme bloodloss."
 
         pk "Shame, you even seem to be wearing the right clothes for it. Those are medical scrubs, right?"
 
-        show kevin hrm with fastDissolve
+        show kevin hrm with dissolve_fast
         ka "Nah, this is a dressing gown, I don't go out on the town in medical garments."
         show kevin sys 
         show valkyrie neutral1
-        with fastDissolve
+        with dissolve_fast
         ka "Well, I don't {i}go out{/i} in pyjamas usually, either..."
 
-        hide kevin with fastDissolve
+        hide kevin with dissolve_fast
 
-        show darya ask2 at twoleft with fastDissolve
+        show darya ask2 at twoleft with dissolve_fast
         dk "You're in pyjamas?"
-        show darya ask1 with fastDissolve
+        show darya ask1 with dissolve_fast
         dk "Anyway, I was wondering what you did, Valkyrie, since Kevin's just told us all about his work."
 
-        show valkyrie um with fastDissolve
+        show valkyrie um with dissolve_fast
         vl "Oh, right, um. I'm a computer scientist, specifically I work in cyber security at one of Reawaken Immunity's hospitals."
-        show valkyrie aaan with fastDissolve
+        show valkyrie aaan with dissolve_fast
         vl "It's the same one that Kevin's interning at, actually."
 
-        hide darya with fastDissolve
+        hide darya with dissolve_fast
 
-        show kevin blep at twoleft with fastDissolve
+        show kevin blep at twoleft with dissolve_fast
         ka "You say that like it was coincidence, you know I chose the same one on purpose."
 
         show kevin neutral 
         show valkyrie neutral1
-        with fastDissolve
+        with dissolve_fast
 
         pk "Huh, how long have you two known each other then?"
         pk "Must've been a while if you're basing your life plans on one another."
 
-        show kevin yeep with fastDissolve
+        show kevin yeep with dissolve_fast
         ka "We've known each other since the start of A-levels, so about 6 years now."
 
-        show valkyrie aaan with fastDissolve
+        show valkyrie aaan with dissolve_fast
         vl "Yeah, I finished my computer science degree {i}a couple{/i} years earlier than Kev's medical degree is taking him."
-        show valkyrie tipped with fastDissolve
+        show valkyrie tipped with dissolve_fast
         vl "So I basically got to choose where we ended up working at."
         vl "Not like we didn't talk it through though, of course."
 
-        hide kevin with fastDissolve
+        hide kevin with dissolve_fast
 
-        show darya neutral at twoleft with fastDissolve
+        show darya neutral at twoleft with dissolve_fast
         dk "Working alongside someone you deeply care about as a long term plan sounds nice."
 
         hide darya
         hide valkyrie
-        with fastDissolve
+        with dissolve_fast
 
         np "Kevin and Valkyrie quickly share pained grimaces before the latter speaks up."
 
         show kevin nope at twoleft
         show valkyrie neutral2 at tworight
-        with fastDissolve
+        with dissolve_fast
 
         ka "Hold on, before you go any further, yes, Kyrie is the light of my life, but it is entirely platonic please don't get the wrong idea!"
-        show kevin hrm with fastDissolve
+        show kevin hrm with dissolve_fast
         ka "So many people do! {size=-10}It's a little upsetting...{/size}"
 
-        show valkyrie thatbad with fastDissolve
+        show valkyrie thatbad with dissolve_fast
         vl "Sorry if that sounded super hasty, we really needed to clear it up as soon as we could."
         vl "It's a bit silly what people assume, Kev's mum had the wrong idea for 3 years. Though it's a little funny looking back on it."
         show valkyrie tipq 
         show kevin neutral
-        with fastDissolve
+        with dissolve_fast
         vl "Oh, speaking of, are you two friends? You seem to get along well."
 
         np "I was taken aback for a moment. I've barely spoken this whole time, how did she come to a conclusion like {i}that{/i}?"
 
-        show valkyrie neutral1 with fastDissolve
+        show valkyrie neutral1 with dissolve_fast
 
         pk "Honestly? We met like half an hour ago when she barged into my room, we've been teaming up to investigate the place but I wouldn't call us friends."
         np "Darya looked momentarily wounded before recovering her usual stance."
 
-        show kevin aya with fastDissolve
+        show kevin aya with dissolve_fast
         ka "We technically just bumped into each other as well, since our rooms were right next to each other."
-        show kevin neutral with fastDissolve
+        show kevin neutral with dissolve_fast
         ka "It was pretty nice seeing a familiar face after waking up in a weird place."
 
-        hide valkyrie with fastDissolve
+        hide valkyrie with dissolve_fast
 
-        show darya yeah1 at tworight with fastDissolve
+        show darya yeah1 at tworight with dissolve_fast
         dk "{piracow}Aye, the same be true for me and Phantom Magpie and now she be part of me loyal crew!{/piracow}"
 
-        hide kevin with fastDissolve
+        hide kevin with dissolve_fast
 
-        show valkyrie tipq2 at twoleft with fastDissolve
+        show valkyrie tipq2 at twoleft with dissolve_fast
         vl "Wait hold on, Phantom Magpie? Like the 'robin hood style phantom thief' the news keeps talking about?"
         vl "I think I recognize your getup, now that I think about it."
 
-        hide darya with fastDissolve
+        hide darya with dissolve_fast
 
-        show kevin yeep at tworight with fastDissolve
+        show kevin yeep at tworight with dissolve_fast
         ka "Yeah actually, I'm certain now, that's you isn't it?"
 
-        show valkyrie heh with fastDissolve
+        show valkyrie heh with dissolve_fast
         pk "Y-yeah, that's me."
         np "Still wish I hadn't dug my own grave by telling Darya earlier, there's no way for me to lie out of this anymore."
 
@@ -4696,48 +4572,48 @@ label valkevintro:
 
         np "I nervously side-eye Valkyrie the cyber-cop for a moment."
 
-        show valkyrie tipq2 with fastDissolve
+        show valkyrie tipq2 with dissolve_fast
         vl "What's that look for?"
 
         pk "Just wondering if you'd have anything against me, given that you work in security and all..."
 
         show valkyrie heh 
         show kevin neutral
-        with fastDissolve
+        with dissolve_fast
         vl "Well, from what I've heard, you enjoy stealing from rich people right? I can get behind that."
-        show valkyrie aaan with fastDissolve
+        show valkyrie aaan with dissolve_fast
         vl "You know why I work in a hospital? Cus I want to protect the vulnerable."
-        show valkyrie thatbad with fastDissolve
+        show valkyrie thatbad with dissolve_fast
         vl "If a hacker gets into the hospital network, they can shut off ventilators or hold life support systems hostage until the money is coughed up."
-        show valkyrie neutral1 with fastDissolve
+        show valkyrie neutral1 with dissolve_fast
         vl "What you're doing? Love it."
 
         ka "I also think you're kinda cool actually."
 
         np "They've definitely misunderstood something somehow, but I'm going to let it slide. I'd rather I stay in their good books."
 
-        show kevin sys with fastDissolve
+        show kevin sys with dissolve_fast
         ka "Anyway, we should probably get back to checking out this infirmary."
         ka "I haven't finished looking through all the chemicals, and there's some pretty dangerous stuff in here."
 
-        hide valkyrie with fastDissolve
+        hide valkyrie with dissolve_fast
 
-        show darya yikes at twoleft with fastDissolve
+        show darya yikes at twoleft with dissolve_fast
         dk "It'll probably be a good idea to make an inventory of that, then. There's some people I don't quite trust here."
 
-        show kevin sad with fastDissolve
+        show kevin sad with dissolve_fast
         ka "Oh dear, I better get on that quickly, then!"
-        show kevin neutral with fastDissolve
+        show kevin neutral with dissolve_fast
         ka "See ya for now!"
 
-        show darya bois with fastDissolve
+        show darya bois with dissolve_fast
         dk "Farewell!"
 
         np "Me and Valkyrie quietly wave goodbye."
 
         hide darya
         hide kevin
-        with fastDissolve
+        with dissolve_fast
 
         $ asktotal += 1
         $ medbayread[0] = 1
@@ -4800,7 +4676,7 @@ label lockedH1door:
         pk "Yeah that makes sense, didn't think it'd be that easy."
         np "But if I still had my lockpicks on me then this {i}would've{/i} been that easy."
 
-        show darya yeah1 with dissolve2
+        show darya yeah1 with dissolve_medium
         dk "Let me try."
 
         if corrDdoorread[0] == 1:
@@ -4808,12 +4684,12 @@ label lockedH1door:
         else:
             pk "Not sure why you'd be able to when I couldn't."
         
-        show darya hm with fastDissolve
+        show darya hm with dissolve_fast
         dk "It can't hurt to try..."
 
         np "No matter the force she used, the door stayed firmly shut."
 
-        show darya hh with fastDissolve
+        show darya hh with dissolve_fast
         if corrDdoorread[0] == 1:
             dk "{size=-5}Maybe I should just start leaving sealed doors be...{/size}"
         else:
@@ -4825,7 +4701,7 @@ label lockedH1door:
 
         pk "Oh, yeah sure."
 
-        hide darya with dissolve2
+        hide darya with dissolve_medium
 
         $ asktotal += 1
 
@@ -4906,7 +4782,7 @@ label daryaburstpandoraroom:
 
     pk "Hello, who's-"
 
-    play sound "audio/bang.wav"
+    play sound "audio/sound-effects/bang.wav"
 
 
     scene bg daryaatdoor with hpunch
@@ -4933,59 +4809,59 @@ label daryaburstpandoraroom:
     pk "But it doesn't help."
     pk "What are you doing here??"
 
-    show darya yeah1 with fastDissolve
+    show darya yeah1 with dissolve_fast
     dk "{piracow}I heard ye scrabbling around and had to know who else be here.{/piracow}"
 
     pk "Cool cool, next questions: where are we and can you drop the accent?"
 
-    show darya hh with fastDissolve
+    show darya hh with dissolve_fast
     dk "{piracow}Arg, I know not where we be...{/piracow}"
-    show darya anger with fastDissolve
+    show darya anger with dissolve_fast
     dk "{piracow}But the pirate stays, matey.{/piracow} I like it."
 
     np "Okay. Her dropping the pirate in the last sentence aside..."
-    show darya neutral with fastDissolve
+    show darya neutral with dissolve_fast
     pk "Hold on, let me process this for a second. Then we can start from the beginning."
     pk "So, who are you?"
 
-    show darya yeah2 with fastDissolve
+    show darya yeah2 with dissolve_fast
     dk "{piracow}I be Captain Darya Bateau, at yer service.{/piracow}"
     
     pk "That cannot be your real name! That's the french word for 'boat'!"
 
-    show darya ohyeah with fastDissolve
+    show darya ohyeah with dissolve_fast
     dk "{piracow}A true Captain be needing many aliases.{/piracow}"
-    show darya neutral with fastDissolve
+    show darya neutral with dissolve_fast
     dk "Anyhoo, {piracow}what be your name?{/piracow}"
 
     pk "I'm... Phantom Magpie."
     np "If you're using an alias, so am I. Don't really feel like telling some stranger my real name, Pandora, just yet anyway."
 
-    show darya hm with fastDissolve
+    show darya hm with dissolve_fast
     dk "{piracow}Arg, ye name be familiar, where do I know ye from.{/piracow}"
 
     #np "Let's downplay this a little bit."
     pk "I uh, steal things...?"
     pk "You {i}might{/i} have seen me on the news?"
 
-    show darya yeah1 with fastDissolve
+    show darya yeah1 with dissolve_fast
     dk "{piracow}We be one and the same then. I'm a pirate and you be...{/piracow} whatever you are."
 
     pk "Well, I'm usually called a 'Phantom Thief', I think. Since I steal from rich people to help poorer folks."
 
-    show darya neutral with fastDissolve
+    show darya neutral with dissolve_fast
     dk "{piracow}That be a noble occupation, I suppose ye be in yer element here: the unknown and the dangerous.{/piracow}"
 
     np "I wouldn't really consider this 'in my element', I've literally been kidnapped."
 
-    show darya ask1 with fastDissolve
+    show darya ask1 with dissolve_fast
     dk "To continue, {piracow}I saw other doors on me way in. Do you wish to join me crew and investigate?{/piracow}"
 
     np "Okay, so I don't trust this woman one bit."
     np "However..."
     np "I was planning on exploring outside of this room anyway. And having someone with me might make it easier... and safer."
     pk "Yeah sure, I'll tag along."
-    hide darya with dissolve2
+    hide darya with dissolve_medium
 
     np "She's insane."
     np "God I hope anyone else we stumble onto is more normal."
@@ -5001,9 +4877,9 @@ label allintroviewed:
     np "After checking out every room, I decided it was probably best to head back to the dorms to recuperate."
     pk "Since we've been everywhere now, I'm going to head back to my room for a bit."
 
-    show darya neutral with dissolve2
+    show darya neutral with dissolve_medium
     dk "Oh, I'll head back with you."
-    show darya hm with fastDissolve
+    show darya hm with dissolve_fast
     dk "{size=-10}It's safer if we stick together...{/size}"
 
     np "..."
@@ -5018,24 +4894,24 @@ label allintroviewed:
 
     $ UKName = "Man in Sunglasses"
 
-    show dexter ack with dissolve2
+    show dexter ack with dissolve_medium
     uk "Ack!"
-    show dexter eek with fastDissolve
+    show dexter eek with dissolve_fast
     uk "Um, hello- hi- uh-"
-    show dexter notgood2 with fastDissolve
+    show dexter notgood2 with dissolve_fast
     uk "Wait, no- bye!"
-    hide dexter with dissolve2
+    hide dexter with dissolve_medium
 
     np "Before we had any time to process him, the jittery man scuttled into the room with the lizard on the door."
     np "Me and Darya shared a puzzled look, but after only a few seconds he re-emerged with a new visage."
     
-    show dexter yeahh with dissolve2
+    show dexter yeahh with dissolve_medium
     uk "Hi. How's it going?"
-    hide dexter with fastDissolve
+    hide dexter with dissolve_fast
 
     show dexter ohyeah at tworight
     show darya ask2 at twoleft
-    with fastDissolve
+    with dissolve_fast
 
     dk "Um..."
 
@@ -5043,52 +4919,52 @@ label allintroviewed:
 
     show darya neutral 
     show dexter strained
-    with fastDissolve
+    with dissolve_fast
 
     uk "Oh, absolutely. I'm swell, just- just wasn't expecting to run into anyone."
     uk "Anyway, hi, what'cha been up to? Everything all good?"
-    show dexter notgood with fastDissolve
+    show dexter notgood with dissolve_fast
     uk "Wait, hold on, I mean, what are you two called?"
-    show dexter fguns with fastDissolve
+    show dexter fguns with dissolve_fast
     ds "I'm Dexter, but for you, it's Dex."
-    show dexter neutral with fastDissolve
+    show dexter neutral with dissolve_fast
 
     pk "Call me Magpie."
 
-    show darya yeah1 with fastDissolve
+    show darya yeah1 with dissolve_fast
     dk "Nice to meet you, Dexter, I'm Darya."
 
-    show dexter question with fastDissolve
+    show dexter question with dissolve_fast
     ds "The same to you Capt'n. Oh, and, um, what's up with your getup? ...and the, uh, sword?"
 
     show darya ohyeah 
     show dexter ng2
-    with fastDissolve
+    with dissolve_fast
     dk "{piracow}Ye be correct in calling me captain, have a licence with me name on it, after all.{/piracow}"
     dk "'Darya Vene, Captain of the mighty vessel, the Dragonflight!'"
-    show darya bois with fastDissolve
+    show darya bois with dissolve_fast
     dk "{piracow}Though ye need not worry about the blade, 'tis only foam.{/piracow}"
 
-    show dexter hmmnss with fastDissolve
+    show dexter hmmnss with dissolve_fast
     ds "That's cool actually! I- I can- It's not quite the same, but I have a pilot's licence, I can fly pretty well, used to operate commercial airlines."
 
-    show darya yeah1 with fastDissolve
+    show darya yeah1 with dissolve_fast
     dk "{piracow}Aye, I be the same, my ship has a mighty legacy and carried passengers many across the Bristol Channel.{/piracow}"
-    show darya yeah2 with fastDissolve
+    show darya yeah2 with dissolve_fast
     dk "The freedom of the ocean, the feeling of the wind in my hair and the waves beneath the deck, it's unparalleled."
-    show darya neutral with fastDissolve
+    show darya neutral with dissolve_fast
 
     np "Ohh! Her boat is a ferry! Doesn't quite live up to the vibe she exudes."
 
-    show dexter ng2 with fastDissolve
+    show dexter ng2 with dissolve_fast
     ds "Yeah, it was- it was nice being in the sky..."
-    show dexter cris with fastDissolve
+    show dexter cris with dissolve_fast
     ds "{size=-10}Though for the last 5 years I...{/size}"
 
-    show darya hm with fastDissolve
+    show darya hm with dissolve_fast
     dk "What was that last bit?"
 
-    show dexter strained with fastDissolve
+    show dexter strained with dissolve_fast
     ds "Just. Mumbling to myself...!"
     ds "Aaaanyway, you caught me just heading back to my room-"
 
@@ -5100,7 +4976,7 @@ label allintroviewed:
 
     hide darya
     hide dexter 
-    with dissolve2
+    with dissolve_medium
 
     $ UKName = "Voice From Speaker"
 
@@ -5112,13 +4988,13 @@ label allintroviewed:
 
     show darya sad at twoleft
     show dexter eek at tworight
-    with dissolve2
+    with dissolve_medium
 
-    play music "audio/threat.mp3" fadein 1.0
+    play music "audio/bg/threat.mp3" fadein 1.0
 
     dk "What- what. Is something terrible happening after all?"
 
-    show dexter aaaa with fastDissolve
+    show dexter aaaa with dissolve_fast
     ds "Aah-aha! Oh no..."
     hide dexter with dissolve
 
@@ -5138,7 +5014,7 @@ label allintroviewed:
 
     np "He was desperately holding back sobs."
 
-    show darya worry with fastDissolve
+    show darya worry with dissolve_fast
     dk "We should probably try and bring him with us, that speaker voice said {i}everyone{/i} needed to come."
     dk "I really don't want to upset whoever's on the other end of it."
 
@@ -5148,45 +5024,45 @@ label allintroviewed:
 
     hide darya
     hide dexter 
-    with fastDissolve
+    with dissolve_fast
 
-    show florus neutral with fastDissolve
+    show florus neutral with dissolve_fast
 
-    play music "audio/wandering.mp3" fadein 1.0
+    play music "audio/bg/wandering neutral.wav" fadein 1.0
 
     fc "Oh. Heya. I suppose we heed the call?"
-    hide florus with dissolve2
+    hide florus with dissolve_medium
 
     show darya hm at twoleft
     show florus neutral at tworight
-    with dissolve2
+    with dissolve_medium
 
     dk "Dexter here isn't having a good time of it, so we're trying to get him to come with us."
 
-    show florus blerg with fastDissolve
+    show florus blerg with dissolve_fast
     fc "Well, if he doesn't want to go it's his prerogative..."
-    show florus ey with fastDissolve
+    show florus ey with dissolve_fast
     fc "I'll tag along if you're heading over there, though."
 
-    show darya yeah1 with fastDissolve
+    show darya yeah1 with dissolve_fast
     dk "The more the merrier."
 
     np "As if an ironic response from the universe, Emilio turned the corner at that exact moment."
 
     hide darya
     hide florus 
-    with fastDissolve
+    with dissolve_fast
 
-    show emilio welcome with fastDissolve
+    show emilio welcome with dissolve_fast
     eb "{piracow}Howdy folks! Quite a gathering we have here, ain't it-{/piracow}"
-    show emilio grumpy with fastDissolve
+    show emilio grumpy with dissolve_fast
     eb "..."
 
-    hide emilio with fastDissolve
+    hide emilio with dissolve_fast
 
     show emilio grumpy at tworight
     show darya grumpy at twoleft
-    with fastDissolve
+    with dissolve_fast
 
     np "The air grows somehow tenser, as he and Darya lock eyes."
 
@@ -5196,20 +5072,20 @@ label allintroviewed:
 
     pk "This is seriously not the time, did you not hear the creepy voice or what?"
 
-    show emilio neutral with fastDissolve
+    show emilio neutral with dissolve_fast
     eb "{piracow}I humbly apo-{/piracow} I mean, you're right."
-    show emilio spin with fastDissolve
+    show emilio spin with dissolve_fast
     eb "We can put our differences aside for a moment, {i}can't we{/i}?"
 
     dk "Hmm... Sure..."
-    show darya yikes with fastDissolve
+    show darya yikes with dissolve_fast
     dk "But only because it's probably safer."
 
     pk "*sigh* Glad we resolved that. Let's go."
 
     hide darya
     hide emilio 
-    with dissolve2
+    with dissolve_medium
 
     np "Thankfully Dexter had calmed down a little, and he followed closely behind us, fidgeting, as we made our way to the formerly locked door."
 
@@ -5217,93 +5093,93 @@ label allintroviewed:
 
     scene bg liftroom_full with fade
 
-    play music "audio/lonely room.mp3" fadein 1.0
+    play music "audio/bg/lonely room.mp3" fadein 1.0
 
     np "Several people had made it there beforehand."
 
     show assbot neutral at twoleft
     show assbot neutral at tworight as assbot2
-    with dissolve2
+    with dissolve_medium
 
     np "A dozen or so large robots, roughly 6 and a half feet tall, stood against the walls."
     np "But more pressing was the blue painted one standing in front of the lift."
 
     hide assbot
     hide assbot2
-    with fastDissolve
+    with dissolve_fast
 
     $ UKName = "Large Mouse Robot"
 
-    show maizey neutral with dissolve2
+    show maizey neutral with dissolve_medium
     uk "Five more, that makes thirteen. Not quite everyone."
-    hide maizey with dissolve2
+    hide maizey with dissolve_medium
 
-    show nin oof with dissolve2
+    show nin oof with dissolve_medium
     nt "You're dead silent aside from when you're counting people who come in."
     nt "What's your goal here?"
 
-    hide nin with fastDissolve
+    hide nin with dissolve_fast
 
     show nin oof at tworight
     show carwyn ha at twoleft
-    with fastDissolve
+    with dissolve_fast
 
     cm "Find bliss in the fiend's silence."
 
-    show nin uncomf with fastDissolve
+    show nin uncomf with dissolve_fast
     nt "Ugh."
 
-    hide nin with dissolve2
+    hide nin with dissolve_medium
 
-    show nikolas eugh at tworight with fastDissolve
+    show nikolas eugh at tworight with dissolve_fast
     nl "Can you at least {i}try{/i} to speak normally please."
 
-    hide carwyn with dissolve2
+    hide carwyn with dissolve_medium
 
-    show ratna ehm at twoleft with fastDissolve
+    show ratna ehm at twoleft with dissolve_fast
     rh "Maybe best not antagonise him."
 
-    show nikolas hehn with fastDissolve
+    show nikolas hehn with dissolve_fast
     nl "Yeah, he might write an angry sonnet about me."
 
-    show ratna ha2 with fastDissolve
+    show ratna ha2 with dissolve_fast
 
     np "They both snicker."
 
     hide ratna
     hide nikolas 
-    with dissolve2
+    with dissolve_medium
 
     show belinda letsee at twoleft
     show osanne neutral at tworight
-    with fastDissolve
+    with dissolve_fast
 
     bl "Um, any thoughts on that thing? You seem to know a lot about... magic."
 
-    show osanne blung with fastDissolve
+    show osanne blung with dissolve_fast
     of "That mechanical beast means nothing to me."
 
-    show belinda ehg with fastDissolve
+    show belinda ehg with dissolve_fast
     bl "Hmm, I was hoping it would be something more interesting."
 
     hide belinda
     hide osanne 
-    with dissolve2
+    with dissolve_medium
 
     show valkyrie ehq at twoleft
     show kevin hrm at tworight
-    with fastDissolve
+    with dissolve_fast
 
     ka "Nothing seems to be happening, maybe we should head back out?"
 
-    show valkyrie thatbad with fastDissolve
+    show valkyrie thatbad with dissolve_fast
     vl "I'm not sure that's an option with that strange robot watching us..."
 
     hide valkyrie
     hide kevin 
-    with dissolve2
+    with dissolve_medium
 
-    show maizey angry with fastDissolve
+    show maizey angry with dissolve_fast
     uk "We have waited long enough, where are the others? The remaining two humans, I mean, that horse needn't come."
 
     pk "Huh?"
@@ -5313,14 +5189,14 @@ label allintroviewed:
 
     np "At that moment I realised that everything it had said was still coming from over the speakers at the back of the room and not the robot itself."
 
-    hide maizey with dissolve2
+    hide maizey with dissolve_medium
 
     np "Silence draped us under the robot's frightful glare."
     np "A short while later, two more people - a short, muscular woman with a bow, and a tall man in a dress - crept through the door."
 
     show ainsley neutral at twoleft
     show fabrice neutral at tworight
-    with dissolve2
+    with dissolve_medium
 
     $ UKName = "Both"
 
@@ -5328,84 +5204,84 @@ label allintroviewed:
 
     hide ainsley
     hide fabrice 
-    with dissolve2
+    with dissolve_medium
 
-    show maizey neutral with fastDissolve
+    show maizey neutral with dissolve_fast
     uk "It would be impertinent of you to refuse an introduction, please state your names to the group."
-    hide maizey with dissolve2
+    hide maizey with dissolve_medium
 
     show ainsley neutral at twoleft
     show fabrice neutral at tworight
-    with fastDissolve
+    with dissolve_fast
 
     uk "..."
 
     $ UKName = "Archer"
 
-    show ainsley sigh with fastDissolve
+    show ainsley sigh with dissolve_fast
     uk "I'll go first."
-    show ainsley hwa with fastDissolve
+    show ainsley hwa with dissolve_fast
     av "I'm sure you just heard, but it's Ainsley."
 
-    hide fabrice with dissolve2
+    hide fabrice with dissolve_medium
 
-    show ratna shock at tworight with fastDissolve
+    show ratna shock at tworight with dissolve_fast
     rh "Hold on! It's you! From the forest!"
 
-    show ainsley oh with fastDissolve
+    show ainsley oh with dissolve_fast
     av "Wait yeah, you were there right before-"
 
     hide ratna
     hide ainsley
-    with dissolve2
+    with dissolve_medium
 
-    show maizey angry with fastDissolve
+    show maizey angry with dissolve_fast
     mm "Hey! I gave you time for introductions, not chatter."
 
     np "The two quickly quietened down."
 
-    hide maizey with dissolve2
+    hide maizey with dissolve_medium
 
     show ainsley neutral at twoleft
     show fabrice neutral at tworight
-    with fastDissolve
+    with dissolve_fast
 
     $ UKName = "Man in Flower Dress"
 
     uk "..."
 
-    show fabrice ack with fastDissolve
+    show fabrice ack with dissolve_fast
     ff "Hi... I'm Fabrice..."
 
-    show ainsley sigh with fastDissolve
+    show ainsley sigh with dissolve_fast
     av "More importantly, and while I'm here, why did you take my arrows yet leave me my bow?"
     av "Since I'm not allowed to talk to the others I assume I'm at least allowed to ask questions."
 
     hide ainsley
     hide fabrice 
-    with dissolve2
+    with dissolve_medium
 
-    show maizey exp with fastDissolve
+    show maizey exp with dissolve_fast
     uk "The arrows were confiscated as they are sharp and could cause serious undue harm to your bunkmates."
-    show maizey neutral with fastDissolve
+    show maizey neutral with dissolve_fast
     uk "You were left the bow as it is known to be important to you."
-    hide maizey with dissolve2
+    hide maizey with dissolve_medium
 
-    show ainsley really with fastDissolve
+    show ainsley really with dissolve_fast
     av "Hm."
-    hide ainsley with dissolve2
+    hide ainsley with dissolve_medium
 
     pk "Hey Fabrice, are those cat ears?"
     np "There's already two Manifests here, it wouldn't be too weird if there was a third, right?"
 
-    show fabrice pensive with fastDissolve
+    show fabrice pensive with dissolve_fast
     ff "... It's a headband..."
 
     pk "Oh, okay."
 
-    hide fabrice with dissolve2
+    hide fabrice with dissolve_medium
 
-    show maizey neutral with fastDissolve
+    show maizey neutral with dissolve_fast
     uk "Now that each of you have given your names, it is my turn."
     mm "You may address me as 'Maizey'."
 
@@ -5413,25 +5289,25 @@ label allintroviewed:
     np "Wait a second-"
     pk "Hey, why are you painted to look like a cereal mascot?"
 
-    show maizey exp with fastDissolve
+    show maizey exp with dissolve_fast
     mm "I was in need of an avatar to speak to you through as I am not personally going to enter the bunker. And this design seemed recognisable, appropriate, and easy to paint."
 
     $ clues_text[5].append("It seems as though the avatar for our kidnapper(s?) is painted to look like Maizey, and I guess they decided to introduce themself(selves?) through this doodle.")
     $ clues[5] = "Doodle of Bunker Manager"
     "Notes on 'Doodle of Cereal Mascot' have been updated, and renamed to 'Doodle of Bunker Manager'."
 
-    show maizey neutral with fastDissolve
+    show maizey neutral with dissolve_fast
     mm "And now that the pleasantries are over, I can inform you that your room keys are ready for collection."
-    show maizey smug2 with fastDissolve
+    show maizey smug2 with dissolve_fast
     mm "Management has been made aware of the delay, but will not apologise."
-    show maizey neutral with fastDissolve
+    show maizey neutral with dissolve_fast
     mm "The keys will be labelled with your name, and should have a keychain of your animal attached."
-    show maizey exp with fastDissolve
+    show maizey exp with dissolve_fast
     mm "If you are unsure what yours is, it will match the symbol on your door."
-    show maizey neutral with fastDissolve
+    show maizey neutral with dissolve_fast
     mm "Management has also provided a set of electronic notepads, which will come with a set of profiles of each of you, and a note taking app."
     mm "It does not matter which one you take, they are not personalised; however please only take one."
-    hide maizey with dissolve2
+    hide maizey with dissolve_medium
 
     np "Another robot from the edge of the room makes it's way to the centre and stands there, holding a box of what I can only assume are the notepads and keys."
     #$ testclue.append("MMM")
@@ -5474,30 +5350,30 @@ label allintroviewed:
 
     pk "Hey, Darya."
 
-    show darya hm with dissolve2
+    show darya hm with dissolve_medium
     dk "Huh, yeah?"
 
     pk "Look at this a second."
     np "I hold up my tablet with her profile visible."
 
-    show darya ask2 with fastDissolve
+    show darya ask2 with dissolve_fast
     dk "Wh-"
 
     pk "This is the single most pirate-y name I've seen in my life! Why the hell were you introducing yourself like that earlier?"
     pk "'Darya Kidwell', you might as well be called 'Blackbeard'!"
 
-    show darya hh with fastDissolve
+    show darya hh with dissolve_fast
     dk "{piracow}A-argh, well-{/piracow}... {size=-10}It's... personal information{/size}"
 
     pk "Then why pick some of the worst aliases anyone's ever heard in their life?"
 
-    show darya worry with fastDissolve
+    show darya worry with dissolve_fast
     dk "{size=-5}I thought they sounded cool...{/size}"
 
     np "As much as the LARPing bugs me, with this, maybe she was born for it."
     pk "Look, your real name sounds cool as well, if it was me, I'd lean into it."
 
-    hide darya with dissolve2
+    hide darya with dissolve_medium
 
     np "I turn and leave a befuddled Darya behind, deciding to have a look at some of the other profiles."
 
@@ -5561,48 +5437,48 @@ label allintroviewed:
     $ quick_menu = True
     $ pactive = True
 
-    show nin uncomf with dissolve2
+    show nin uncomf with dissolve_medium
     nt "Excuse me? How the hell do you have all this information about us?"
-    hide nin with fastDissolve
-    show nin uncomf at twoleft with fastDissolve
+    hide nin with dissolve_fast
+    show nin uncomf at twoleft with dissolve_fast
 
-    show belinda letsee at tworight with fastDissolve
+    show belinda letsee at tworight with dissolve_fast
     bl "More importantly, how did you get these pictures of us? I'm not sure how anyone other than Eclipse should have the security footage this was taken from."
 
-    hide nin with dissolve2
+    hide nin with dissolve_medium
 
-    show valkyrie ehq at twoleft with fastDissolve
+    show valkyrie ehq at twoleft with dissolve_fast
     vl "Well, you'd be surprised how easy it can be to get a hold of CCTV footage with the right hacking infrastructure."
-    show valkyrie thatbad with fastDissolve
+    show valkyrie thatbad with dissolve_fast
     vl "... Or the right connections."
-    show valkyrie bleh with fastDissolve
+    show valkyrie bleh with dissolve_fast
     vl "And some of these seem to be taken from the internet or newspapers, which for sure wouldn't be hard for a large company to get their hands on."
 
-    hide belinda with dissolve2
+    hide belinda with dissolve_medium
 
-    show ratna ehm at tworight with fastDissolve
+    show ratna ehm at tworight with dissolve_fast
     rh "Oh yeah, some of us are technically public figures cus of our work. In that case our details wouldn't be that hard to find."
 
     hide ratna
     hide valkyrie 
-    with fastDissolve
+    with dissolve_fast
 
     np "The room grew into a cacophony of discussion as everyone called out theories, blending all their words together indecipherably."
     np "Amongst the chaos, I noticed that Dexter, standing nearby, seemed to be panicking badly."
 
-    show dexter aaaa with dissolve2
+    show dexter aaaa with dissolve_medium
     ds "Oh no, no nono... I was right, it {i}is{/i} them. Ngaaa...."
-    hide dexter with dissolve2
+    hide dexter with dissolve_medium
 
-    show belinda ohnono with dissolve2
+    show belinda ohnono with dissolve_medium
     bl "Wait, hold on-"
-    hide belinda with fastDissolve
+    hide belinda with dissolve_fast
     
     np "Despite not being very close to us, Belinda somehow noticed Dexter and quickly made her way over."
 
     show dexter cris at twoleft
     show belinda sadsmile at tworight 
-    with fastDissolve
+    with dissolve_fast
 
     ds "Wha-"
 
@@ -5610,128 +5486,128 @@ label allintroviewed:
 
     hide dexter
     hide belinda
-    with fastDissolve
+    with dissolve_fast
 
-    show maizey neutral with dissolve2
+    show maizey neutral with dissolve_medium
     mm "Now that you have all received your keys and tablets it is time for me to continue my explanation."
 
     np "The sound of Maizey's voice once more echoes silence amongst the rest of us."
 
     mm "Firstly, onto the reasons why you have been taken to this bunker."
-    show maizey exp with fastDissolve
+    show maizey exp with dissolve_fast
     mm "One of those reasons is that we need a sample group to demonstrate some, let's say, products that our sponsors need subjects for."
     mm "Every couple of weeks during your time here, one of our lovely sponsors will provide us a product for you to test."
-    hide maizey with fastDissolve
+    hide maizey with dissolve_fast
 
-    show carwyn angy with dissolve2
+    show carwyn angy with dissolve_medium
     cm "Would you care to disclose any of the applicable particulars regarding the systems you shall be subjecting us to?"
-    hide carwyn with dissolve2
+    hide carwyn with dissolve_medium
 
-    show maizey neutral with fastDissolve
+    show maizey neutral with dissolve_fast
     mm "You will not be told any of the products in advance, as preparation may bias you to the testing."
-    hide maizey with fastDissolve
+    hide maizey with dissolve_fast
 
-    show nin uncomf with dissolve2
+    show nin uncomf with dissolve_medium
     nt "Did you really need to kidnap us f-"
-    hide nin with fastDissolve
+    hide nin with dissolve_fast
 
     show nin uncomf at twoleft
     show nikolas eugh2 at tworight
-    with fastDissolve
+    with dissolve_fast
 
     nl "There's so many people out there willing do stuff like this, {i}voluntarily!{/i}"
 
-    hide nin with fastDissolve
+    hide nin with dissolve_fast
 
-    show ratna ehm at twoleft with dissolve2
+    show ratna ehm at twoleft with dissolve_medium
     rh "Agreed, I don't yet see why this was all necessary - bit of a big show for some product testing, yeah?"
 
-    hide nikolas with fastDissolve
+    hide nikolas with dissolve_fast
 
-    show ainsley sigh at tworight with dissolve2
+    show ainsley sigh at tworight with dissolve_medium
     av "More importantly than that, I was wondering how we would be acquiring food in this situation."
 
     hide ratna
     hide ainsley
-    with fastDissolve
+    with dissolve_fast
 
-    show maizey neutral with dissolve2 
+    show maizey neutral with dissolve_medium 
     mm "Manag-"
-    hide maizey with fastDissolve
+    hide maizey with dissolve_fast
 
-    show florus confused with dissolve2
+    show florus confused with dissolve_medium
     fc "Oh yeah, what about water? Are we connected to a pipe network?"
-    hide florus with fastDissolve
+    hide florus with dissolve_fast
 
-    show maizey exp with dissolve2 
+    show maizey exp with dissolve_medium 
     mm "Management has-"
-    hide maizey with fastDissolve
+    hide maizey with dissolve_fast
     
-    show kevin sad2 with dissolve2
+    show kevin sad2 with dissolve_medium
     ka "Wait what about prescription medications? I uh-"
-    hide kevin with fastDissolve
+    hide kevin with dissolve_fast
 
     show kevin sad2 at twoleft
     show fabrice ack at tworight
-    with fastDissolve
+    with dissolve_fast
 
     ff "Yeah, I... woke up without my inhaler... so..."
 
     hide kevin
     hide fabrice
-    with fastDissolve
+    with dissolve_fast
 
-    show maizey upset with dissolve2 
+    show maizey upset with dissolve_medium 
     mm "Listen to m-"
-    hide maizey with fastDissolve
+    hide maizey with dissolve_fast
 
-    show emilio despair with dissolve2
+    show emilio despair with dissolve_medium
     eb "Hang on, what about our families? Are any of them-"
-    hide emilio with fastDissolve
+    hide emilio with dissolve_fast
 
-    play sound "audio/bang.wav"
+    play sound "audio/sound-effects/bang.wav"
 
     show maizey peeved with hpunch 
     stop music
     mm "{size=+20}As I have been {b}trying{/B} to say.{/size}"
-    show maizey angry with fastDissolve
+    show maizey angry with dissolve_fast
     mm "Management has everything handled. Stop asking questions at this time."
     mm "I had not yet finished speaking."
-    show maizey exp with fastDissolve
-    play music "audio/threat.mp3" fadein 6.0
+    show maizey exp with dissolve_fast
+    play music "audio/bg/threat.mp3" fadein 6.0
     mm "As well as the sponsorships, I have been instructed to inform you about the fact that you will be, ah, 'participating in a death game' for the duration of your stay."
-    show maizey neutral with fastDissolve
+    show maizey neutral with dissolve_fast
 
     pk "What!?"
     np "My voice escaped me and I quickly put a hand to my mouth as the rest of the room erupted similar cries of shock."
 
     mm "The detailed rules for this 'game' will be elaborated on later, for now I will advise that the death of your bunkmates will be {b}mandatory{/b} for prolonged survival."
-    show maizey exp with fastDissolve
+    show maizey exp with dissolve_fast
     mm "The bunker will be made inhospitable, and only through a murderous death shall the affliction be alleviated."
     mm "And if the rest of you wish to also prove your will to survive, you must find the one who did it to obtain a more permament reprieve."
     mm "However, I also will add that at this moment Management has not yet declared any method of 'escape' or way of leaving this bunker, unless you wish to attempt to find one yourselves."
-    show maizey smug2 with fastDissolve
+    show maizey smug2 with dissolve_fast
     mm "Though I am assured that you will find no such thing."
     mm "This lift behind me may be called the 'exit', but I can guarantee that it goes to nowhere."
-    hide maizey with fastDissolve
+    hide maizey with dissolve_fast
 
-    show nin oof with dissolve2
+    show nin oof with dissolve_medium
     nt "What do you mean? {i}Why{/i} can't you elaborate now? It's important to the cohesion of the group that we have all the information we need."
-    hide nin with fastDissolve
+    hide nin with dissolve_fast
 
     show nin oof at twoleft
     show emilio bad at tworight
-    with dissolve2
+    with dissolve_medium
 
     eb "How dare you try and force such a thing upon us."
 
     hide nin
     hide emilio
-    with fastDissolve
+    with dissolve_fast
 
     show ratna droopy at twoleft
     show nikolas eugh2 at tworight
-    with dissolve2
+    with dissolve_medium
 
     rh "Oh no this {i}really{/i} isn't good..."
 
@@ -5739,11 +5615,11 @@ label allintroviewed:
 
     hide ratna
     hide nikolas
-    with fastDissolve
+    with dissolve_fast
 
     show osanne terror at twoleft
     show florus flinch at tworight
-    with dissolve2
+    with dissolve_medium
 
     fc "Uhh, uhhh-"
 
@@ -5751,26 +5627,26 @@ label allintroviewed:
 
     hide osanne
     hide florus
-    with fastDissolve
+    with dissolve_fast
 
     show valkyrie thatbad at twoleft
     show kevin sad at tworight
-    with dissolve2
+    with dissolve_medium
 
     vl "Honestly I probably should've expected something like this."
 
-    show kevin sad3 with fastDissolve
+    show kevin sad3 with dissolve_fast
     ka "Huh? This is awful! How could you have thought something like this would happen?"
 
     vl "Call it pessimism born from being kidnapped."
 
     hide valkyrie
     hide kevin
-    with fastDissolve
+    with dissolve_fast
 
     show ainsley bad at twoleft
     show fabrice ack at tworight
-    with dissolve2
+    with dissolve_medium
 
     av "... I don't think there's anything hopeful that can proceed a statement like that..."
 
@@ -5778,46 +5654,46 @@ label allintroviewed:
 
     hide ainsley
     hide fabrice
-    with fastDissolve
+    with dissolve_fast
 
     np "The panicked shouting once more blended together as I tried to stifle my own outcry."
     np "Amidst it all Belinda had stayed calm. She patted a paralyzed Dexter on the shoulder, took a step away from him, then cleared her throat and began to address the group."
 
     stop music fadeout 2.0
 
-    show belinda sadsmile with dissolve2 #she needs another one here (like nin still needs a few more aswell)
+    show belinda sadsmile with dissolve_medium #she needs another one here (like nin still needs a few more aswell)
     bl "Listen, everyone, I understand that what we've just heard is frankly, terrifying, and you're understandably shaken."
 
-    play music "audio/Haunting Haze.mp3" fadein 1.0
+    play music "audio/bg/Haunting Haze.mp3" fadein 1.0
 
     bl "Most of you barely know anyone here, and trust will be hard to come by. However, the last thing we need right now is to see one another as enemies."
-    show belinda neutral with fastDissolve
+    show belinda neutral with dissolve_fast
     bl "It's important that we temper our fears before they get the better of us, so take a deep breath in, steady yourself-"
 
-    hide belinda with fastDissolve
+    hide belinda with dissolve_fast
 
     show belinda strained at twoleft
     show nin uncomf at tworight
-    with dissolve2
+    with dissolve_medium
 
     nt "I understand what you're trying to do, but empty words aren't going to give us an action plan or solve anything."
 
-    hide nin with fastDissolve
+    hide nin with dissolve_fast
 
-    show carwyn ango at tworight with dissolve2
+    show carwyn ango at tworight with dissolve_medium
     cm "I refuse to stand idly and 'steady' my emotions in the face of such a foul force that dares to defile the preciousness of the sanctity of life."
 
-    show belinda ohno with fastDissolve
+    show belinda ohno with dissolve_fast
 
     cm "An acute insult to challenge our rights to exist upon this plane in such a flagrant display of heinous sin."
 
     hide carwyn
     hide belinda
-    with fastDissolve
+    with dissolve_fast
 
-    show darya threat with dissolve2
+    show darya threat with dissolve_medium
     dk "{piracow}Listen t' me ye foul beast.{/piracow}"
-    hide darya with fastDissolve
+    hide darya with dissolve_fast
 
     np "Darya, who'd somehow been quiet until this moment, pointed the tip of her sword directly at Maizey, who was stood stock still."
 
@@ -5838,13 +5714,13 @@ label allintroviewed:
     np "Panic wracks my body. {i}Is-{/i}"
     np "{i}Is she dead?{/i}"
 
-    #show maizey neutral with dissolve2
+    #show maizey neutral with dissolve_medium
     mm "There is one thing I failed to mention prior."
     mm "In each of your left arms we have implanted a device. At my or Management's will the device shall trigger."
     mm "Body wracked with pain, consciousness will fail you."
     mm "As the device is so carefully wrapped around an artery, repeated use could easily prove fatal."
     mm "Since disturbance to the device can also inadvertently trigger it, it is in your best interests to comply."
-    #hide maizey with dissolve2
+    #hide maizey with dissolve_medium
 
     scene black with dissolve
 
@@ -5855,7 +5731,7 @@ label allintroviewed:
     np "If I wanted to survive I couldn't afford to make any."
     np "Only the future could tell what horrors awaited us when the 'game' began."
 
-    scene black with fastDissolve
+    scene black with dissolve_fast
     $ quick_menu = False
     "END OF PROLOGUE/ ALPHA/ DEMO"
 
