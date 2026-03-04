@@ -296,6 +296,7 @@ screen pandora_room:
     add "bg pandoraroom"
 
     imagebutton:
+        id "pandora door"
         xpos 1332
         ypos 248
 
@@ -308,6 +309,7 @@ screen pandora_room:
         action Jump("pandora_door")
 
     imagebutton:
+        id "pandora wardrobe"
         xpos 80
         ypos 240
 
@@ -320,6 +322,7 @@ screen pandora_room:
         action Jump("pandora_wardrobe")
         
     imagebutton:
+        id "pandora bed"
         xpos 0
         yalign 1.0
 
@@ -332,6 +335,7 @@ screen pandora_room:
         action Jump("pandora_bed")
 
     imagebutton:
+        id "pandora table"
         xpos 632
         ypos 504
 
@@ -344,6 +348,7 @@ screen pandora_room:
         action Jump("pandora_table")
 
     imagebutton:
+        id "pandora chair"
         xpos 900
         ypos 472
 
@@ -356,6 +361,7 @@ screen pandora_room:
         action Jump("pandora_chair")
 
     imagebutton:
+        id "pandora note"
         xpos 792
         ypos 516
 
@@ -368,6 +374,7 @@ screen pandora_room:
         action Jump("pandora_note")
     
     imagebutton:
+        id "pandora drawers"
         xalign 1.0
         ypos 572
 
@@ -380,6 +387,7 @@ screen pandora_room:
         action Jump("pandora_drawers")
 
     imagebutton:
+        id "pandora bin"
         xpos 468
         ypos 600
 
@@ -392,6 +400,7 @@ screen pandora_room:
         action Jump("pandora_bin")
 
     imagebutton:
+        id "pandora cactus"
         xpos 1700
         ypos 452
 
@@ -404,6 +413,7 @@ screen pandora_room:
         action Jump("pandora_cactus")
 
     imagebutton:
+        id "pandora clock"
         xpos 1664
         ypos 112
 
@@ -416,6 +426,7 @@ screen pandora_room:
         action Jump("pandora_clock") 
 
     imagebutton:
+        id "pandora speaker"
         xpos 908
         ypos 324
 
